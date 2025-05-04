@@ -1,0 +1,162 @@
+.hamburger-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.hamburger-wrapper.scrolling {
+  margin-top: 25px; /* או כמה שאתה רוצה */
+  transition: margin-top 0.3s ease-in-out;
+}
+
+
+/* עיצוב חדש לכפתור ההמבורגר */
+.hamburger-btn {
+  width: 40px;
+  height: 40px;
+  background-color: #C07F00;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+  margin-top: 33px;
+}
+ 
+
+.hamburger-btn:hover {
+  background-color: #FFF7D4;
+}
+
+.hamburger-btn:hover span {
+  background-color: #C07F00;
+}
+
+
+/* שלושת הפסים */
+.hamburger-btn span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: #4C3D3D;
+  margin: 3px 0;
+  transition: all 0.3s ease;
+}
+
+
+/* תפריט שנפתח לצד שמאל */
+.hamburger-menu {
+  position: absolute;
+  top: 0;
+  right: 50px;
+  background-color: #FFF7D4;
+  border-radius: 10px;
+  padding: 12px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hamburger-menu.scrolling {
+  top: 95px;
+  left: -140px;
+}
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #ffd4da;
+  font-size: 15px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  transition: background-color 0.2s ease;
+}
+
+
+.menu-button .icon {
+  color: #FFF7D4;
+}
+
+.menu-button:hover {
+  color: #FFF7D4;
+}
+
+/* כפתור וואטסאפ */
+.menu-button.whatsapp {
+  background-color: #C07F00;
+}
+
+.menu-button.whatsapp:hover {
+  background-color: #1ebe5d;
+}
+
+/* כפתור טלפון */
+.menu-button.phone {
+  background-color: #FFD95A;
+  color: #4C3D3D;
+}
+.menu-button.phone.iconPhone {
+  background-color: #4C3D3D;
+}
+
+
+.menu-button.phone:hover {
+  background-color: #0069d9;
+  color:#FFF7D4 ;
+}
+
+@media (max-width: 390px) {
+  .hamburger-wrapper {
+    position: relative;
+    right: 45px;
+    transition: all 0.3s ease-in-out;
+  }
+
+    /* רק במצב של גלילה במסך קטן */
+    .hamburger-wrapper.scrolling {
+      right: 50px ;
+      margin-top: 10px;
+   
+    }
+
+  /* עיצוב חדש לכפתור ההמבורגר */
+.hamburger-btn {
+  width: 37px;
+  height: 37px;
+  border-radius: 8px;
+  padding: 6px;
+  margin-top: 15px;
+}
+
+
+/* תפריט שנפתח לצד שמאל */
+.hamburger-menu {
+  position: absolute;
+  top: 90px;
+  right: 0px;
+  background-color: #FFF7D4;
+  border-radius: 10px;
+  padding: 12px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hamburger-menu.scrolling {
+  top: 70px;
+  
+}
+
+
+}

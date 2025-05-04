@@ -1,0 +1,206 @@
+.navbar {
+    background-color: #FFD95A;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;/* הקטנת הריווח הפנימי */
+    height: 80px; /* הגדרת גובה כולל */
+    position: fixed; /* שומר על ה- NavBar בראש המסך */
+    width: 100%; /* גורם לו לכסות את כל הרוחב */
+    top: 0; /* מוודא שהוא תמיד מוצמד לחלק העליון */
+    z-index: 10000; /* מבטיח שהוא יהיה מעל כל האלמנטים האחרים */
+    transition: all 0.3s ease-in-out;
+  }
+  .navbar.shrink {
+    height: 60px;
+    padding: 10px 20px;
+  }
+  
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+    margin: 1rem;
+  }
+  
+  .logo {
+    height: 200px;
+    position: relative;
+    top: 65px;
+    right: 20px;
+    transition: 
+      height 0.3s ease,
+      top 0.3s ease,
+      right 0.3s ease,
+      transform 0.3s ease;
+    animation: spin 12s linear infinite;
+  }
+
+  .rubik-gemstones-regular {
+    font-family: "Rubik Gemstones", system-ui;
+    font-weight: 400;
+    font-style: normal;
+  }
+ 
+  .brand-title {
+    font-size: 4rem;
+  color: #4C3D3D;
+  font-style: oblique;
+  font-weight: bold;
+  transition: 
+    font-size 0.3s ease-in-out,
+    margin 0.3s ease-in-out,
+    opacity 0.3s ease-in-out,
+    visibility 0.3s ease-in-out,
+    height 0.3s ease-in-out;
+  height: auto;
+  opacity: 1;
+  visibility: visible;
+
+  }
+
+  .revome-title {
+display: none;
+}
+
+  .navbar-center {
+    display: flex;
+    flex-direction:column; /* הצגת הכותרת והכפתור באותו קו */
+    align-items: center;
+    margin-top: -15px;
+    margin-right: 30px;  
+}
+  .navbar-right {
+    position: relative;
+    display: flex;
+    flex-direction: column; /* מסדר את האלמנטים אחד מתחת לשני */
+    align-items: center; /* ממרכז את הכפתור והמספר טלפון */
+   left: -10px;
+    margin-top: -15px;
+}
+
+  .whatsapp-button {
+    background-color: #1d9348;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    margin: 3rem;
+    
+  }
+  
+  .whatsapp-button:hover {
+    background-color: #104523;
+  }
+  
+  .whatsapp-icon {
+    margin-right: 0.5rem;
+  }
+
+  .numPhone {
+    font-size: 20px;
+    color: #333; /* צבע כהה לטקסט */
+    font-weight: bold;
+    margin-top: 15px; 
+    position: relative;
+    right: 40px;
+  }
+
+  
+  /* רספונסיביות */
+  @media (max-width: 1024px) {
+    .brand-title {
+      font-size: 4rem;
+    }
+    .navbar {
+      text-align: center;
+      display: flex;
+    }
+  
+    .navbar-logo {
+      margin-bottom: 1rem;
+      
+    }
+  
+    .whatsapp-button {
+      width: 20%;
+      justify-content: center;
+    }
+    .logo {
+      height: 90px;
+      position: relative;
+      right: 35px;
+      top: 60px; /* מגדיל את הערך כדי להוריד את האלמנט */
+      
+    }
+  }
+
+  @media (max-width: 390px) {
+    .navbar{
+      height: 40px; /* במקום 45px */
+    }
+
+    .navbar.shrink {
+      height: 30px;
+      padding: 10px 20px;
+    }
+    .logo {
+      height: 65px;
+      top: 0;
+      right: 30px;
+    }
+
+
+    .brand-title {
+      font-size: 2rem;
+      margin: 10px; /* מסיר רווחים אנכיים מיותרים */
+    }
+
+  .navbar-center {
+    
+    position: relative;
+    right: 37px;
+    top: 5px;
+    gap: 3px; /* מוסיף רווח קטן ומדויק בין הילדים */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+   
+  }
+
+  .numPhone {
+  display: none;
+  }
+
+  .navbar-right {
+    margin-top: -25px;
+    gap: 12px;
+}
+
+.shrink-title {
+ display: none;
+}
+
+
+  }
+
+
+      @keyframes spin {
+      10% {
+        transform: rotate(0deg);
+      }
+    
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+
+
+
+
+  

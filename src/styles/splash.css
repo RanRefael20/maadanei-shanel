@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
+/* עיצוב כללי */
+.splash-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #f8f1e7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  font-family: 'Varela Round', sans-serif;
+  overflow: hidden;
+  animation: fadeOutSplash 2s forwards 6s; /* העלמות עדינה */
+}
+
+/* כותרת עליונה */
+.splash-title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 2.8rem;
+  font-weight: bold;
+  direction: rtl;
+  text-align: center;
+}
+
+/* כותרת תחתונה */
+.splash-subtitle {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  direction: rtl;
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+/* עיצוב לכל אות */
+.splash-letter {
+  color: transparent;
+  -webkit-text-stroke: 1px #4C3D3D;
+  opacity: 0;
+  display: inline-block;
+  margin: 0 4px;
+  animation: drawStroke 0.5s forwards, fillText 0.5s forwards;
+}
+
+/* אפקט שרטוט */
+@keyframes drawStroke {
+  0% {
+    color: transparent;
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px #4C3D3D;
+  }
+}
+
+/* אפקט מילוי */
+@keyframes fillText {
+  0% {
+    color: transparent;
+  }
+  100% {
+    color: #4C3D3D;
+    -webkit-text-stroke: 0px transparent;
+  }
+}
+
+/* אפקט העלמות רך עם טשטוש + הגדלה */
+@keyframes fadeOutSplash {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.1) translateY(-20px);
+    filter: blur(10px);
+    visibility: hidden;
+  }
+}
