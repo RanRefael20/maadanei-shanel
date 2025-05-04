@@ -1,6 +1,6 @@
 import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
-import "../styles/Footer.css"; // חיבור לקובץ העיצוב
+import "../styles/footer.css"; // חיבור לקובץ העיצוב
 
 const Footer = () => {
   return (
