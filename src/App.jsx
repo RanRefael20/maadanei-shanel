@@ -5,7 +5,7 @@ import logo from "./logo/LL.png";
 import MenuSection from "./pages/MenuSection";
 import NavBar from "./componnents/NavBar";
 import Footer from "./componnents/Footer";
-import Section from "./componnents/section";
+import Section from "./componnents/Section";
 import SplashAnimation from "./hooks/SplashAnimation"; // ✅ ייבוא ה-Splash
 import "./App.css";
 
