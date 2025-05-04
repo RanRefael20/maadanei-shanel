@@ -138,7 +138,7 @@ display: none;
     }
   }
 
-  @media (max-width: 390px) {
+  @media (min-width: 390px) {
     .navbar{
       height: 40px; /* במקום 45px */
     }
