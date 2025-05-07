@@ -168,4 +168,9 @@
     transition: all 0.3s ease-in-out;
   }
 
+  .hamburger-menu.scrolling {
+    top: 70px;
+    
+  }
+
 }
