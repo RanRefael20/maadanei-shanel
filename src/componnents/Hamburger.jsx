@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+
 import "../styles/Hamburger.css";
 import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
-import { color } from "framer-motion";
+
 
 
 const Hamburger =({ scrolling }) => {

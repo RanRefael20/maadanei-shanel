@@ -37,9 +37,12 @@ const NavBar = () => {
      
       <div className="navbar-right ">
         
+      <div className={`contact ${scrolling ? "scrolling" : ""}`}>
+  יצירת קשר |
+</div>
       <Hamburger scrolling={scrolling} />
    
-        <div className={`numPhone ${scrolling ? " hidden" : ""}`}>050-3225482</div>
+        <div className={`numPhone ${scrolling ? " hidden" : ""}`}>050-3225482 |</div>
       </div>
     </header>
   );

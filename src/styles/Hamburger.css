@@ -4,16 +4,19 @@
 }
 
 .hamburger-wrapper.scrolling {
-  margin-top: 25px; /* או כמה שאתה רוצה */
+  margin-top:-1px; /* או כמה שאתה רוצה */
   transition: margin-top 0.3s ease-in-out;
 }
+
+
 
 
 /* עיצוב חדש לכפתור ההמבורגר */
 .hamburger-btn {
   width: 36px;
   height: 36px;
-  background-color: #C07F00;
+  background-color: #FFD95A;
+  
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -42,7 +45,8 @@
   display: block;
   width: 22px;
   height: 2px;
-  background-color: #4C3D3D;
+  background-color: #C07F00;
+ 
   margin: 3px 0;
   transition: all 0.3s ease;
 }

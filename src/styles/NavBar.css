@@ -1,5 +1,6 @@
 .navbar {
-    background-color: #FFD95A;
+    background-color: #4C3D3D;
+    
     color: #fff;
     display: flex;
     justify-content: space-between;
@@ -44,7 +45,7 @@
  
   .brand-title {
     font-size: 4rem;
-  color: #4C3D3D;
+  color: #FFD95A;
   font-style: oblique;
   font-weight: bold;
   transition: 
@@ -100,9 +101,23 @@ display: none;
     margin-right: 0.5rem;
   }
 
+  .contact{
+    position: relative;
+    top: 20px;
+    right: 30px;
+    font-weight: bold;
+    font-size: 20px;
+    color: #FFD95A; /* צבע כהה לטקסט */
+  }
+  .contact.scrolling {
+    
+    top: 63px;
+    right: 85px;
+    
+  }
   .numPhone {
     font-size: 20px;
-    color: #333; /* צבע כהה לטקסט */
+    color: #FFD95A; /* צבע כהה לטקסט */
     font-weight: bold;
     margin-top: 15px; 
     position: relative;
