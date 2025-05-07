@@ -98,7 +98,7 @@
 }
 
 
-@media (max-width: 1024px) {
+@media (max-width: 450px) {
     .nav-button {
         font-size: 10.5px; /* יותר קטן */
         padding: 2px 6px; /* פחות גובה ורוחב */
