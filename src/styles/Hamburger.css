@@ -11,8 +11,8 @@
 
 /* עיצוב חדש לכפתור ההמבורגר */
 .hamburger-btn {
-  width: 80px;
-  height: 20px;
+  width: 36px;
+  height: 36px;
   background-color: #C07F00;
   border: none;
   border-radius: 8px;
