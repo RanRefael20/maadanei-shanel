@@ -2,8 +2,8 @@
 .nav-button {
     font-size: 17px;
     font-weight: bold;
-    color: #eb0707; /* טקסט לבן */
-    background: linear-gradient( #FFD95A); /* מעבר צבעים בין כחול ציאן לירוק */
+    color: #4C3D3D; /* טקסט לבן */
+    background-color: #FFD95A; /* מעבר צבעים בין כחול ציאן לירוק */
     padding: 5px 15px;
     border-radius: 50px; /* כפתור מעוגל */
     cursor: pointer;
