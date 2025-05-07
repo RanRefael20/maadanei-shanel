@@ -160,3 +160,12 @@
 
 
 }
+
+@media (max-width: 1024px) {
+  .hamburger-wrapper {
+    position: relative;
+    right: 45px;
+    transition: all 0.3s ease-in-out;
+  }
+
+}
