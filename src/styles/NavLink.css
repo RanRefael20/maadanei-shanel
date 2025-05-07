@@ -107,7 +107,7 @@
         overflow: hidden;
         top: -10px;
         text-decoration: none;
-        margin: 2px; /* פחות רווחים בין הכפתורים */
+        margin: 3px; /* פחות רווחים בין הכפתורים */
         white-space: nowrap; /* לא לשבור שורה */
         flex-shrink: 0; /* חשוב כדי שלא ימעכו */
     }

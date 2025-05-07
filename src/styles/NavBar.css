@@ -111,7 +111,7 @@ display: none;
 
   
   /* רספונסיביות */
-  @media (max-width: 1024px) {
+  @media (max-width: 500px) {
     .navbar{
       height: 40px; /* במקום 45px */
     }
