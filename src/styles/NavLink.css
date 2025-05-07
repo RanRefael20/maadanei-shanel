@@ -3,7 +3,7 @@
     font-size: 17px;
     font-weight: bold;
     color: #4C3D3D; /* טקסט לבן */
-    background: linear-gradient( #ff5a99); /* מעבר צבעים בין כחול ציאן לירוק */
+    background: linear-gradient( #FFD95A); /* מעבר צבעים בין כחול ציאן לירוק */
     padding: 5px 15px;
     border-radius: 50px; /* כפתור מעוגל */
     cursor: pointer;
@@ -52,6 +52,7 @@
 
 @media (max-width: 390px) {
     .nav-button {
+        
         font-size: 10.5px; /* יותר קטן */
         padding: 2px 6px; /* פחות גובה ורוחב */
         letter-spacing: 0.3px; /* פחות ריווח בין אותיות */
@@ -100,6 +101,7 @@
 
 @media (max-width: 450px) {
     .nav-button {
+        background: linear-gradient( #FFD95A); /* מעבר צבעים בין כחול ציאן לירוק */
         font-size: 10.5px; /* יותר קטן */
         padding: 2px 6px; /* פחות גובה ורוחב */
         letter-spacing: 0.3px; /* פחות ריווח בין אותיות */
