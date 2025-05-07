@@ -3,7 +3,7 @@
     font-size: 17px;
     font-weight: bold;
     color: #4C3D3D; /* טקסט לבן */
-    background: linear-gradient( #FFD95A); /* מעבר צבעים בין כחול ציאן לירוק */
+    background: linear-gradient( #ff5a99); /* מעבר צבעים בין כחול ציאן לירוק */
     padding: 5px 15px;
     border-radius: 50px; /* כפתור מעוגל */
     cursor: pointer;
