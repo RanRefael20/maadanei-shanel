@@ -96,3 +96,19 @@
 
 
 }
+
+
+@media (max-width: 1024px) {
+    .nav-button {
+        font-size: 10.5px; /* יותר קטן */
+        padding: 2px 6px; /* פחות גובה ורוחב */
+        letter-spacing: 0.3px; /* פחות ריווח בין אותיות */
+        position: relative;
+        overflow: hidden;
+        top: -10px;
+        text-decoration: none;
+        margin: 0; /* פחות רווחים בין הכפתורים */
+        white-space: nowrap; /* לא לשבור שורה */
+        flex-shrink: 0; /* חשוב כדי שלא ימעכו */
+    }
+}
