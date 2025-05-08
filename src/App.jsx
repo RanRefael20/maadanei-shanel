@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import DessertsPage from "./componnents/DessertsPage";
-import logo from "./logo/LL.png";
 import MenuSection from "./pages/MenuSection";
 import NavBar from "./componnents/NavBar";
 import Footer from "./componnents/Footer";
 import Section from "./componnents/Section";
 import SplashAnimation from "./hooks/SplashAnimation"; // ✅ ייבוא ה-Splash
+import ImageLinks from "./componnents/ImageLinks";
 import "./App.css";
+
+
 
  
 export default function DairyRestaurantWebsite() {
@@ -33,6 +35,7 @@ export default function DairyRestaurantWebsite() {
                {/* מערכת הניווט */}
       <Routes>
       <Route path="/תפריט" element={<MenuSection />} />
+      
       <Route path="/desserts" element={<DessertsPage />} />
     </Routes>
           {/* Header */}
@@ -41,22 +44,8 @@ export default function DairyRestaurantWebsite() {
           {/* Section */}
           <Section />
 
-          {/* לוגו באמצע */}
-          <div
-            style={{
-              textAlign: "center",
-              backgroundColor: "#FFF7D4",
-            }}
-          >
-            <img
-              src={logo}
-              alt="מעדני שנאל"
-              style={{
-                height: "335px",
-                objectFit: "contain",
-              }}
-            />
-          </div>
+          {/* ImageLinks */}
+          <ImageLinks/>
           
     
 

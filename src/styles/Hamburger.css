@@ -46,7 +46,6 @@
   width: 22px;
   height: 2px;
   background-color: #C07F00;
- 
   margin: 3px 0;
   transition: all 0.3s ease;
 }
@@ -134,11 +133,22 @@
 
   /* עיצוב חדש לכפתור ההמבורגר */
 .hamburger-btn {
-  width: 37px;
-  height: 37px;
+  position: relative;
+  left: 33px;
+  width: 30px;
+  height: 27px;
   border-radius: 8px;
-  padding: 6px;
-  margin-top: 15px;
+  padding: 6px; 
+}
+
+/* שלושת הפסים */
+.hamburger-btn span {
+  display: block;
+  width: 17px;
+  height: 5px;
+  background-color: #C07F00;
+  margin: 1px 0;
+  transition: all 0.3s ease;
 }
 
 

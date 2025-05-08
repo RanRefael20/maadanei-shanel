@@ -110,10 +110,8 @@ display: none;
     color: #FFD95A; /* צבע כהה לטקסט */
   }
   .contact.scrolling {
-    
     top: 63px;
     right: 85px;
-    
   }
   .numPhone {
     font-size: 20px;
@@ -136,9 +134,9 @@ display: none;
       padding: 10px 20px;
     }
     .logo {
-      height: 65px;
+      height: 75px;
       top: 0;
-      right: 30px;
+      right: 35px;
     }
 
 
@@ -147,18 +145,18 @@ display: none;
       margin: 10px; /* מסיר רווחים אנכיים מיותרים */
     }
 
-  .navbar-center {
+    .navbar-center {
     
-    position: relative;
-    right: 37px;
-    top: 5px;
-    gap: 3px; /* מוסיף רווח קטן ומדויק בין הילדים */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0;
-   
-  }
+      position: relative;
+      right: 40px;
+      top: 7px;
+      gap: 6px; /* מוסיף רווח קטן ומדויק בין הילדים */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0;
+     
+    }
 
   .numPhone {
   display: none;
@@ -176,7 +174,7 @@ display: none;
 
   @media (max-width: 390px) {
     .navbar{
-      height: 40px; /* במקום 45px */
+      height: 50px; /* במקום 45px */
     }
 
     .navbar.shrink {
@@ -184,23 +182,21 @@ display: none;
       padding: 10px 20px;
     }
     .logo {
-      height: 65px;
-      top: 0;
-      right: 30px;
+      height: 75px;
+      right: 35px;
     }
 
 
     .brand-title {
       font-size: 2rem;
-      margin: 10px; /* מסיר רווחים אנכיים מיותרים */
+
     }
 
   .navbar-center {
-    
     position: relative;
-    right: 37px;
-    top: 5px;
-    gap: 3px; /* מוסיף רווח קטן ומדויק בין הילדים */
+    right: 50px;
+    top: 7px;
+    gap: 6px; /* מוסיף רווח קטן ומדויק בין הילדים */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -208,13 +204,26 @@ display: none;
    
   }
 
-  .numPhone {
-  display: none;
-  }
+
+
+
 
   .navbar-right {
     margin-top: -25px;
     gap: 12px;
+    margin-left: -70px;
+}
+
+.contact{
+  top: 25px;
+font-size: 11px;
+left: -28px;
+}
+
+.contact.scrolling {
+  font-size: 8px;
+  top: 40px;
+  left: -20px;
 }
 
 .shrink-title {
