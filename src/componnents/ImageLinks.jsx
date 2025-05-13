@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/ImageLinks.css"; // ודא שהקובץ קיים בתיקייה
 
+
 const images = [
   {
     title: "מגשי אירוח",

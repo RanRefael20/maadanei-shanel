@@ -8,7 +8,7 @@ export default function SplashAnimation({ onFinish }) {  // <<< מוסיפים �
     const timer = setTimeout(() => {
       setShow(false);
       if (onFinish) onFinish(); // <<< ברגע שמסתיים, קוראים ל-onFinish
-    }, 8000); // 10 שניות
+    }, 1); // 10 שניות
     return () => clearTimeout(timer);
   }, [onFinish]);
 
