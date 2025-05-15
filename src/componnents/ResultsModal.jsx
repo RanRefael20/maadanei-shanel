@@ -50,10 +50,22 @@ const ResultsModal = ({ isOpen, onClose, results, setResults }) => {
     setResults(updatedResults);
   };
 
+
   return ReactDOM.createPortal(
     <div className="results-modal-overlay">
-      <Draggable nodeRef={nodeRef} handle=".modal-header">
-<div ref={nodeRef} className={`results-modal draggable-window ${isCollapsed ? 'collapsed' : ''}`}>
+       <button className="close-results-button" onClick={onClose}>✖</button>
+                               <button
+  className="minimize-button"
+  onClick={() => setIsCollapsed(prev => !prev)}
+  title="מזער/פתח"
+>
+  {isCollapsed ? "⬈" : "–"}
+</button>
+<Draggable
+  nodeRef={nodeRef}
+  handle=".modal-header"
+  enableUserSelectHack={false} // חשוב למובייל
+><div ref={nodeRef} className={`results-modal draggable-window ${isCollapsed ? 'collapsed' : ''}`}>
           <div className="modal-header">
             <div className="header-center">
               <span className="modal-title">טיוטת תפריט</span>
@@ -61,14 +73,7 @@ const ResultsModal = ({ isOpen, onClose, results, setResults }) => {
                 סה״כ: {results[0]?.total || 0}₪
               </span>
             </div>
-                        <button className="close-results-button" onClick={onClose}>✖</button>
-                        <button
-  className="minimize-button"
-  onClick={() => setIsCollapsed(prev => !prev)}
-  title="מזער/פתח"
->
-  {isCollapsed ? "⬈" : "–"}
-</button>
+
 
 
           </div>

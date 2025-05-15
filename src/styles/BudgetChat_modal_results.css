@@ -23,6 +23,10 @@
 }
 
 
+.draggable-window.collapsed .results-content {
+  display: none;
+}
+
 
 
 .results-modal-overlay {
@@ -40,13 +44,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: move;
+  cursor: grab;
   padding: 0.5rem 1rem;
   background-color: #4C3D3D !important;
   color: #FFD95A;
   border-radius: 8px 8px 0 0;
   gap: 0.5rem;
+  touch-action: none; /* ✅ מאפשר גרירה בטאץ' */
+  pointer-events: auto; /* ✅ חובה לאפשר לחיצה בכפתורים */
 }
+
 
 .modal-title {
   font-size: 1.1rem;
@@ -60,11 +67,13 @@
   font-size: 1.8rem;
   color: #FFD95A;
   cursor: pointer;
-  z-index: 10000;
   position: relative;
   padding: 4px 8px;
   margin-right: 4px;
+    pointer-events: auto;
+  z-index: 999999;
 }
+
 
 .results-content {
   direction: rtl;
