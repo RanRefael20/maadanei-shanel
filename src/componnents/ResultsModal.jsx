@@ -1,49 +1,44 @@
 import React, { useRef, useState, useEffect } from "react";
-
 import Draggable from "react-draggable";
 import "../styles/BudgetChat_modal_results.css";
 import ReactDOM from "react-dom";
 import { fullMenu } from "../data/fullMenu";
 import FullMenuSelector from "./FullMenuSelector";
 
-const  ResultsModal = ({ isOpen, onClose, results, setResults, focusedWindow, setFocusedWindow }) => {
-
+const ResultsModal = ({ isOpen, onClose, results, setResults }) => {
   const nodeRef = useRef(null);
   const [showFullMenu, setShowFullMenu] = useState(false);
   const [categoryCounts, setCategoryCounts] = useState({});
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
 
   if (!isOpen || results.length === 0) return null;
 
-useEffect(() => {
-  const allItems = results[0]?.items || [];
+  useEffect(() => {
+    const allItems = results[0]?.items || [];
 
-  const newCounts = Object.entries(fullMenu).reduce((acc, [cat, items]) => {
-    const count = items.filter((menuItem) =>
-      allItems.some((selectedItem) => selectedItem.name === menuItem.name)
-    ).length;
-    if (count > 0) acc[cat] = count;
-    return acc;
-  }, {});
+    const newCounts = Object.entries(fullMenu).reduce((acc, [cat, items]) => {
+      const count = items.filter((menuItem) =>
+        allItems.some((selectedItem) => selectedItem.name === menuItem.name)
+      ).length;
+      if (count > 0) acc[cat] = count;
+      return acc;
+    }, {});
 
-  setCategoryCounts(newCounts);
-}, [results]);
-
+    setCategoryCounts(newCounts);
+  }, [results]);
 
   const handleDeleteItem = (menuIndex, itemIndex) => {
     const updatedResults = results.map((menu, i) => {
       if (i !== menuIndex) return menu;
-
       const updatedItems = menu.items.filter((_, idx) => idx !== itemIndex);
       const updatedTotal = updatedItems.reduce((sum, item) => sum + item.price, 0);
-
       return {
         ...menu,
         items: updatedItems,
         total: updatedTotal,
       };
     });
-
     setResults(updatedResults);
   };
 
@@ -56,23 +51,26 @@ useEffect(() => {
   };
 
   return ReactDOM.createPortal(
-    <div
-  className={`results-modal-overlay ${
-    focusedWindow === "results" ? "focused" : "unfocused"
-  }`}
-  onMouseDown={() => setFocusedWindow("results")}
->
-
-      <Draggable nodeRef={nodeRef}>
-        <div ref={nodeRef} className="results-modal draggable-window">
-          <div className="modal-header ">
-            <button className="close-results-button" onClick={onClose}>✖</button>
+    <div className="results-modal-overlay">
+      <Draggable nodeRef={nodeRef} handle=".modal-header">
+<div ref={nodeRef} className={`results-modal draggable-window ${isCollapsed ? 'collapsed' : ''}`}>
+          <div className="modal-header">
             <div className="header-center">
               <span className="modal-title">טיוטת תפריט</span>
               <span className="menu-total-header">
                 סה״כ: {results[0]?.total || 0}₪
               </span>
             </div>
+                        <button className="close-results-button" onClick={onClose}>✖</button>
+                        <button
+  className="minimize-button"
+  onClick={() => setIsCollapsed(prev => !prev)}
+  title="מזער/פתח"
+>
+  {isCollapsed ? "⬈" : "–"}
+</button>
+
+
           </div>
 
           <div className="open-fullmenu-button-row">
@@ -81,15 +79,14 @@ useEffect(() => {
             </button>
           </div>
 
-<div className="category-counts-row">
-  {Object.entries(categoryCounts).map(([cat, count]) => (
-    <div key={cat} className="category-count">
-      <span>{cat}</span>
-      <span className="count-underline"> - {count}</span>
-    </div>
-  ))}
-</div>
-
+          <div className="category-counts-row">
+            {Object.entries(categoryCounts).map(([cat, count]) => (
+              <div key={cat} className="category-count">
+                <span>{cat}</span>
+                <span className="count-underline"> - {count}</span>
+              </div>
+            ))}
+          </div>
 
           <div className="results-content">
             {results.map((menu, i) => (
@@ -120,8 +117,6 @@ useEffect(() => {
         <FullMenuSelector
           onClose={() => setShowFullMenu(false)}
           onAddItem={handleAddItem}
-            focusedWindow={focusedWindow}
-  setFocusedWindow={setFocusedWindow}
         />
       )}
     </div>,

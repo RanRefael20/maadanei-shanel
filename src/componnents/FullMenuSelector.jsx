@@ -1,16 +1,14 @@
 import React, { useRef, useState } from "react";
 import { fullMenu } from "../data/fullMenu";
 import "../styles/FullMenuSelector.css";
-import "../styles/focusUnFocus.css";
-const FullMenuSelector = ({ onClose, onAddItem, focusedWindow, setFocusedWindow }) => {
 
+const FullMenuSelector = ({ onClose, onAddItem }) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const modalRef = useRef(null);
   const pos = useRef({ x: 0, y: 0, dx: 0, dy: 0 });
 
   // התחלת גרירה
   const handleMouseDown = (e) => {
-        setFocusedWindow("full"); 
     pos.current.dx = e.clientX;
     pos.current.dy = e.clientY;
     document.addEventListener("mousemove", handleMouseMove);
@@ -37,21 +35,13 @@ const FullMenuSelector = ({ onClose, onAddItem, focusedWindow, setFocusedWindow 
   };
 
   return (
- <div
-  className={`fullscreen-overlay ${focusedWindow === "full" ? "focused" : "unfocused"}`}
-  onMouseDown={(e) => {
-    e.stopPropagation(); // חשוב כדי לא ליפול לקליקים חיצוניים
-    setFocusedWindow("full");
-  }}
->
-
-    <div
-  className={`floating-modal ${isMinimized ? "minimized" : ""}`}
-  ref={modalRef}
-  onMouseDown={handleMouseDown}
->
-  <div className="modal-header">
-
+    <div className="fullscreen-overlay">
+      <div
+        className={`floating-modal ${isMinimized ? "minimized" : ""}`}
+        ref={modalRef}
+        onMouseDown={handleMouseDown}
+      >
+        <div className="modal-header">
           <h3>בחר מוצרים</h3>
           <div className="modal-controls">
             <button onClick={() => setIsMinimized(!isMinimized)}>➖</button>
@@ -66,8 +56,12 @@ const FullMenuSelector = ({ onClose, onAddItem, focusedWindow, setFocusedWindow 
                 <h4>{category}</h4>
                 {items.map((item) => (
                   <div key={item.name} className="item-select">
-                    <span>{item.name} – {item.price}₪</span>
-                    <button className="add-button" onClick={() => onAddItem(item)}>➕</button>
+                    <span>
+                      {item.name} – {item.price}₪
+                    </span>
+                    <button className="add-button" onClick={() => onAddItem(item)}>
+                      ➕
+                    </button>
                   </div>
                 ))}
               </div>

@@ -1,3 +1,8 @@
+
+
+
+
+
 .budget-input-section {
   display: flex;
   flex-direction: column;
@@ -7,6 +12,7 @@
   font-weight: bold;
   margin-top: -25px;
   color: #ccc;
+  
 
 }
 
@@ -50,11 +56,13 @@
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s ease;
+   
 }
 
 .generate-button {
   background-color: #4C3D3D;
   color: #FFD95A;
+   
 }
 
 .generate-button:hover {

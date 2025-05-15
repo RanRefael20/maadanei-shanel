@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 import Modal from "react-modal";
 import "../styles/BudgetChat.css";
 import ResultsModal from "./ResultsModal"; // או הנתיב הנכון אצלך
@@ -148,8 +149,8 @@ function generateMenus(budget, people, dessertCount, includeWine) {
 
 const BudgetChat = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [budget, setBudget] = useState("");
-  const [people, setPeople] = useState("");
+  const [budget, setBudget] = useState(1000);
+  const [people, setPeople] = useState(10);
   const [dessertCount, setDessertCount] = useState("");
   const [includeWine, setIncludeWine] = useState(false);
   const [showResultsModal, setShowResultsModal] = useState(false);
@@ -157,7 +158,13 @@ const BudgetChat = () => {
      const [showFullMenu, setShowFullMenu] = useState(false);
   const [focusedWindow, setFocusedWindow] = useState("results");
   
-
+  useEffect(() => {
+    if (showFullMenu || showResultsModal) {
+      document.body.classList.add("modal-open");
+    } else {
+      document.body.classList.remove("modal-open");
+    }
+  }, [showFullMenu, showResultsModal]);
 
  const handleGenerate = () => {
   
@@ -186,19 +193,21 @@ const BudgetChat = () => {
         isOpen={modalOpen}
         onRequestClose={() => setModalOpen(false)}
         contentLabel="AI Menu Modal"
+        
         ariaHideApp={false}
-        style={{
-          content: {
-            height:"70%",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "85%",
-            maxWidth: "800px",
-            backgroundColor: "#000000e3",
-            padding: "2rem",
-            borderRadius: "16px",
-            direction: "rtl",
+     style={{
+    content: {
+      height: window.innerWidth <= 600 ? "50%" : "70%",
+      width: window.innerWidth <= 600 ? "85%" : "85%",
+      top: window.innerWidth <= 600 ? "50%" : "50%",
+      left: window.innerWidth <= 600 ? "50%" : "50%",
+      transform: "translate(-50%, -50%)",
+      maxWidth: "800px",
+      backgroundColor: "#000000e3",
+      padding: window.innerWidth <= 600 ? "1rem" : "2rem",
+      borderRadius: "16px",
+      direction: "rtl",
+      overflowY: "auto",
           },
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.4)",
