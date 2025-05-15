@@ -31,6 +31,8 @@ export default function DairyRestaurantWebsite() {
             backgroundColor: "#FFF7D4",
             color: "#333",
             marginTop: "50px",
+              overflowX:"hidden"
+
           }}
         >
 

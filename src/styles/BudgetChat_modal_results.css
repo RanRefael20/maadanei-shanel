@@ -1,0 +1,149 @@
+.draggable-window {
+  resize: both;
+  overflow: auto;
+  min-width: 300px;
+  min-height: 300px;
+  position: fixed; /* חשוב! קובע את המיקום היחסי למסך */
+  top: 45%;
+  left: 15%;
+  width: 600px;
+  background-color: #000000f1;
+  cursor: move;
+  z-index: 99999;
+  border-radius: 12px;
+  transition: height 0.3s ease;
+}
+
+
+
+.draggable-window.collapsed {
+  height: 60px !important;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: move;
+  padding: 0.5rem 1rem;
+  background-color: #4C3D3D !important;
+  color: #FFD95A;
+  border-radius: 8px 8px 0 0;
+  gap: 0.5rem;
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  
+}
+
+.close-results-button,
+.minimize-button {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: #FFD95A;
+  cursor: pointer;
+  margin-right: 4px;
+}
+
+.results-content {
+    direction: rtl;
+  padding-right: 30px;
+  font-family: 'Rubik', sans-serif;
+  color: antiquewhite;
+    max-height: 50vh; /* גובה מקסימלי לחלון התוכן */
+  overflow-y: auto;  /* מאפשר גלילה אם חורג */
+
+}
+
+
+.menu-item span{
+  background-color: #000000;
+}
+.results-content h3 {
+  text-decoration: underline;
+  font-family: 'Rubik', sans-serif;
+}
+
+.header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+
+.menu-total-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: rgb(33, 253, 81);
+  text-decoration: underline;
+  font-family: 'Rubik', sans-serif;
+}
+
+/* קטגוריה */
+
+.category-count {
+  margin-top: 1.5px;
+  text-decoration:underline;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+  font-size: 0.75rem;
+  color: #fff;
+  
+}
+
+
+.category-counts-row {
+  background-color: #4C3D3D;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15px;
+  font-family: 'Rubik', sans-serif;
+}
+
+.delete-item-button {
+  background: none;
+  border: none;
+  color: #d11a2a;
+  font-size: 14px;
+  margin-right: 6px;
+  cursor: pointer;
+}
+.delete-item-button:hover {
+  color: #a00;
+}
+
+
+@media (max-width: 600px) {
+  .modal-header {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .header-center {
+    align-items: flex-start;
+    margin: 0;
+    margin-top: 0.5rem;
+  }
+
+  .category-counts-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .results-modal {
+    width: 98%;
+    padding: 1.5rem;
+  }
+
+  .draggable-window {
+    width: 95%;
+    height: auto;
+  }
+}

@@ -1,15 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { fullMenu } from "../data/fullMenu";
 import "../styles/FullMenuSelector.css";
+import "../styles/focusUnFocus.css";
+const FullMenuSelector = ({ onClose, onAddItem, focusedWindow, setFocusedWindow }) => {
 
-const FullMenuSelector = ({ onSubmit, onClose }) => {
-  const [selected, setSelected] = useState({});
   const [isMinimized, setIsMinimized] = useState(false);
   const modalRef = useRef(null);
   const pos = useRef({ x: 0, y: 0, dx: 0, dy: 0 });
 
   // התחלת גרירה
   const handleMouseDown = (e) => {
+        setFocusedWindow("full"); 
     pos.current.dx = e.clientX;
     pos.current.dy = e.clientY;
     document.addEventListener("mousemove", handleMouseMove);
@@ -35,40 +36,22 @@ const FullMenuSelector = ({ onSubmit, onClose }) => {
     document.removeEventListener("mouseup", handleMouseUp);
   };
 
-  // טוגל צ'קבוקס
-  const toggle = (name) => {
-    setSelected((prev) => ({
-      ...prev,
-      [name]: !prev[name],
-    }));
-  };
-
-  // מחיקת פריט מהתצוגה
-  const removeItem = (name) => {
-    setSelected((prev) => {
-      const newSel = { ...prev };
-      delete newSel[name];
-      return newSel;
-    });
-  };
-
-  // שליחת פריטים מסומנים
-  const handleSubmit = () => {
-    const chosen = [];
-    Object.entries(fullMenu).forEach(([cat, items]) => {
-      items.forEach((item) => {
-        if (selected[item.name]) {
-          chosen.push(item);
-        }
-      });
-    });
-    onSubmit(chosen);
-  };
-
   return (
-    <div className="fullscreen-overlay">
-      <div className={`floating-modal ${isMinimized ? "minimized" : ""}`} ref={modalRef}>
-        <div className="modal-header" onMouseDown={handleMouseDown}>
+ <div
+  className={`fullscreen-overlay ${focusedWindow === "full" ? "focused" : "unfocused"}`}
+  onMouseDown={(e) => {
+    e.stopPropagation(); // חשוב כדי לא ליפול לקליקים חיצוניים
+    setFocusedWindow("full");
+  }}
+>
+
+    <div
+  className={`floating-modal ${isMinimized ? "minimized" : ""}`}
+  ref={modalRef}
+  onMouseDown={handleMouseDown}
+>
+  <div className="modal-header">
+
           <h3>בחר מוצרים</h3>
           <div className="modal-controls">
             <button onClick={() => setIsMinimized(!isMinimized)}>➖</button>
@@ -82,28 +65,13 @@ const FullMenuSelector = ({ onSubmit, onClose }) => {
               <div key={category} className="menu-category">
                 <h4>{category}</h4>
                 {items.map((item) => (
-                  <label key={item.name} className="item-select">
-                    <input
-                      type="checkbox"
-                      checked={!!selected[item.name]}
-                      onChange={() => toggle(item.name)}
-                    />
+                  <div key={item.name} className="item-select">
                     <span>{item.name} – {item.price}₪</span>
-                    <button className="delete-icon" onClick={() => removeItem(item.name)}>🗑️</button>
-                  </label>
+                    <button className="add-button" onClick={() => onAddItem(item)}>➕</button>
+                  </div>
                 ))}
               </div>
             ))}
-
-            <div className="menu-total">
-              סה״כ נבחר:{" "}
-              {Object.entries(fullMenu)
-                .flatMap(([_, items]) => items)
-                .filter((item) => selected[item.name])
-                .reduce((sum, item) => sum + item.price, 0)}₪
-            </div>
-
-            <button onClick={handleSubmit}>✅ הוסף לתפריט</button>
           </div>
         )}
       </div>

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import "../styles/BudgetChat.css";
-import MenuExport from "./MenuExport"; // אם באותה תיקייה
+import ResultsModal from "./ResultsModal"; // או הנתיב הנכון אצלך
+import FullMenuSelector from "./FullMenuSelector";
+
+
 
 
 
@@ -111,6 +114,7 @@ function shuffle(array) {
 }
 
 function generateMenus(budget, people, dessertCount, includeWine) {
+
   const [minBudget, maxBudget] = getBudgetRangeForPeople(people);
   if (budget < minBudget || budget > maxBudget) {
     alert(`שים לב: התקציב אינו בטווח המומלץ לסעודת ${people} איש (בין ${minBudget}₪ ל-${maxBudget}₪). ייתכן שהתפריט לא יהיה מלא.`);
@@ -140,26 +144,36 @@ function generateMenus(budget, people, dessertCount, includeWine) {
   }];
 }
 
+
+
 const BudgetChat = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [budget, setBudget] = useState(0);
-  const [people, setPeople] = useState(10);
-  const [dessertCount, setDessertCount] = useState(0);
+  const [budget, setBudget] = useState("");
+  const [people, setPeople] = useState("");
+  const [dessertCount, setDessertCount] = useState("");
   const [includeWine, setIncludeWine] = useState(false);
-  const [results, setResults] = useState([]);
+  const [showResultsModal, setShowResultsModal] = useState(false);
+   const [results, setResults] = useState([]);
+     const [showFullMenu, setShowFullMenu] = useState(false);
+  const [focusedWindow, setFocusedWindow] = useState("results");
+  
 
-  const handleGenerate = () => {
+
+ const handleGenerate = () => {
+  
     const b = parseInt(budget);
     const p = parseInt(people);
     const d = parseInt(dessertCount);
-
-    if (isNaN(b) || isNaN(p) || b < 100 || p < 1) {
+    if (isNaN(b) || b < 100 || isNaN(p) || p < 1) {
       alert("הכנס תקציב ומספר סועדים תקפים");
       return;
     }
-
     const menus = generateMenus(b, p, d, includeWine);
     setResults(menus);
+    setShowResultsModal(true);
+    setFocusedWindow("results");
+     console.log("נלחץ על צור תפריט ✅"); // בדיקת לחיצה
+      console.log("תפריט שנוצר:", menus); // בדיקה
   };
 
   return (
@@ -175,15 +189,14 @@ const BudgetChat = () => {
         ariaHideApp={false}
         style={{
           content: {
-            height:"80%",
+            height:"70%",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: "90%",
+            width: "85%",
             maxWidth: "800px",
-            backgroundColor: "#fff7d4",
+            backgroundColor: "#000000e3",
             padding: "2rem",
-            border: "3px solid #4C3D3D",
             borderRadius: "16px",
             direction: "rtl",
           },
@@ -194,25 +207,10 @@ const BudgetChat = () => {
         }}
       >
         <div className="budget-input-section">
-          <h2 className="budget-title">בנה תפריט לפי תקציב</h2>
+           <button className="close-button" onClick={() => setModalOpen(false)}>סגור</button>
+          <h2 className="budget-title">באפשרותך לבנות תפריט ללא תקציב</h2>
           <div className="explanationOrder" >
-  לחץ על צור תפריט עד קבלת התפריט הרצוי בטיוטא. <br></br>
-  לביצוע ההזמנה , יש להזין בפרטים: שם , מספר נייד, כתובת למשלוח , תאריך ושעה. <br></br>
-לחץ על - "צור PDF" , לאחר הורדת הPDF נא לשלוח את הקובץ לווטאסאפ למספר 050-3225482 <br></br> וניצור עמכם קשר לאימות פרטים.
 </div>
-          <div className="titels">  
- <div >
-  הכנס תקציב ב-₪
-</div>
-<div >
- מספר סועדים
-</div>
-<div >
-   כמה קינוחים (או השאר ריק)
-</div>
-
-</div>
-
 
           <input
             type="number"
@@ -221,7 +219,6 @@ const BudgetChat = () => {
             value={budget}
             onChange={(e) => setBudget(e.target.value)}
           />
-
           <input
             type="number"
             className="budget-input"
@@ -244,49 +241,44 @@ const BudgetChat = () => {
               checked={includeWine}
               onChange={(e) => setIncludeWine(e.target.checked)}
             />
-            כלול יינות?
+          רוצים יין?
           </label>
 
 
-          <button className="generate-button" onClick={handleGenerate}>
-            צור תפריט
-          </button>
+  <button className="generate-button" onClick={handleGenerate}>צור תפריט</button>  
+      
+
         </div>
 
-        {results.length > 0 ? (
-         
+     </Modal>
 
-          <div className="results">
-            <h3 className="tiuta">טיוטא</h3>
-            {results.map((menu, i) => (
-              
-              <div key={i} className="menu-card full-visual scrollable-card">
-                <div className="menu-items">
-                  {menu.items.map((item, idx) => (
-                    <div key={idx} className="menu-item-row">
-                      <span className="item-name">{item.name}</span>
-                      <span className="item-price">{item.price}₪</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="menu-total">סה״כ: {menu.total}₪</div>
-              </div>
-              
-            ))}
-             <MenuExport results={results} />
-          </div>
-        ) : (
-          <p style={{ textAlign: "center", color: "#C07F00" }}>
-            לא נמצאו תפריטים מתאימים
-          </p>
-        )}
 
-        <button className="close-button" onClick={() => setModalOpen(false)}>
-          סגור
-        </button>
-      </Modal>
+  {showResultsModal && (
+        <ResultsModal
+          isOpen={showResultsModal}
+          onClose={() => setShowResultsModal(false)}
+          results={results}
+          setResults={setResults}
+          focusedWindow={focusedWindow}
+          setFocusedWindow={setFocusedWindow}
+          onOpenFullMenu={() => {
+            setShowFullMenu(true);
+            setFocusedWindow("full");
+          }}
+        />
+      )}
+
+      {showFullMenu && (
+        <FullMenuSelector
+          onClose={() => setShowFullMenu(false)}
+          onAddItem={handleAddItem}
+            focusedWindow={focusedWindow}         // ✅ חובה לשלוח
+           setFocusedWindow={setFocusedWindow}   // ✅ חובה לשלוח
+        />
+      )}
     </>
   );
-};
+  }
+
 
 export default BudgetChat;
