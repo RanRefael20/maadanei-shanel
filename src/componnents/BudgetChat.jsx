@@ -118,7 +118,7 @@ function generateMenus(budget, people, dessertCount, includeWine) {
 
   const [minBudget, maxBudget] = getBudgetRangeForPeople(people);
   if (budget < minBudget || budget > maxBudget) {
-    alert(`שים לב: התקציב אינו בטווח המומלץ לסעודת ${people} איש (בין ${minBudget}₪ ל-${maxBudget}₪). ייתכן שהתפריט לא יהיה מלא.`);
+    alert(`מיד ממשיכים! \n  שים לב זוהי המלצה בלבד: \n התקציב אינו מתאים לכמות האנשים שבחרת. \n תקציב סעודה ל- ${people} איש (נע בין ${minBudget}₪ ל-${maxBudget}₪). ייתכן שהתפריט לא יהיה מלא. \n באפשרותך להתקדם בהזמנה או לבחור פריטים ידנית ע"פ שיקול דעתך.`);
   }
 
   let total = 0;
@@ -130,13 +130,20 @@ function generateMenus(budget, people, dessertCount, includeWine) {
 
   const allItems = shuffle(categories.flatMap(cat => menuItems[cat] || []));
 
-  for (let item of allItems) {
-    if (total + item.price <= budget) {
-      selectedItems.push(item);
-      total += item.price;
-    }
-    if (total >= budget) break;
+const allowedUnder = 200;
+const allowedOver = 180;
+
+for (let item of allItems) {
+  if (total + item.price <= budget + allowedOver) {
+    selectedItems.push(item);
+    total += item.price;
   }
+
+  if (total >= budget - allowedUnder) {
+    break;
+  }
+}
+
 
   return [{
     name: "מותאם",
@@ -217,7 +224,7 @@ const BudgetChat = () => {
       >
         <div className="budget-input-section">
            <button className="close-button" onClick={() => setModalOpen(false)}>סגור</button>
-          <h2 className="budget-title">באפשרותך לבנות תפריט ללא תקציב</h2>
+          <h2 className="budget-title">באפשרותך לבנות תפריט לפי תקציב</h2>
           <div className="explanationOrder" >
 </div>
 

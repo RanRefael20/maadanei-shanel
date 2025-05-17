@@ -23,9 +23,11 @@ pointer-events: none; /* ✅ מאפשר לחיצות דרכו */
 
 
 .floating-modal {
-
+    font-family: "Rubik", sans-serif;
+  font-weight: bold;
   pointer-events: auto;
-  background-color: #ffffff;
+  background-color: #ffffffd0;
+  color: black;
   border-radius: 24px;
   width: 90%;
   max-width: 700px;
