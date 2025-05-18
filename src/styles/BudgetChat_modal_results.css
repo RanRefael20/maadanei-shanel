@@ -4,8 +4,8 @@
   min-width: 300px;
   min-height: 100px;
   position: fixed;
-  top: 10%;
-  left: 50%;
+  top: 13%;
+  left: 27%;
   transform: translateX(-50%);
   width: 600px;
   background-color: #000000f1;
@@ -17,9 +17,8 @@
 }
 
 .draggable-window.collapsed {
-  height: 60px !important;
-  max-height: 60px !important;
   overflow: hidden;
+
 }
 
 
@@ -52,12 +51,15 @@
   gap: 0.5rem;
   touch-action: none; /* ✅ מאפשר גרירה בטאץ' */
   pointer-events: auto; /* ✅ חובה לאפשר לחיצה בכפתורים */
+  direction:rtl;
 }
 
 
 .modal-title {
+  position: relative;
   font-size: 1.1rem;
   font-weight: bold;
+
 }
 
 .close-results-button,
@@ -115,15 +117,18 @@
   font-weight: bold;
   font-size: 0.75rem;
   color: #fff;
+  
 }
 
 .category-counts-row {
+  padding-top: 40px;
   background-color: #4C3D3D;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 15px;
+  gap: 10px;
   font-family: 'Rubik', sans-serif;
+  
 }
 
 .delete-item-button {
@@ -137,6 +142,97 @@
 .delete-item-button:hover {
   color: #a00;
 }
+
+
+
+
+
+
+/* MenuExport */
+.fullscreen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(20, 20, 20, 0.7);
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-export-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  width: 90vw;
+  max-width: 600px;
+}
+
+/* שלושת הכפתורים */
+.menu-buttons-row {
+  margin: auto;
+  padding:10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  width: 65%;
+  
+}
+
+.menu-action-button {
+  flex: 1;
+  background-color: #ffffff;        /* רקע לבן */
+  color: #4C3D3D;                   /* חום כהה – צבע טקסט ראשי */
+  border: 1px solid #FFD95A;        /* קו גבול זהב-צהוב */
+  border-radius: 10px;
+  padding: 6px 3px;                /* פחות גובה = יותר קומפקטי */
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  min-width: 90px;
+    font-family: 'Rubik', sans-serif;
+  font-weight: bold;
+}
+
+.menu-action-button:hover {
+  background-color: #FFF7D4;       /* צבע שמנת עדין */
+  border-color: #C07F00;           /* כתום-זהוב */
+  color: #000000;
+  transform: translateY(-1px);     /* אפקט קל של hover */
+}
+
+
+/* אינפוטים של תקציב אנשים קינוחים ויין  */
+.input-summary {
+  margin-top: 8px;
+  font-family: 'Rubik', sans-serif;
+  color: #FFF7D4;
+  background-color: #4C3D3D;
+  padding: 6px 12px;
+  border-radius: 0 0 8px 8px;
+  text-align: right;
+}
+
+.input-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 12px;
+  font-size: 0.85rem;
+}
+
+
+
+
 
 /* מובייל */
 @media (max-width: 600px) {
@@ -171,3 +267,80 @@
     padding-left: 0.5rem;
   }
 }
+
+
+/* הודעה פנימית (למשל בתוך כרטיס או אזור מסוים) */
+.global-fullscreen-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* רקע כהה שקוף */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999999; /* לוודא שהיא מעל כל המודלים כולל ResultsModal */
+  pointer-events: auto;
+}
+
+.global-fullscreen-popup .popup-box {
+  background-color: #fff8e1;
+  color: #4c3d3d;
+  padding: 28px 36px;
+  border-radius: 12px;
+  font-family: 'Rubik', sans-serif;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+}
+
+.global-fullscreen-popup .popup-buttons {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.global-fullscreen-popup .popup-close-button,
+.global-fullscreen-popup .popup-never-button {
+  background: none;
+  border: 1px solid #4c3d3d;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #4c3d3d;
+  transition: background-color 0.2s ease;
+}
+
+.global-fullscreen-popup .popup-close-button:hover,
+.global-fullscreen-popup .popup-never-button:hover {
+  background-color: #ffe8a1;
+}
+
+
+.popup-buttons {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.popup-close-button,
+.popup-never-button {
+  background: none;
+  border: 1px solid #4c3d3d;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #4c3d3d;
+  transition: background-color 0.2s ease;
+}
+
+.popup-close-button:hover,
+.popup-never-button:hover {
+  background-color: #ffe8a1;
+}
+

@@ -22,15 +22,15 @@ const CATEGORY_KEYS = [
 
 const menuItems = {
   "סלטים": [
-    { name: "סלט חלומי", price: 180 },
-    { name: "סלט כרוב עם פיצוחים ברוטב חמאת בוטנים", price: 180 },
-    { name: "סלט מיקס ירוקים עם בטטה ושקדים", price: 180 },
-    { name: "סלט יווני", price: 180 },
-    { name: "סלט קינואה בליווי ירקות", price: 180 },
-    { name: "סלט כרוב עם פיצוחים ברוטב מתוק", price: 180 },
-    { name: "סלט ירקות ישראלי", price: 180 },
+    { name: "סלט חלומי | 4.5 ליטר", price: 180 },
+    { name: "סלט כרוב עם פיצוחים ברוטב חמאת בוטנים | 4.5 ליטר ", price: 180 },
+    { name: "סלט מיקס ירוקים עם בטטה ושקדים | 4.5 ליטר ", price: 180 },
+    { name: "סלט יווני | 4.5 ליטר", price: 180 },
+    { name: "סלט קינואה בליווי ירקות | 4.5 ליטר ", price: 180 },
+    { name: "סלט כרוב עם פיצוחים ברוטב מתוק | 4.5 ליטר ", price: 180 },
+    { name: "סלט ירקות ישראלי | 4.5 ליטר ", price: 180 },
     { name: "מגש אנטי-פסטי", price: 180 },
-    { name: "כוסות אישיות עם מקלות ירקות", price: 180 },
+    { name: "כוסות אישיות עם מקלות ירקות | 30 יחידות", price: 180 },
     { name: "פלטת ירקות", price: 180 },
   ],
   "בייגל בייגל": [
@@ -40,32 +40,32 @@ const menuItems = {
     { name: " מגש 20 יחידות |בייגל פסטו , גבינת פטה ואנטי-פסטי", price: 300 }
   ],
   "פסטות": [
-    { name: "פסטה שמנת פטריות", price: 180 },
-    { name: "פסטה רוזה", price: 180 },
-    { name: "פסטה עגבניות", price: 180 },
-    { name: "פסטה פסטו שמנת", price: 180 },
-    { name: "מגש לזניה | 4.5 Liter", price: 180 },
-    { name: "מגש תפוח אדמה מוקרם", price: 180 },
+    { name: "פסטה שמנת פטריות | 4.5 ליטר ", price: 180 },
+    { name: "פסטה רוזה | 4.5 ליטר ", price: 180 },
+    { name: "פסטה עגבניות | 4.5 ליטר ", price: 180 },
+    { name: "פסטה פסטו שמנת | 4.5 ליטר ", price: 180 },
+    { name: "מגש לזניה | 4.5 ליטר ", price: 180 },
+    { name: "מגש תפוח אדמה מוקרם | 4.5 ליטר ", price: 180 },
   ],
   "קישים ומאפים": [
-    { name: "קיש גבינות ובטטה", price: 180 },
-    { name: "קיש גבינות וברוקולי", price: 180 },
-    { name: "קיש גבינות ופטריות", price: 180 },
-    { name: "קיש גבינות וטירס", price: 180 },
-    { name: "קיש גבינות ובצלים ", price: 180 },
-    { name: "מגש לחמי הבית בלווי מטבלים ", price: 250 },
+    { name: "קיש גבינות ובטטה | קוטר 29", price: 180 },
+    { name: "קיש גבינות וברוקולי | קוטר 29", price: 180 },
+    { name: "קיש גבינות ופטריות  | קוטר 29 ", price: 180 },
+    { name: "קיש גבינות וטירס  | קוטר 29 ", price: 180 },
+    { name: "קיש גבינות ובצלים  | קוטר 29 ", price: 180 },
+    { name: "מגש לחמי הבית בלווי מטבלים  | קוטר 29 ", price: 250 },
     { name: "מגש לחם שום | 20 יחידות ", price: 180 }
   ],
   "קינוחים": [
-    { name: "מגש פובלובות ", price: 300 },
-    { name: "מגש פירות העונה ", price: 280 },
-    { name: "מגש פחזניות ", price: 320 },
+    { name: "מגש פובלובות | 30 יחידות ", price: 300 },
+    { name: "מגש פירות העונה | 7 אנשים", price: 280 },
+    { name: "מגש פחזניות | 30 יחידות ", price: 320 },
     { name: "מגש קונוסים במילוי קרם ", price: 300 },
     { name: "מגש טארלטים במילוי טעמים שונים", price: 220 },
     { name: "מגש עוגיות מפנק - תמרים , שקדים ובראוניז ", price: 280 },
     { name: "מגש עוגות - תפוזים , גזר ושוקולד ", price: 200 },
     { name: "עוגות שמרים שוקולד | 2 פסים ", price: 210 },
-    { name: "עוגת קדאיף ", price: 230 },
+    { name: "עוגת קדאיף | קוטר 29 ", price: 230 },
     { name: "מגש אצבעות מילפיי | 20 יחידות ", price: 310 }
   ],
   "מגשי אירוח": [
@@ -92,17 +92,25 @@ const menuItems = {
 };
 
 function getBudgetRangeForPeople(people) {
-  if (people <= 15) return [800, 3000];
-  if (people <= 20) return [1200, 4000];
-  if (people <= 30) return [2000, 5000];
-  if (people <= 40) return [2500, 7000];
-  if (people <= 50) return [3000, 7000];
-  if (people <= 60) return [3500, 7000];
-  if (people <= 70) return [4000, 8000];
-  if (people <= 80) return [4500, 9000];
-  if (people <= 90) return [5000, 9000];
-  return [5500, 11000];
-}
+   if (people <= 5) return [500, 3000];
+  if (people <= 10) return [600, 3000];
+  if (people <= 15) return [1100, 3000];
+  if (people <= 20) return [1500, 4000];
+  if (people <= 30) return [2200, 5000];
+  if (people <= 40) return [3000, 15000];
+  if (people <= 50) return [4000, 15000];
+  if (people <= 60) return [4500, 15000];
+  if (people <= 70) return [5500, 15000];
+  if (people <= 80) return [6500, 20000];
+  if (people <= 90) return [7500, 20000];
+  if (people <= 100) return [8000, 20000];
+  if (people <= 110) return [8500, 20000];
+  if (people <= 120) return [9500, 20000];
+  if (people <= 130) return [10500, 20000];
+  if (people <= 140) return [11500, 20000];
+  if (people <= 150) return [12500, 30000];
+  if (people <= 160) return [13500, 30000];
+  return [10000, 30000];  }
 
 function shuffle(array) {
   let currentIndex = array.length, randomIndex;
@@ -115,42 +123,89 @@ function shuffle(array) {
 }
 
 function generateMenus(budget, people, dessertCount, includeWine) {
-
   const [minBudget, maxBudget] = getBudgetRangeForPeople(people);
+
   if (budget < minBudget || budget > maxBudget) {
-    alert(`מיד ממשיכים! \n  שים לב זוהי המלצה בלבד: \n התקציב אינו מתאים לכמות האנשים שבחרת. \n תקציב סעודה ל- ${people} איש (נע בין ${minBudget}₪ ל-${maxBudget}₪). ייתכן שהתפריט לא יהיה מלא. \n באפשרותך להתקדם בהזמנה או לבחור פריטים ידנית ע"פ שיקול דעתך.`);
+    alert(`מיד ממשיכים ! \n שים לב : התקציב שהוזן לא תואם את כמות הסועדים.\nהמלצה לתקציב: ${minBudget}₪ - ${maxBudget}₪`);
   }
 
-  let total = 0;
-  const selectedItems = [];
+  const allowedUnder = 200;
+  const allowedOver = 180;
+  const minTotal = budget - allowedUnder;
+  const maxTotal = budget + allowedOver;
 
   const categories = [...CATEGORY_KEYS];
-  if (dessertCount > 0) categories.push("קינוחים");
   if (includeWine) categories.push("יינות");
 
-  const allItems = shuffle(categories.flatMap(cat => menuItems[cat] || []));
+  const baseItems = categories.flatMap(cat => menuItems[cat] || []);
+  const dessertItems = menuItems["קינוחים"] || [];
 
-const allowedUnder = 200;
-const allowedOver = 180;
+  let bestCombo = [];
+  let bestTotal = 0;
 
-for (let item of allItems) {
-  if (total + item.price <= budget + allowedOver) {
-    selectedItems.push(item);
-    total += item.price;
+  for (let attempt = 0; attempt < 20; attempt++) {
+    let total = 0;
+    let items = [];
+    let dessertAdded = 0;
+
+    const shuffled = shuffle([...baseItems]);
+    const shuffledDesserts = shuffle([...dessertItems]);
+
+    // לולאת קינוחים – רק עד הכמות שהוגדרה
+    if (!isNaN(dessertCount) && dessertCount > 0) {
+      for (let i = 0; i < shuffledDesserts.length && dessertAdded < dessertCount; i++) {
+        const dessert = shuffledDesserts[i];
+        if (total + dessert.price <= maxTotal) {
+          items.push({ ...dessert });
+          total += dessert.price;
+          dessertAdded++;
+        }
+      }
+    }
+
+    // לולאת פריטים רגילים (ללא קינוחים)
+    while (total < maxTotal) {
+      let itemAdded = false;
+
+      for (let item of shuffled) {
+        if (total >= minTotal) break;
+
+        if (item.category === "קינוחים") continue; // לא מוסיפים עוד קינוחים
+
+        if (total + item.price <= maxTotal) {
+          items.push({ ...item });
+          total += item.price;
+          itemAdded = true;
+
+          if (total >= minTotal) break;
+        }
+      }
+
+      if (!itemAdded) break;
+    }
+
+    if (total >= minTotal && total <= maxTotal) {
+      bestCombo = items;
+      bestTotal = total;
+      break;
+    }
+
+    if (total > bestTotal && total <= maxTotal) {
+      bestCombo = items;
+      bestTotal = total;
+    }
   }
-
-  if (total >= budget - allowedUnder) {
-    break;
-  }
-}
-
 
   return [{
     name: "מותאם",
-    items: selectedItems,
-    total
+    items: bestCombo,
+    total: bestTotal
   }];
 }
+
+
+
+
 
 
 
@@ -161,10 +216,10 @@ const BudgetChat = () => {
   const [dessertCount, setDessertCount] = useState("");
   const [includeWine, setIncludeWine] = useState(false);
   const [showResultsModal, setShowResultsModal] = useState(false);
-   const [results, setResults] = useState([]);
-     const [showFullMenu, setShowFullMenu] = useState(false);
+  const [results, setResults] = useState([]);
+  const [showFullMenu, setShowFullMenu] = useState(false);
   const [focusedWindow, setFocusedWindow] = useState("results");
-  
+
   useEffect(() => {
     if (showFullMenu || showResultsModal) {
       document.body.classList.add("modal-open");
@@ -173,8 +228,7 @@ const BudgetChat = () => {
     }
   }, [showFullMenu, showResultsModal]);
 
- const handleGenerate = () => {
-  
+  const handleGenerate = () => {
     const b = parseInt(budget);
     const p = parseInt(people);
     const d = parseInt(dessertCount);
@@ -182,12 +236,17 @@ const BudgetChat = () => {
       alert("הכנס תקציב ומספר סועדים תקפים");
       return;
     }
-    const menus = generateMenus(b, p, d, includeWine);
-    setResults(menus);
-    setShowResultsModal(true);
-    setFocusedWindow("results");
-     console.log("נלחץ על צור תפריט ✅"); // בדיקת לחיצה
-      console.log("תפריט שנוצר:", menus); // בדיקה
+
+    // סגור את התוצאה הקודמת לפני פתיחה מחודשת
+    setShowResultsModal(false);
+    setResults([]);
+
+    setTimeout(() => {
+      const menus = generateMenus(b, p, d, includeWine);
+      setResults(menus);
+      setShowResultsModal(true);
+      setFocusedWindow("results");
+    }, 100);
   };
 
   return (
@@ -200,21 +259,20 @@ const BudgetChat = () => {
         isOpen={modalOpen}
         onRequestClose={() => setModalOpen(false)}
         contentLabel="AI Menu Modal"
-        
         ariaHideApp={false}
-     style={{
-    content: {
-      height: window.innerWidth <= 600 ? "50%" : "70%",
-      width: window.innerWidth <= 600 ? "85%" : "85%",
-      top: window.innerWidth <= 600 ? "50%" : "50%",
-      left: window.innerWidth <= 600 ? "50%" : "50%",
-      transform: "translate(-50%, -50%)",
-      maxWidth: "800px",
-      backgroundColor: "#000000e3",
-      padding: window.innerWidth <= 600 ? "1rem" : "2rem",
-      borderRadius: "16px",
-      direction: "rtl",
-      overflowY: "auto",
+        style={{
+          content: {
+            height: window.innerWidth <= 600 ? "50%" : "70%",
+            width: "85%",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            maxWidth: "800px",
+            backgroundColor: "#000000e3",
+            padding: window.innerWidth <= 600 ? "1rem" : "2rem",
+            borderRadius: "16px",
+            direction: "rtl",
+            overflowY: "auto",
           },
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.4)",
@@ -223,10 +281,8 @@ const BudgetChat = () => {
         }}
       >
         <div className="budget-input-section">
-           <button className="close-button" onClick={() => setModalOpen(false)}>סגור</button>
+          <button className="close-button" onClick={() => setModalOpen(false)}>סגור</button>
           <h2 className="budget-title">באפשרותך לבנות תפריט לפי תקציב</h2>
-          <div className="explanationOrder" >
-</div>
 
           <input
             type="number"
@@ -242,7 +298,6 @@ const BudgetChat = () => {
             value={people}
             onChange={(e) => setPeople(e.target.value)}
           />
-
           <input
             type="number"
             className="budget-input"
@@ -257,19 +312,16 @@ const BudgetChat = () => {
               checked={includeWine}
               onChange={(e) => setIncludeWine(e.target.checked)}
             />
-          רוצים יין?
+            רוצים יין?
           </label>
 
-
-  <button className="generate-button" onClick={handleGenerate}>צור תפריט</button>  
-      
-
+          <button className="generate-button" onClick={handleGenerate}>
+            צור תפריט
+          </button>
         </div>
+      </Modal>
 
-     </Modal>
-
-
-  {showResultsModal && (
+      {showResultsModal && (
         <ResultsModal
           isOpen={showResultsModal}
           onClose={() => setShowResultsModal(false)}
@@ -281,20 +333,32 @@ const BudgetChat = () => {
             setShowFullMenu(true);
             setFocusedWindow("full");
           }}
+          handleGenerate={handleGenerate} // ✅ חשוב
+          /* אינפוטים של תקציב וכו */
+            budget={budget}
+            people={people}
+            dessertCount={dessertCount}
+             includeWine={includeWine}
         />
       )}
 
       {showFullMenu && (
         <FullMenuSelector
           onClose={() => setShowFullMenu(false)}
-          onAddItem={handleAddItem}
-            focusedWindow={focusedWindow}         // ✅ חובה לשלוח
-           setFocusedWindow={setFocusedWindow}   // ✅ חובה לשלוח
+          onAddItem={(item) => {
+            setResults(prev => {
+              const updated = [...prev];
+              updated[0].items.push(item);
+              updated[0].total += item.price;
+              return updated;
+            });
+          }}
+          focusedWindow={focusedWindow}
+          setFocusedWindow={setFocusedWindow}
         />
       )}
     </>
   );
-  }
-
+};
 
 export default BudgetChat;

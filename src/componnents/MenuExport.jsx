@@ -6,18 +6,20 @@ import "../styles/MenuExport.css";
 
 const reverseText = (text) => text.split("").reverse().join("");
 
-const MenuExport = ({ results, updateResults }) => {
+const MenuExport = ({ results = [], updateResults }) => {
   const [phone, setPhone] = useState("");
   const [clientName, setClientName] = useState("");
   const [showFullMenu, setShowFullMenu] = useState(false);
   const [customItems, setCustomItems] = useState([]);
 
-  const activeItems = customItems.length > 0 ? customItems : results[0]?.items || [];
-  const total = activeItems.reduce((sum, item) => sum + item.price, 0);
+  // ודא שהresults תקין ויש בו פריטים
+  const fallbackItems = Array.isArray(results) && results[0]?.items?.length > 0 ? results[0].items : [];
+  const activeItems = customItems.length > 0 ? customItems : fallbackItems;
+  const total = activeItems.reduce((sum, item) => sum + (item.price || 0), 0);
 
   useEffect(() => {
-    if (customItems.length === 0 && results[0]) {
-      setCustomItems(results[0].items);
+    if (customItems.length === 0 && fallbackItems.length > 0) {
+      setCustomItems(fallbackItems);
     }
   }, [results]);
 
@@ -38,6 +40,7 @@ const MenuExport = ({ results, updateResults }) => {
 
   const generatePDF = async () => {
     const element = document.getElementById("menu-pdf-area");
+    if (!element) return;
     const canvas = await html2canvas(element);
     const imgData = canvas.toDataURL("image/png");
     const pdf = new jsPDF();
@@ -77,13 +80,13 @@ const MenuExport = ({ results, updateResults }) => {
         <input
           type="text"
           placeholder="שם הלקוח (אופציונלי)"
-          value={clientName}
+          value={clientName ?? ""}
           onChange={(e) => setClientName(e.target.value)}
         />
         <input
           type="tel"
           placeholder="מספר טלפון נוסף"
-          value={phone}
+          value={phone ?? ""}
           onChange={(e) => setPhone(e.target.value)}
         />
         <button onClick={sendToWhatsapp}>📤 שלח לוואטסאפ</button>
@@ -111,7 +114,7 @@ const MenuExport = ({ results, updateResults }) => {
             <li key={idx}>
               <input
                 type="checkbox"
-                checked={customItems.find((i) => i.name === item.name)}
+                checked={!!customItems.find((i) => i.name === item.name)}
                 onChange={() => handleCheckboxToggle(item)}
               />
               {item.name} – {item.price}₪

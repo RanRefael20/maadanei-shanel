@@ -26,7 +26,7 @@ pointer-events: none; /* ✅ מאפשר לחיצות דרכו */
     font-family: "Rubik", sans-serif;
   font-weight: bold;
   pointer-events: auto;
-  background-color: #ffffffd0;
+  background-color: #000000e8;
   color: black;
   border-radius: 24px;
   width: 90%;
@@ -80,14 +80,12 @@ pointer-events: none; /* ✅ מאפשר לחיצות דרכו */
 
 .menu-category {
   margin-bottom: 1.5rem;
+  color: #0af6bb;
 }
 
-.menu-category h4 {
-  margin-bottom: 0.5rem;
-  color: #333;
-  font-size: 1.1rem;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 4px;
+.menu-category h3 {
+text-decoration: underline;
+color: #f6c216;
 }
 
 .item-select {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import DessertsPage from "./componnents/DessertsPage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+;import DessertsPage from "./componnents/DessertsPage";
 import MenuSection from "./pages/MenuSection";
 import NavBar from "./componnents/NavBar";
 import Footer from "./componnents/Footer";
@@ -16,6 +16,7 @@ import "./App.css";
  
 export default function DairyRestaurantWebsite() {
   const [splashDone, setSplashDone] = useState(false); // ✅ שליטה האם להראות את האתר
+  
 
   return (
     <>
@@ -24,6 +25,7 @@ export default function DairyRestaurantWebsite() {
 
       {/* האתר עצמו */}
       {splashDone && (
+         
         <div
           style={{
             width: "100vw",
@@ -39,7 +41,7 @@ export default function DairyRestaurantWebsite() {
                {/* מערכת הניווט */}
       <Routes>
       <Route path="/תפריט" element={<MenuSection />} />
-      
+     
       <Route path="/desserts" element={<DessertsPage />} />
     </Routes>
           {/* Header */}
@@ -58,6 +60,8 @@ export default function DairyRestaurantWebsite() {
           {/* Footer */}
           <Footer />
         </div>
+      
+
       )}
     </>
   );

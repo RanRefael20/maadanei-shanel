@@ -42,7 +42,7 @@ const FullMenuSelector = ({ onClose, onAddItem }) => {
         onMouseDown={handleMouseDown}
       >
         <div className="modal-header">
-          <h3>בחר מוצרים</h3>
+          <h3>הוספת פריטים להזמנה</h3>
           <div className="modal-controls">
             <button onClick={() => setIsMinimized(!isMinimized)}>➖</button>
             <button onClick={onClose}>✖</button>
@@ -53,7 +53,7 @@ const FullMenuSelector = ({ onClose, onAddItem }) => {
           <div className="modal-content">
             {Object.entries(fullMenu).map(([category, items]) => (
               <div key={category} className="menu-category">
-                <h4>{category}</h4>
+                <h3>{category}</h3>
                 {items.map((item) => (
                   <div key={item.name} className="item-select">
                     <span>

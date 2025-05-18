@@ -5,6 +5,7 @@ import "../styles/hiddenLogo.css";
 import logo from "../logo/LL.png";
 import NavLink from "./NavLink";
 import Hamburger from "./Hamburger"
+import AuthManager from "../login/AuthManager";
 import { Link } from "react-router-dom";
 import useScroll from "../hooks/useScroll";
 
@@ -29,12 +30,11 @@ const NavBar = () => {
       <h1 className={`brand-title rubik-gemstones-regular ${scrolling ? "revome-title" : ""}`}>
         מעדני שנאל
       </h1>
-      
     </Link>
-        
+       
       <NavLink/>
       </div>
-     
+      <AuthManager />
       <div className="navbar-right ">
         
       <div className={`contact ${scrolling ? "scrolling" : ""}`}>
