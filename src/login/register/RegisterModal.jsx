@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./RegisterModal.css";
 import RegisterErrorModal from "../Eror/RegisterErrorModal";
 import RegisterStatusModal from "./RegisterStatusModal";
-import { baseURL } from "../config"; // או הנתיב המתאים אצלך
+import { baseURL } from "..//./../config"; // או הנתיב המתאים אצלך
 
 
 
