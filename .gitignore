@@ -1,0 +1,25 @@
+# Node modules – אל תעלה את הספרייה הענקית הזו
+node_modules/
+
+# Build output – תוצרי build מקומיים
+dist/
+.vite/
+
+# קבצי סביבה מקומיים
+.env
+.env.local
+
+# קבצי לוגים
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# קבצי מערכת / IDE
+.DS_Store
+.vscode/
+.idea/
+
+# אחרים – אופציונלי
+*.log
+*.cache
+*.tmp
