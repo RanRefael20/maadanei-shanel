@@ -21,7 +21,10 @@ const handleSubmit = async () => {
   console.log("📡 בקשה נשלחת ל:", baseURL);
 
   try {
+      console.log("📡 בקשה נשלחת ל:", `${baseURL}`);
+
     const res = await fetch(`${baseURL}/api/login`, {
+      
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
