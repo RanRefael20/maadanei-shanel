@@ -18,6 +18,7 @@ const LoginModal = ({ onClose, onSwitchToRegister, onLoginSuccess }) => {
 
   const handleSubmit = async () => {
     setErrorMessage("");
+console.log("📡 בקשה נשלחת ל:", baseURL);
 
     try {
       const res = await fetch(`${baseURL}/api/login`, {
