@@ -14,8 +14,7 @@ export default function Section() {
   const isMobile = useIsMobile();
 
   const backgroundImages = [
-    { url: "/photos/section.jpeg", height: "145vh", position: "center top 70%" },
-    { url: "/photos/IMG_7717.jpeg", height: "145vh", position: "center top 285%" },
+    { url: "/photos/section.jpeg", height: "145vh", position: "center top 70%" }
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
