@@ -1,0 +1,146 @@
+
+.nav-button {
+    font-size: 17px;
+    font-weight: bold;
+    color: #4C3D3D; /* טקסט לבן */
+    background-color: #FFD95A; /* מעבר צבעים בין כחול ציאן לירוק */
+    padding: 5px 15px;
+    border-radius: 50px; /* כפתור מעוגל */
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* הוספת צל עדין */
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    top: -35px;
+    text-decoration: none;
+    margin: 10px;
+}
+
+.nav-links-container.shrink{
+    margin-top: 76px;
+    margin-left: 100px;
+}
+
+
+
+
+
+/* אפקט מעבר על הכפתור */
+.nav-button:hover {
+    background: linear-gradient(90deg, #C07F00, #C07F00); /* מעבר מכתום לצהוב */
+    box-shadow: 0px 6px 15px #C07F00;
+    transform: scale(1.05); /* הגדלה קטנה */
+    color: #4C3D3D;
+}
+
+/* כשהניווט קטן – הכפתור קטן יחד איתו */
+.navbar.shrink .nav-button {
+    font-size: 17px;
+    padding: 4px 15px;
+    transform: scale(0.9);
+    top: -30px;
+}
+
+
+/* אנימציה על הלחיצה */
+.nav-button:active {
+    transform: scale(0.9);
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+@media (max-width: 390px) {
+    .nav-button {
+        
+        font-size: 10.5px; /* יותר קטן */
+        padding: 2px 6px; /* פחות גובה ורוחב */
+        letter-spacing: 0.3px; /* פחות ריווח בין אותיות */
+        position: relative;
+        overflow: hidden;
+        top: -10px;
+        text-decoration: none;
+        margin: 0; /* פחות רווחים בין הכפתורים */
+        white-space: nowrap; /* לא לשבור שורה */
+        flex-shrink: 0; /* חשוב כדי שלא ימעכו */
+    }
+    .nav-links-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap; /* חשוב: אל תיתן להם לרדת שורה */
+        overflow-x: auto;  /* אם אין מקום במסך – גלילה אופקית */
+        gap: 7px; /* רווחים בין כפתורים */
+        padding: 10px;
+        margin-top: 1px; /* אם צריך טיפה רווח – ולא עם padding */
+        direction: rtl; /* אם אתה רוצה שהכפתורים יתחילו מימין */
+    }
+    
+ 
+    /* להסתיר את פס הגלילה אם רוצים עיצוב נקי */
+    .nav-links-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav-button.shrink{
+        position: relative;
+        top: 0px !important;
+        font-size: 11px !important; /* יותר קטן */
+        padding: 2px 6px; /* פחות גובה ורוחב */
+        letter-spacing: 0.3px; /* פחות ריווח בין אותיות */
+       right: -2px;
+    } 
+    .nav-links-container.shrink{
+        margin-top: 0px;
+        margin-left: 5px;
+    }
+
+
+}
+
+
+@media (max-width: 450px) {
+    .nav-button {
+        font-size: 10.5px; /* יותר קטן */
+        padding: 2px 6px; /* פחות גובה ורוחב */
+        letter-spacing: 0.3px; /* פחות ריווח בין אותיות */
+        position: relative;
+        overflow: hidden;
+        top: -10px;
+        text-decoration: none;
+        margin: 3px; /* פחות רווחים בין הכפתורים */
+        white-space: nowrap; /* לא לשבור שורה */
+        flex-shrink: 0; /* חשוב כדי שלא ימעכו */
+    }
+
+    .nav-links-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap; /* חשוב: אל תיתן להם לרדת שורה */
+        overflow-x: auto;  /* אם אין מקום במסך – גלילה אופקית */
+        gap: 7px; /* רווחים בין כפתורים */
+        padding: 10px;
+        margin-top: 1px; /* אם צריך טיפה רווח – ולא עם padding */
+        direction: rtl; /* אם אתה רוצה שהכפתורים יתחילו מימין */
+    }
+    
+ 
+    /* להסתיר את פס הגלילה אם רוצים עיצוב נקי */
+    .nav-links-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav-button.shrink{
+        position: relative;
+        top: 0px !important;
+        font-size: 11px !important; /* יותר קטן */
+        padding: 2px 6px; /* פחות גובה ורוחב */
+        letter-spacing: 0.3px; /* פחות ריווח בין אותיות */
+       right: -2px;
+    } 
+    .nav-links-container.shrink{
+        margin-top: 0px;
+        margin-left: 5px;
+    }
+}

@@ -1,0 +1,115 @@
+.menu-export-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  z-index: 90000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow: auto;
+  
+}
+
+.menu-export-window {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: fadeInUp 0.3s ease;
+  direction: rtl;
+}
+
+.menu-export-header {
+  background: #4C3D3D;
+  color: #FFD95A;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.menu-export-controls button {
+  background: none;
+  border: none;
+  color: #FFD95A;
+  font-size: 1.2em;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.menu-export-body {
+  padding: 20px;
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+.menu-export-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px 0;
+}
+
+.menu-export-list li {
+  border-bottom: 1px dashed #ccc;
+  padding: 8px 0;
+  font-size: 1em;
+}
+
+.menu-export-total {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 12px 0;
+  color: #C07F00;
+}
+
+.menu-export-body input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.menu-export-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.menu-export-buttons button {
+  padding: 10px;
+  font-size: 1em;
+  background-color: #4C3D3D;
+  color: #FFD95A;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.menu-export-buttons button:hover {
+  background-color: #3a2c2c;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,15 @@
+.image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  width: 100%;
+  background-color: #FFF7D4;
+}
+.SectionLogo {
+  height: 100%;
+}
+
+
+
+

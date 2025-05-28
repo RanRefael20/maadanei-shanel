@@ -1,0 +1,165 @@
+.credit-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 15000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Assistant", sans-serif;
+  backdrop-filter: blur(3px);
+}
+
+.credit-modal {
+  background: #ffffff;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 420px;
+  padding: 2rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  direction: rtl;
+  animation: fadeIn 0.3s ease-in-out;
+  
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.credit-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.credit-header h3 {
+  font-size: 1.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.card-icons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.card-icons img {
+  height: 32px;
+  filter: grayscale(0.3);
+  transition: transform 0.2s;
+}
+
+.card-icons img:hover {
+  transform: scale(1.1);
+}
+
+.credit-form label {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #444;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.credit-form input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  transition: border 0.2s ease;
+}
+
+.credit-form input:focus {
+  border-color: #00c2ff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 194, 255, 0.2);
+}
+
+.credit-row {
+  display: flex;
+  gap: 12px;
+}
+
+.credit-row > div {
+  flex: 1;
+}
+
+.total-display {
+  margin: 1.2rem 0;
+  padding: 12px;
+  background: #f4f4f4;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #222;
+}
+
+.credit-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.credit-buttons button {
+  flex: 1;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  
+}
+
+.credit-buttons button:first-child {
+  background: #ddd;
+  color: #333;
+}
+
+.credit-buttons button:last-child {
+  background: #00c2ff;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 194, 255, 0.3);
+}
+
+.processing {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.spinner {
+  border: 4px solid #e0e0e0;
+  border-top: 4px solid #00c2ff;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 10px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .credit-modal {
+    padding: 1.2rem;
+    border-radius: 14px;
+  }
+
+  .credit-buttons button {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+}

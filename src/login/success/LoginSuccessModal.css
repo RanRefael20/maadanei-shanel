@@ -1,0 +1,50 @@
+.login-success-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.login-success-modal {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px 32px;
+  max-width: 90%;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.4s ease;
+}
+
+.login-success-modal p {
+  font-size: 18px;
+  color: #00b8d9; /* צבע טורקיז בהיר של Wolt */
+  font-weight: 600;
+  margin: 0;
+}
+
+/* אנימציות */
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.35);
+  }
+}

@@ -1,0 +1,124 @@
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+    justify-items: center;
+  }
+  
+  .image-item {
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+  }
+  
+  /* עטיפה פנימית ששומרת על גודל התמונה */
+  .image-inner {
+    width: 100%;
+    aspect-ratio: 4 / 3.5;
+    overflow: hidden;
+    border-radius: 3px;
+    position: relative;
+  }
+  
+  /* התמונה עצמה */
+  .image-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  
+  /* זום פנימי רק על התמונה */
+  .image-inner:hover img {
+    transform: scale(1.16);
+  }
+  
+  .image-item h3 {
+    margin-top: -0.2rem;
+    margin-right: -300px;
+    font-size: 1.2rem;
+    color: #4C3D3D;
+    text-align: center;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+  
+  /* מיקום 2 התמונות התחתונות */
+  @media (min-width: 768px) {
+    .image-grid > :nth-child(4),
+    .image-grid > :nth-child(5) {
+      left: 205px;
+    }
+  }
+  
+  
+  @media (max-width: 390px) {
+    .image-grid {
+      grid-template-columns: 1fr; /* טור אחד */
+      gap: 1rem;
+      padding: 1rem;
+      overflow-x: hidden; /* ביטול גלילה אופקית */
+    }
+  
+    .image-item {
+      max-width: 100%;
+      width: 100%;
+      position: static; /* ביטול left שהוגדר */
+    }
+  
+    .image-inner {
+      height: 220px;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+  
+    .image-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+  
+    .image-item h3 {
+      font-size: 1rem;
+      margin-top: 0.4rem;
+      text-align: center;
+    }
+  }
+  
+  @media (max-width: 450px) {
+    .image-grid {
+      grid-template-columns: 1fr; /* טור אחד */
+      gap: 1rem;
+      padding: 1rem;
+      overflow-x: hidden; /* ביטול גלילה אופקית */
+    }
+  
+    .image-item {
+      max-width: 100%;
+      width: 100%;
+      position: static; /* ביטול left שהוגדר */
+    }
+  
+    .image-inner {
+      height: 220px;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+  
+    .image-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+  
+    .image-item h3 {
+      font-size: 1rem;
+      margin-top: 0.4rem;
+      text-align: center;
+    }
+  }

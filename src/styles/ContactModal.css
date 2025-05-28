@@ -1,0 +1,58 @@
+/* ContactModal.css */
+.contact-modal-overlay {
+  position: fixed;
+  top: -10px;
+  right: -80px;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.contact-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 200px;
+  text-align: center;
+  direction: rtl;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.contact-button {
+  display: block;
+  margin: 15px 0;
+  padding: 10px;
+  border: 2px solid #00bfa5;
+  border-radius: 8px;
+  color: #00bfa5;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.contact-button.phone {
+  border-color: #0077cc;
+  color: #0077cc;
+}
+
+.contact-button:hover {
+  background: #00bfa5;
+  color: white;
+}
+.contact-button.phone:hover {
+  background: #0077cc;
+  color: white;
+}

@@ -1,0 +1,413 @@
+.fixed-window {
+  background-color: #000000f1;
+top:3px;
+left: 330px;
+  
+  max-width: 700px;
+  max-height: 95vh;
+  border-radius: 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 10px 0;
+  
+}
+
+
+.results-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  background-color: rgba(0, 0, 0, 0.897);
+  pointer-events: auto;
+}
+.modal-header {
+  background-color: #4C3D3D;
+  color: #FFD95A;
+  border-radius: 8px 8px 0 0;
+  padding: 5px;
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+/* 🟨 שורת האינפוטים הראשונה */
+.input-summary {
+  background-color: #4C3D3D;
+  color: #FFF7D4;
+  font-family: 'Rubik', sans-serif;
+  padding: 10px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.input-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  width: 100%;
+}
+
+.input-row::-webkit-scrollbar {
+  display: none;
+}
+
+.input-row label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #5E504F;
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  color: #fff;
+}
+
+.input-row input[type="number"] {
+  width: 60px;
+  padding: 4px 6px;
+  border: none;
+  border-radius: 6px;
+  text-align: center;
+  background-color: #fff;
+  color: #333;
+  font-weight: bold;
+}
+
+.input-row input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/* 🟧 שורת הקטגוריות */
+.category-counts-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  font-family: 'Rubik', sans-serif;
+  width: 100%;
+  padding: 6px 0;
+}
+
+.category-count {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  color: #fff;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 🟩 כותרת וסכום כולל בשורה נפרדת */
+.header-summary-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+
+/* 🔷 כותרות תחת האינפוטים */
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.menu-total-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: rgb(33, 253, 81);
+  text-decoration: underline;
+  font-family: 'Rubik', sans-serif;
+}
+
+.header-buttons-row {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  padding-bottom: 6px;
+}
+
+.collapsed .results-content,
+.collapsed .menu-buttons-row {
+  display: none;
+}
+/* כפתור סגירה ומזעור בפינה */
+.close-results-button,
+.minimize-button {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: #FFD95A;
+  cursor: pointer;
+  padding: 4px 8px;
+  z-index: 10;
+  transition: transform 0.2s ease;
+}
+
+.close-results-button {
+  left: 12px;
+}
+
+.minimize-button {
+  left: 48px;
+}
+
+.close-results-button:hover,
+.minimize-button:hover {
+  transform: scale(1.2);
+}
+
+
+.results-content {
+  direction: rtl;
+  padding-right: 30px;
+  font-family: 'Rubik', sans-serif;
+  color: antiquewhite;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.menu-item span {
+  background-color: #000000;
+}
+
+.results-content h3 {
+  text-decoration: underline;
+  font-family: 'Rubik', sans-serif;
+}
+
+.header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 300px;
+}
+
+
+.delete-item-button {
+  background: none;
+  border: none;
+  color: #d11a2a;
+  font-size: 14px;
+  margin-right: 6px;
+  cursor: pointer;
+}
+.delete-item-button:hover {
+  color: #a00;
+}
+
+
+/* טעינה של טען מחדש */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid rgb(30, 255, 0);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+.loading-text {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  font-family: 'Rubik', sans-serif;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+
+
+/* MenuExport */
+
+
+
+/* שלושת הכפתורים */
+.menu-buttons-row {
+  margin: auto;
+  padding:10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  width: 65%;
+  
+}
+
+.menu-action-button {
+  flex: 1;
+  background-color: #ffffff;        /* רקע לבן */
+  color: #4C3D3D;                   /* חום כהה – צבע טקסט ראשי */
+  border: 1px solid #FFD95A;        /* קו גבול זהב-צהוב */
+  border-radius: 10px;
+  padding: 6px 3px;                /* פחות גובה = יותר קומפקטי */
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  min-width: 90px;
+    font-family: 'Rubik', sans-serif;
+  font-weight: bold;
+}
+
+.menu-action-button:hover {
+  background-color: #FFF7D4;       /* צבע שמנת עדין */
+  border-color: #C07F00;           /* כתום-זהוב */
+  color: #000000;
+  transform: translateY(-1px);     /* אפקט קל של hover */
+}
+
+
+
+/* מובייל */
+@media (max-width: 600px) {
+  .modal-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .close-results-button,
+  .minimize-button {
+    font-size: 2rem;
+  }
+
+  .results-modal {
+    padding: 0.5rem;
+    box-sizing: border-box;
+  }
+
+
+
+  .header-center {
+    flex: 1;
+    align-items: flex-end;
+    padding-left: 0.5rem;
+  }
+}
+
+
+/* הודעה פנימית (למשל בתוך כרטיס או אזור מסוים) */
+.global-fullscreen-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* רקע כהה שקוף */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999999; /* לוודא שהיא מעל כל המודלים כולל ResultsModal */
+  pointer-events: auto;
+}
+
+.global-fullscreen-popup .popup-box {
+  background-color: #fff8e1;
+  color: #4c3d3d;
+  padding: 28px 36px;
+  border-radius: 12px;
+  font-family: 'Rubik', sans-serif;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+}
+
+.global-fullscreen-popup .popup-buttons {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.global-fullscreen-popup .popup-close-button,
+.global-fullscreen-popup .popup-never-button {
+  background: none;
+  border: 1px solid #4c3d3d;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #4c3d3d;
+  transition: background-color 0.2s ease;
+}
+
+.global-fullscreen-popup .popup-close-button:hover,
+.global-fullscreen-popup .popup-never-button:hover {
+  background-color: #ffe8a1;
+}
+
+
+.popup-buttons {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.popup-close-button,
+.popup-never-button {
+  background: none;
+  border: 1px solid #4c3d3d;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #4c3d3d;
+  transition: background-color 0.2s ease;
+}
+
+.popup-close-button:hover,
+.popup-never-button:hover {
+  background-color: #ffe8a1;
+}
+
