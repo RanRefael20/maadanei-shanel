@@ -240,6 +240,10 @@ display: none;
 .shrink-title {
  display: none;
 }
+.user-icon {
+top: 30px;
+  right: 60px;
+}
   }
 
   @media (max-width: 390px) {

@@ -28,11 +28,7 @@ const handleLoginSuccess = (name) => {
         </button>
       )}
 
-      {username && (
-        <div className="logged-in-name">
-          {/* שם המשתמש מוצג כבר ב־NavBar דרך props */}
-        </div>
-      )}
+
 
       {activeModal === "login" && (
         <LoginModal
