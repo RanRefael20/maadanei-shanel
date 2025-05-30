@@ -9,6 +9,7 @@
   font-family: 'Rubik', sans-serif;
   font-weight: bold;
   transition: background-color 0.5s ease, color 0.5s ease, transform 0.4s ease;
+ 
 }
 
 /* החלפת צבע בעת מעבר העכבר על הכפתור  */
@@ -86,5 +87,23 @@
   cursor: pointer;
   font-family: 'Rubik', sans-serif;
 }
+
+
+/* מובייל */
+@media (max-width: 600px) {
+  .login-button {
+    position: relative;
+  padding: 5px 10px;
+  background-color: #000000;
+  color: #ffffff;
+  border: 4px rgb(255, 255, 255);
+  border-radius: 5px;
+  font-size: 0.8rem;
+  right: 100px;
+  top: -20px;
+
+}
+
+    }
 
 

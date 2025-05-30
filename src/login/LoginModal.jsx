@@ -18,10 +18,8 @@ const LoginModal = ({ onClose, onSwitchToRegister, onLoginSuccess }) => {
 
 const handleSubmit = async () => {
   setErrorMessage("");
-  console.log("📡 בקשה נשלחת ל:", baseURL);
 
   try {
-      console.log("📡 בקשה נשלחת ל:", `${baseURL}`);
 
     const res = await fetch(`${baseURL}/api/login`, {
       
@@ -37,7 +35,7 @@ const handleSubmit = async () => {
     if (!res.ok) {
       const text = await res.text();
       console.error("❌ שגיאת שרת:", text);
-      setErrorMessage("שגיאה מהשרת: " + text);
+      setErrorMessage("אימייל או סיסמא לא נכונים");
       return;
     }
 
@@ -87,7 +85,7 @@ const handleSubmit = async () => {
         />
 
         {errorMessage && (
-          <div className="login-error">{errorMessage}</div>
+          <div className="login-error">{errorMessage }</div>
         )}
 
         <button className="submit-button" onClick={handleSubmit}>

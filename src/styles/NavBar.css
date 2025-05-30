@@ -131,8 +131,10 @@ display: none;
 }
 
 .user-icon {
+  position: relative;
   color: #FFD95A;
   transition: color 0.2s ease;
+  
 }
 
 .user-icon:hover {
@@ -232,6 +234,7 @@ display: none;
   .navbar-right {
     margin-top: -25px;
     gap: 12px;
+    
 }
 
 .shrink-title {
@@ -271,10 +274,6 @@ display: none;
    
   }
 
-
-
-
-
   .navbar-right {
     margin-top: -25px;
     gap: 12px;
@@ -297,6 +296,10 @@ left: -28px;
  display: none;
 }
 
+.user-icon {
+top: 30px;
+  right: 60px;
+}
 
   }
 

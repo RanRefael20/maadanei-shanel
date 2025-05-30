@@ -61,8 +61,10 @@ const [showUserMenu, setShowUserMenu] = useState(false);
              
           </div>
         ) }
-         
-  <AuthManager onLoginSuccess={(name) => setUsername(name)} />      
+        
+         {/* כפתור התחברות  */}
+  <AuthManager onLoginSuccess={(name) => setUsername(name)} /> 
+
     <div className="navbar-right "> 
    <div  className="user-menu-wrapper"  onMouseEnter={() => setShowUserMenu(true)}
             onMouseLeave={() => setShowUserMenu(false)}
@@ -80,7 +82,9 @@ const [showUserMenu, setShowUserMenu] = useState(false);
             )}
           </div>
    
-        <div className={`numPhone ${scrolling ? " hidden" : ""}`}>050-3225482 |</div>
+{/*         <div className={`numPhone ${scrolling ? " hidden" : ""}`}>050-3225482 |</div>
+ */}
+
       </div>
       {/* מפעיל את צור קשר */}
        {showModal && <ContactModal onClose={() => setShowModal(false)} />}
