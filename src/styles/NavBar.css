@@ -131,9 +131,10 @@ display: none;
 }
 
 .user-icon {
-  position: relative;
+  
   color: #FFD95A;
   transition: color 0.2s ease;
+  margin-left: -70px;
   
 }
 
@@ -241,8 +242,15 @@ display: none;
  display: none;
 }
 .user-icon {
-top: 30px;
-  right: 60px;
+/* top: 30px;
+  right: 90px; */
+   margin-left: -100px;
+   margin-top: 70px;
+}
+
+.welcome-message{
+   margin-left: -40px;
+   margin-top: 120px;
 }
   }
 

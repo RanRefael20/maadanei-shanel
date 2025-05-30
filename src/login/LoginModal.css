@@ -9,7 +9,7 @@
   font-family: 'Rubik', sans-serif;
   font-weight: bold;
   transition: background-color 0.5s ease, color 0.5s ease, transform 0.4s ease;
- 
+ margin-left: -70px;
 }
 
 /* החלפת צבע בעת מעבר העכבר על הכפתור  */
@@ -99,7 +99,7 @@
   border: 4px rgb(255, 255, 255);
   border-radius: 5px;
   font-size: 0.8rem;
-  right: 100px;
+  right: 80px;
   top: -20px;
 
 }
