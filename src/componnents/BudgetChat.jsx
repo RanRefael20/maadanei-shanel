@@ -4,6 +4,8 @@ import Modal from "react-modal";
 import "../styles/BudgetChat.css";
 import ResultsModal from "./ResultsModal"; // או הנתיב הנכון אצלך
 import FullMenuSelector from "./FullMenuSelector";
+import LoadingSpinner from "./LoadingSpinner";
+
 
 
 
@@ -373,10 +375,7 @@ setIncludeWine={setIncludeWine}
       )}
 
       {isLoading && (
-  <div className="loading-overlay">
-    <div className="spinner"></div>
-    <div className="loading-text">טוען תפריט, אנא המתן...</div>
-  </div>
+  <LoadingSpinner text="... טוען תפריט , אנא המתן " />
 )}
     </>
   );

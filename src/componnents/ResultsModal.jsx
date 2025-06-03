@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import "../styles/BudgetChat_modal_results.css";
 import { fullMenu } from "../data/fullMenu";
 import FullMenuSelector from "./FullMenuSelector";
-import MenuExport from "./MenuExport";
+import MenuExportWrapper from "../componnents/MenuExport/MenuExportWrapper";
 
 const ResultsModal = ({
   isOpen,
@@ -195,15 +195,9 @@ const ResultsModal = ({
 
 
       {showMenuExport && (
-        <MenuExport
-          selectedItems={results[0].items}
- 
-              onClose={() => setShowMenuExport(false)}
-         onBackToEdit={() => {
-      setShowMenuExport(false);
-    }}
-
-        />
+<MenuExportWrapper
+selectedItems={results[0]?.items || []}  onClose={onClose}
+  onBackToEdit={() => setShowMenuExport(false)}/>
       )}
     </div>,
     document.getElementById("modal-root")

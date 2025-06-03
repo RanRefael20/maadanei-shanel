@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import "../styles/CreditModal.css";
 import visaLogo from "../assets/visa.png";
 import masterLogo from "../assets/mastercard.png";
+import LoadingSpinner from "./LoadingSpinner";
+
+
+
 
 
 const CreditModal = ({ totalAmount, onClose, onSuccess }) => {
@@ -98,10 +102,7 @@ const CreditModal = ({ totalAmount, onClose, onSuccess }) => {
         </div>
 
         {isProcessing ? (
-          <div className="processing">
-            <div className="spinner" />
-            <div>מעבד תשלום...</div>
-          </div>
+     <LoadingSpinner text="... מאמת עם חברת האשראי" />
         ) : (
           <div className="credit-buttons">
             <button onClick={onClose}>❌ ביטול</button>

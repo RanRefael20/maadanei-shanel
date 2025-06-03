@@ -1,0 +1,40 @@
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  padding: 20px;
+  gap: 30px;
+}
+
+.logo-main {
+  text-align: center;
+  color: #d4af37;
+  font-family: 'Cinzel', serif;
+}
+
+.logo-title {
+  font-size: 36px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.logo-subtitle {
+  font-size: 18px;
+  margin-top: 4px;
+  letter-spacing: 1.5px;
+}
+
+.logo-line {
+  width: 60%;
+  height: 2px;
+  background-color: #d4af37;
+  margin: 10px auto;
+  opacity: 0.6;
+}
+
+.cheese-icon {
+  width: 50px;
+  height: auto;
+  filter: brightness(1.1);
+}

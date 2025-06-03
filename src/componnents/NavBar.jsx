@@ -1,16 +1,15 @@
 
-import React, { useState, useEffect } from "react";
-import "../styles/NavBar.css";
+import React, { useEffect, useRef, useState } from "react";import "../styles/NavBar.css";
 import "../styles/hiddenLogo.css";
 import logo from "../logo/LL.png";
-import NavLink from "./NavLink";
 import ContactModal from "./ContactModal"
 import AuthManager from "../login/AuthManager";
 import { Link } from "react-router-dom";
 import useScroll from "../hooks/useScroll";
 import SettingsPanel from "../Settings/SettingsPanel"; // ודא שהנתיב נכון
 import { FaUserCircle } from "react-icons/fa"; // איקון משתמש
-       import BudgetChat from '../componnents/BudgetChat';
+import NavBarCenter from "./NavBarCenter"
+import LoadingSpinner from "./LoadingSpinner";
 
 
 
@@ -20,21 +19,75 @@ const NavBar = () => {
 const [showUserMenu, setShowUserMenu] = useState(false);  
   const [username, setUsername] = useState(null);
   const [showModal, setShowModal] = useState(false); // לשליטה במודל
+   const userMenuRef = useRef(null); // 🔁 עוקב אחרי התפריט
+   const [isLoading, setIsLoading] = useState(false);
+
 
   const scrolling = useScroll();
+  
     /* בדיקה אם המשתמש כבר היה מחובר */
-  useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-  }, []);
+useEffect(() => {
+  const checkToken = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
 
-  const handleLogout = () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) {
+        console.warn("❌ טוקן שגוי או פג תוקף – התנתקות אוטומטית");
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        setUsername(null);
+        return;
+      }
+
+      const data = await res.json();
+      setUsername(data.username); // ⬅️ זה המידע מהשרת
+    } catch (err) {
+      console.error("❌ שגיאה באימות טוקן:", err);
+    }
+  };
+
+  checkToken();
+}, []);
+
+
+  
+const handleLogout = () => {
+  const currentUser = localStorage.getItem("username");
+
+  if (!currentUser) {
+    console.log("אין משתמש מחובר כרגע.");
+    return;
+  }
+
+  setIsLoading(true); // מציג ספינר
+
+  setTimeout(() => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
-    setUsername(null);
-  };
+    setUsername(null); // מחיקת שם המשתמש מהסטייט
+    setIsLoading(false); // מחזיר את כפתור ההתנתקות
+  }, 1500); // זמן הספינר
+};
+
+
+
+
+    // ✅ סגירה בלחיצה מחוץ לתפריט
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setShowUserMenu(false);
+      }
+    };
+        document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  
 
   return (
     
@@ -45,15 +98,10 @@ const [showUserMenu, setShowUserMenu] = useState(false);
     </Link>
       </div>
      
-      <div className= {`navbar-center ${scrolling ? " shrink" : ""}`}>
-      <Link to="/" style={{ textDecoration: " none" }}>
-      <h1 className={`brand-title rubik-gemstones-regular ${scrolling ? "revome-title" : ""}`}>
-        מעדני שנאל
-      </h1>
-    </Link>
+<NavBarCenter openContactModal={() => setShowModal(true)} />
+
                    
- <NavLink openContactModal={() => setShowModal(true)} />  
-      </div>
+      
         {/* הצגת שם משתמש */}
         {username  && ( 
           <div className="welcome-message" >
@@ -63,24 +111,43 @@ const [showUserMenu, setShowUserMenu] = useState(false);
         ) }
         
          {/* כפתור התחברות  */}
-  <AuthManager onLoginSuccess={(name) => setUsername(name)} /> 
+ <AuthManager
+  username={username} // ⬅️ חדש
+  onLoginSuccess={(name) => setUsername(name)}
+/>
 
     <div className="navbar-right "> 
-   <div  className="user-menu-wrapper"  onMouseEnter={() => setShowUserMenu(true)}
-            onMouseLeave={() => setShowUserMenu(false)}
-          >
-             <FaUserCircle size={28} className="user-icon" />
-            
-                  {showUserMenu && (
-              <div className="user-menu">
-                <div className="user-menu-header">שלום, {username}</div>
-                <button className="user-menu-item">ההזמנות שלי</button>
-                <div className="user-menu-item"><SettingsPanel /></div>
-                <button className="user-menu-item">הנקודות שלי</button>
-                <button className="user-menu-item logout" onClick={handleLogout}>התנתקות</button>
-              </div>
-            )}
+    <div
+      className="user-menu-wrapper"
+      ref={userMenuRef}
+      onMouseEnter={() => setShowUserMenu(true)}
+      onClick={() => setShowUserMenu(true)} // ✅ גם בלחיצה
+    >
+      <FaUserCircle size={28} className="user-icon" />
+
+      {showUserMenu && (
+        <div className="user-menu">
+          <div className="user-menu-header">שלום, {username}</div>
+          <button className="user-menu-item">ההזמנות שלי</button>
+          <div className="user-menu-item">
+            <SettingsPanel />
           </div>
+          <button className="user-menu-item">הנקודות שלי</button>
+{username && (
+  isLoading ? (
+    <LoadingSpinner text="... טוען" />
+  ) : (
+    <button className="user-menu-item logout" onClick={handleLogout}>
+      התנתקות
+    </button>
+  )
+)}
+
+
+        </div>
+      )}
+    </div>
+  
    
 {/*         <div className={`numPhone ${scrolling ? " hidden" : ""}`}>050-3225482 |</div>
  */}

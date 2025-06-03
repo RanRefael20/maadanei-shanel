@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from "react";
-  import CreditModal from "./CreditModal";
+import CreditModal from "../CreditModal";
 import ReactDOM from "react-dom";
-import "../styles/MenuExport.css";
-import "../styles/CreditModal.css";
+import "./MenuExport.css";
+import "../../styles/CreditModal.css";
 
 const MenuExport = ({ selectedItems, onClose, onMinimize, onBackToEdit, userData }) => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     phone: "",
-    birthdate: "",
     address: ""
   });
 
   const [showPayment, setShowPayment] = useState(false);
-const [showCreditModal, setShowCreditModal] = useState(false);
-
-
+  const [showCreditModal, setShowCreditModal] = useState(false);
 
   // טוען נתונים מה-DB או props בעת פתיחת הרכיב
   useEffect(() => {
@@ -25,7 +22,6 @@ const [showCreditModal, setShowCreditModal] = useState(false);
         username: userData.username || "",
         email: userData.email || "",
         phone: userData.phone || "",
-        birthdate: userData.birthdate || "",
         address: ""
       });
     }
@@ -61,11 +57,7 @@ const [showCreditModal, setShowCreditModal] = useState(false);
             <input type="text" name="phone" value={formData.phone} onChange={handleInputChange} />
           </div>
           <div className="form-group">
-            <label>תאריך לידה:</label>
-            <input type="date" name="birthdate" value={formData.birthdate} onChange={handleInputChange} />
-          </div>
-          <div className="form-group">
-            <label>כתובת:</label>
+            <label>כתובת למשלוח:</label>
             <input type="text" name="address" value={formData.address} onChange={handleInputChange} />
           </div>
 
@@ -90,26 +82,24 @@ const [showCreditModal, setShowCreditModal] = useState(false);
           )}
 
           <div className="menu-export-buttons">
-<button onClick={() => setShowCreditModal(true)}>תשלום באשראי 💳</button>
+            <button onClick={() => setShowCreditModal(true)}>תשלום באשראי 💳</button>
             <button onClick={onBackToEdit}>חזרה לעריכת תפריט 🔁</button>
             <button onClick={onClose}>אישור ושליחה ✅</button>
           </div>
         </div>
       </div>
-{showCreditModal && (
-  <CreditModal
-    totalAmount={selectedItems.reduce((sum, item) => sum + item.price, 0)}
-    onClose={() => setShowCreditModal(false)}
-    onSuccess={() => {
-      setShowCreditModal(false);
-      onClose(); // סגירה מלאה אחרי תשלום
-    }}
-  />
-)}
 
-
+      {showCreditModal && (
+        <CreditModal
+          totalAmount={selectedItems.reduce((sum, item) => sum + item.price, 0)}
+          onClose={() => setShowCreditModal(false)}
+          onSuccess={() => {
+            setShowCreditModal(false);
+            onClose(); // סגירה מלאה אחרי תשלום
+          }}
+        />
+      )}
     </div>,
-    
     document.getElementById("modal-root")
   );
 };

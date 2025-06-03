@@ -37,40 +37,13 @@
     animation: spin 12s linear infinite;
   }
 
-  .rubik-gemstones-regular {
-    font-family: "Rubik Gemstones", system-ui;
-    font-weight: 400;
-    font-style: normal;
-  }
- 
-  .brand-title {
-    font-size: 4rem;
-  color: #FFD95A;
-  font-style: oblique;
-  font-weight: bold;
-  transition: 
-    font-size 0.3s ease-in-out,
-    margin 0.3s ease-in-out,
-    opacity 0.3s ease-in-out,
-    visibility 0.3s ease-in-out,
-    height 0.3s ease-in-out;
-  height: auto;
-  opacity: 1;
-  visibility: visible;
 
-  }
 
   .revome-title {
 display: none;
 }
 
-  .navbar-center {
-    display: flex;
-    flex-direction:column; /* הצגת הכותרת והכפתור באותו קו */
-    align-items: center;
-    margin-top: -15px;
-    margin-right: 30px;  
-}
+
   .navbar-right {
     position: relative;
     display: flex;
@@ -128,6 +101,8 @@ display: none;
   display: inline-block;
   margin-top: 5px;
   cursor: pointer;
+  margin-right: 25px;
+  margin-top: 25px;
 }
 
 .user-icon {

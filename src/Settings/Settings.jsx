@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
-import "./Settings.css";
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";import "./Settings.css";
 import { baseURL } from "../config"; // או הנתיב המתאים אצלך
 
-
-const Settings = () => {
-
+const Settings = forwardRef((props, ref) => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     phone: "",
     birthdate: "",
+    address: "" // ✅ שדה כתובת חדש
   });
 
   const [passwords, setPasswords] = useState({
@@ -21,34 +19,56 @@ const Settings = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchUserData = async () => {
     const token = localStorage.getItem("token");
-    if (!token) return;
+    const res = await fetch(`${baseURL}/api/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
+    const data = await res.json();
+    setFormData({
+      username: data.username || "",
+      email: data.email || "",
+      phone: data.phone || "",
+      birthdate: data.birthdate ? data.birthdate.substring(0, 10) : "",
+      address: data.address || ""
+    });
+  };
 
+  useImperativeHandle(ref, () => ({ fetchUserData }));
 
-    fetch(`${baseURL}/api/me`, {
-      headers: {
-        
-        Authorization: `Bearer ${token}`  ,
-      },
-      
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    console.warn("⚠️ אין טוקן - המשתמש לא מחובר");
+    setLoading(false);
+    setMessage("⚠️ אין גישה – התחבר כדי לערוך הגדרות");
+    return;
+  }
+
+  fetch(`${baseURL}/api/me`, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("טוקן שגוי או פג תוקף");
+      return res.json();
     })
-      .then((res) => res.json())
-      .then((data) => {
-        setFormData({
-          username: data.username || "",
-          email: data.email || "",
-          phone: data.phone || "",
-          birthdate: data.birthdate ? data.birthdate.substring(0, 10) : "",
-        });
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("שגיאה בטעינת פרטי המשתמש:", err);
-        setLoading(false);
+    .then((data) => {
+      setFormData({
+        username: data.username || "",
+        email: data.email || "",
+        phone: data.phone || "",
+        birthdate: data.birthdate ? data.birthdate.substring(0, 10) : "",
+        address: data.address || ""
       });
-  }, []);
+    })
+    .catch((err) => {
+      console.error("❌ שגיאת אימות:", err);
+      setMessage("⚠️ גישה נדחתה – התחבר שוב");
+    })
+    .finally(() => setLoading(false));
+}, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -132,6 +152,7 @@ const Settings = () => {
 
       if (!res.ok) throw new Error(data.message);
       setMessage("✅ הפרטים עודכנו בהצלחה");
+      await fetchUserData(); // ← רענון שדות בטופס
     } catch (err) {
       setMessage("❌ שגיאה: " + err.message);
     }
@@ -144,9 +165,10 @@ const Settings = () => {
         <p>טוען נתונים...</p>
       ) : (
         <form onSubmit={handleSubmit} className="settings-form">
-          <input type="text" name="username" placeholder="שם משתמש" value={formData.username} onChange={handleChange} />
-          <input type="email" name="email" placeholder="אימייל" value={formData.email} onChange={handleChange} />
-          <input type="tel" name="phone" placeholder="טלפון" value={formData.phone} onChange={handleChange} />
+          <input type="text" name="username" placeholder="שם משתמש" value={formData.username} onChange={handleChange} autoComplete="username" />
+          <input type="email" name="email" placeholder="אימייל" value={formData.email} onChange={handleChange} autoComplete="email" />
+          <input type="tel" name="phone" placeholder="טלפון" value={formData.phone} onChange={handleChange} autoComplete="tel" />
+          <input type="text" name="address" placeholder="כתובת" value={formData.address} onChange={handleChange} autoComplete="street-address" />
           <input type="date" name="birthdate" value={formData.birthdate} onChange={handleChange} />
 
           <input
@@ -178,6 +200,6 @@ const Settings = () => {
       )}
     </div>
   );
-};
+});
 
 export default Settings;

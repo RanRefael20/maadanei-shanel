@@ -7,6 +7,8 @@ const SettingsPanel = ({ onOpen }) => {
 
   const toggleModal = () => {
     console.log("נלחץ כפתור ההגדרות");
+        
+
     if (!showModal && typeof onOpen === "function") onOpen();
     setShowModal((prev) => !prev);
   };

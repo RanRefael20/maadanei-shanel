@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./LoginModal.css";
 import { baseURL } from "../config"; // או הנתיב המתאים אצלך
+import LoadingSpinner from "../componnents/LoadingSpinner";
+
 
 
 const LoginModal = ({ onClose, onSwitchToRegister, onLoginSuccess }) => {
@@ -10,6 +12,7 @@ const LoginModal = ({ onClose, onSwitchToRegister, onLoginSuccess }) => {
 
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errorMessage, setErrorMessage] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false); // <-- מצב טעינה
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,6 +21,7 @@ const LoginModal = ({ onClose, onSwitchToRegister, onLoginSuccess }) => {
 
 const handleSubmit = async () => {
   setErrorMessage("");
+   setIsProcessing(true); // טעינת מסך 
 
   try {
 
@@ -28,16 +32,17 @@ const handleSubmit = async () => {
       body: JSON.stringify(formData),
     });
 
-    console.log("📩 תגובה מהשרת:", await res.clone().text());
 
 
     // נבדוק קודם אם הקוד תקין
-    if (!res.ok) {
-      const text = await res.text();
-      console.error("❌ שגיאת שרת:", text);
-      setErrorMessage("אימייל או סיסמא לא נכונים");
-      return;
-    }
+  if (!res.ok) {
+  const data = await res.json(); // שים לב – כאן אתה מקבל את ה־message
+  console.error("❌ שגיאת שרת:", data.message);
+  setErrorMessage(data.message ); // <-- משתמש בהודעת השגיאה מהשרת
+  setIsProcessing(false);
+  return;
+}
+
 
     // ננסה לפרש את התגובה כ־JSON רק אם res.ok
     const data = await res.json();
@@ -45,18 +50,23 @@ const handleSubmit = async () => {
     if (!data.token) {
       setErrorMessage("❌ טוקן לא התקבל מהשרת");
       console.error("❌ שגיאה: התשובה מהשרת לא כללה token:", data);
+               setIsProcessing(false); // טעינת מסך 
+
       return;
     }
 
     localStorage.setItem("token", data.token);
     localStorage.setItem("username", data.username);
-    onLoginSuccess(data.username);
+onLoginSuccess(data.username, data.token);
+    
 
   } catch (err) {
     console.error("❌ שגיאה בתקשורת עם השרת:", err);
     setErrorMessage("שגיאה בתקשורת עם השרת");
-  }
-};
+  } finally {
+    setIsProcessing(false); 
+  } // <-- זה הסוגר של הפונקציה
+}; // <-- שים לב שהפונקציה מסתיימת כאן
 
 
   return ReactDOM.createPortal(
@@ -88,22 +98,27 @@ const handleSubmit = async () => {
           <div className="login-error">{errorMessage }</div>
         )}
 
-        <button className="submit-button" onClick={handleSubmit}>
-          התחבר
-        </button>
-
-        <div className="login-links">
-          <button className="link-button">שכחת סיסמה?</button>
-          <button
-            className="link-button"
-            onClick={() => {
-              onClose();
-              onSwitchToRegister();
-            }}
-          >
-            הרשם
-          </button>
-        </div>
+       {isProcessing ? (
+   <LoadingSpinner text="... טוען" />
+        ) : (
+          <>
+            <button className="submit-button" onClick={handleSubmit}>
+              התחבר
+            </button>
+            <div className="login-links">
+              <button className="link-button">שכחת סיסמה?</button>
+              <button
+                className="link-button"
+                onClick={() => {
+                  onClose();
+                  onSwitchToRegister();
+                }}
+              >
+                הרשם
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>,
     document.body
