@@ -7,7 +7,6 @@ import Footer from "./componnents/Footer";
 import Section from "./componnents/Section";
 import SplashAnimation from "./hooks/SplashAnimation"; // ✅ ייבוא ה-Splash
 import ImageLinks from "./componnents/ImageLinks";
-import BudgetChat from "./componnents/BudgetChat"; // ייבוא למעלה
 
 import "./App.css";
 
@@ -33,7 +32,9 @@ export default function DairyRestaurantWebsite() {
             backgroundColor: "#FFF7D4",
             color: "#333",
             marginTop: "50px",
-              overflowX:"hidden"
+              overflowX:"hidden",
+              
+              
 
           }}
         >
@@ -50,7 +51,7 @@ export default function DairyRestaurantWebsite() {
           {/* Section */}
           <Section />
 
-          <BudgetChat /> {/* הצגת כפתור הצ'אט */}
+         
 
           {/* ImageLinks */}
           <ImageLinks/>

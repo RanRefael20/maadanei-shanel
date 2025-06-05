@@ -10,7 +10,6 @@ body.modal-open {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 999990; /* גבוה יותר מ-ResultsModal */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,7 +33,6 @@ pointer-events: none; /* ✅ מאפשר לחיצות דרכו */
   overflow-y: auto;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   position: fixed;
-  z-index: 11001;
   direction: rtl;
    border: 3px solid #ffffff;
 
@@ -45,7 +43,6 @@ pointer-events: none; /* ✅ מאפשר לחיצות דרכו */
 .modal-header-fullmenu {
   position: sticky;
   top: 0;
-  z-index: 11002;
   display: flex;
   justify-content: space-between;
   align-items: center;

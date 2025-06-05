@@ -1,0 +1,45 @@
+/* 📁 src/styles/DraftSavedModal.css */
+.draft-saved-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999999; /* ✅ זה שם אותו מעל כולם */
+  
+}
+
+.draft-saved-modal {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+     font-family: "Rubik", sans-serif;
+  font-weight: bold;
+}
+
+.draft-saved-modal h2 {
+  color: #28a745;
+  margin-bottom: 0.5rem;
+}
+
+.draft-saved-modal p {
+      font-family: "Rubik", sans-serif;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.897);
+}
+
+.draft-saved-modal .close-button {
+  position: static; /* או פשוט להסיר position:absolute אם קיים */
+  margin-top: 1rem;
+  font-size: 1.2rem;  
+  cursor: pointer;
+}
+

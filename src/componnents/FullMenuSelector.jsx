@@ -60,9 +60,9 @@ const FullMenuSelector = ({ onClose, onAddItem  , onRemoveItem, itemQuantities }
                       {item.name} – {item.price}₪
                     </span>
                    <div className="quantity-controls">
-    <button onClick={() => onRemoveItem(item)}>➖</button>
-    <span className="item-count">{itemQuantities[item.name] || 0}</span>
-    <button onClick={() => onAddItem(item)}>➕</button>
+  <button onClick={() => onRemoveItem({ name: item.name, price: item.price })}>➖</button>
+<span className="item-count">{itemQuantities[item.name] || 0}</span>
+<button onClick={() => onAddItem({ name: item.name, price: item.price })}>➕</button>
   </div>
                   </div>
                 ))}

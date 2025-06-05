@@ -5,6 +5,10 @@ import "../styles/BudgetChat.css";
 import ResultsModal from "./ResultsModal"; // או הנתיב הנכון אצלך
 import FullMenuSelector from "./FullMenuSelector";
 import LoadingSpinner from "./LoadingSpinner";
+import useAuthSync from "../hooks/useAuthSync";
+import { baseURL } from "../config" ;
+
+
 
 
 
@@ -55,7 +59,7 @@ const menuItems = {
     { name: "קיש גבינות ופטריות  | קוטר 29 ", price: 180 },
     { name: "קיש גבינות וטירס  | קוטר 29 ", price: 180 },
     { name: "קיש גבינות ובצלים  | קוטר 29 ", price: 180 },
-    { name: "מגש לחמי הבית בלווי מטבלים  | קוטר 29 ", price: 250 },
+    { name: "מגש לחמי הבית בלווי מטבלים ", price: 250 },
     { name: "מגש לחם שום | 20 יחידות ", price: 180 }
   ],
   "קינוחים": [
@@ -158,7 +162,7 @@ function generateMenus(budget, people, dessertCount, includeWine) {
       for (let i = 0; i < shuffledDesserts.length && dessertAdded < dessertCount; i++) {
         const dessert = shuffledDesserts[i];
         if (total + dessert.price <= maxTotal) {
-          items.push({ ...dessert });
+items.push({ name: dessert.name, price: dessert.price });
           total += dessert.price;
           dessertAdded++;
         }
@@ -175,7 +179,8 @@ function generateMenus(budget, people, dessertCount, includeWine) {
         if (item.category === "קינוחים") continue; // לא מוסיפים עוד קינוחים
 
         if (total + item.price <= maxTotal) {
-          items.push({ ...item });
+        items.push({ name: item.name, price: item.price });
+
           total += item.price;
           itemAdded = true;
 
@@ -211,7 +216,11 @@ function generateMenus(budget, people, dessertCount, includeWine) {
 
 
 
-const BudgetChat = () => {
+const BudgetChat = ({ setDraftName , setShowDraftSaved }) => {
+
+
+  const { user } = useAuthSync();//ani po 
+
   const [modalOpen, setModalOpen] = useState(false);
   const [budget, setBudget] = useState(1000);
   const [people, setPeople] = useState(10);
@@ -222,6 +231,11 @@ const BudgetChat = () => {
   const [showFullMenu, setShowFullMenu] = useState(false);
   const [focusedWindow, setFocusedWindow] = useState("results");
   const [isLoading, setIsLoading] = useState(false);// טעינה של 'טען מחדש'
+   
+  useEffect(() => {
+  console.log("🧾 משתמש שהגיע מה־hook:", user);
+}, [user]);
+
   
 
   useEffect(() => {
@@ -257,6 +271,47 @@ const BudgetChat = () => {
     }, 500);
   };
 
+  /* שמירת טפריט */
+  const handleSaveDraft = async (name) => {
+
+  if (!user?._id) {
+    alert("עליך להיות מחובר כדי לשמור טיוטה.");
+    return;
+  }
+
+  const payload = {
+  name: name || "טיוטה חדשה",
+ items: (results[0]?.items || []).map(item => ({
+  name: String(item.name),
+  price: Number(item.price)
+})),
+  total: results[0]?.total || 0,
+};
+
+
+
+  try {
+
+const res = await fetch(`${baseURL}/api/savedMenus`, {
+  method: "POST",
+headers: {
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${localStorage.getItem("token")}` // ✅ חשוב
+},
+body: JSON.stringify(payload)
+});
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "שגיאה בשמירה");
+   
+   // setDraftName(true);
+     setShowDraftSaved(true);
+  } catch (err) {
+    console.error("❌ שגיאה בשמירה:", err);
+    alert("❌ לא ניתן לשמור כעת");
+  }
+};
+
   return (
     <>
       <button className="chat-button" onClick={() => setModalOpen(true)}>
@@ -284,7 +339,7 @@ const BudgetChat = () => {
           },
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.4)",
-            zIndex: 10000,
+            zIndex: 200,
           },
         }}
       >
@@ -354,6 +409,7 @@ const BudgetChat = () => {
 setPeople={setPeople}
 setDessertCount={setDessertCount}
 setIncludeWine={setIncludeWine}
+  onSaveDraft={handleSaveDraft}
 
         />
       )}
@@ -361,14 +417,16 @@ setIncludeWine={setIncludeWine}
       {showFullMenu && (
         <FullMenuSelector
           onClose={() => setShowFullMenu(false)}
-          onAddItem={(item) => {
-            setResults(prev => {
-              const updated = [...prev];
-              updated[0].items.push(item);
-              updated[0].total += item.price;
-              return updated;
-            });
-          }}
+        onAddItem={(item) => {
+  const { name, price } = item; // שומרים רק את הנתונים הרלוונטיים
+  setResults(prev => {
+    const updated = [...prev];
+    updated[0].items.push({ name, price });
+    updated[0].total += price;
+    return updated;
+  });
+}}
+
           focusedWindow={focusedWindow}
           setFocusedWindow={setFocusedWindow}
         />

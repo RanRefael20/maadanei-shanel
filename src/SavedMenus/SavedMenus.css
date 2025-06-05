@@ -1,0 +1,128 @@
+.saved-menus-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.saved-menus-modal {
+  background: white;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: "Rubik", sans-serif;
+  animation: slideIn 0.3s ease-in-out;
+  direction: rtl;
+    max-height: 90vh;
+  overflow: hidden; /* שמור על זה כדי לא לפגוע במבנה הכללי */
+  overflow-y: auto;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.saved-menus-header {
+  background-color: #1e1e1e;
+  color: white;
+  padding: 1rem 1.5rem;
+  font-size: 1.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.saved-menus-header h2 {
+  margin: 0;
+  font-weight: bold;
+}
+
+.saved-menus-close-btn {
+  background: none;
+  border: none;
+  color: #ffd95a;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.saved-menus-list {
+  flex: 1;
+  overflow-y: auto;
+  background: #f9f9f9;
+  padding: 1rem;
+  max-height: 60vh; /* ✅ זה מגביל את הגובה כך שיווצר scroll אם צריך */
+}
+
+.saved-menu-item {
+  background: white;
+  margin: 0.5rem 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.saved-menu-item:hover {
+  transform: scale(1.02);
+  border-color: #aaa;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.menu-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-info span {
+  font-size: 1rem;
+  color: #333;
+}
+
+.menu-date {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.menu-total {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #C07F00;
+}
+
+
+/* כפתור מחיקת טיוטא  */
+.delete-button {
+  background-color: transparent;
+  border: none;
+  color: #ff4d4d;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.delete-button:hover {
+  transform: scale(1.2);
+  color: #d60000;
+}

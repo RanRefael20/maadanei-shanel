@@ -1,37 +1,13 @@
 // MenuExportWrapper.jsx
 import React, { useEffect, useState } from "react";
 import MenuExport from "./MenuExport";
-import { baseURL } from "../../config";
+import useAuthSync from "../../hooks/useAuthSync"; // ודא שהנתיב נכון
 
 const MenuExportWrapper = ({ selectedItems, onClose, onMinimize, onBackToEdit }) => {
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
+    const { user: userData, loading } = useAuthSync(); // ← שואב את כל הפרטים
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setLoading(false);
-      return;
-    }
 
-    fetch(`${baseURL}/api/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("שגיאה בשליפת פרטי משתמש");
-        return res.json();
-      })
-      .then((data) => {
-        setUserData(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("שגיאה:", err);
-        setLoading(false);
-      });
-  }, []);
+
 
   if (loading) {
     return (

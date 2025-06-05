@@ -11,8 +11,7 @@ left: 330px;
   flex-direction: column;
   position: relative;
   padding: 10px 0;
-  
-}
+    }
 
 
 .results-modal-overlay {
@@ -21,9 +20,11 @@ left: 330px;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 10000;
   background-color: rgba(0, 0, 0, 0.897);
   pointer-events: auto;
+        z-index: 99;
+
+
 }
 .modal-header {
   background-color: #4C3D3D;
@@ -165,7 +166,6 @@ left: 330px;
   color: #FFD95A;
   cursor: pointer;
   padding: 4px 8px;
-  z-index: 10;
   transition: transform 0.2s ease;
 }
 
@@ -269,6 +269,24 @@ left: 330px;
   border-color: #C07F00;           /* כתום-זהוב */
   color: #000000;
   transform: translateY(-1px);     /* אפקט קל של hover */
+}
+
+/* אינפוט שם לתפריט טיוטא */
+.draft-name-input {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  outline: none;
+  transition: border 0.3s ease;
+  font-family: "Assistant", sans-serif;
+}
+
+.draft-name-input:focus {
+  border-color: #00bcd4; /* צבע תכלת בסגנון וולט */
+  background-color: #f9f9f9;
 }
 
 

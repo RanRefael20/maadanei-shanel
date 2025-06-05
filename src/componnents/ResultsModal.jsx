@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useRef  } from "react";
 import { createPortal } from "react-dom";
 import "../styles/BudgetChat_modal_results.css";
 import { fullMenu } from "../data/fullMenu";
 import FullMenuSelector from "./FullMenuSelector";
 import MenuExportWrapper from "../componnents/MenuExport/MenuExportWrapper";
+import { FaWindowClose, FaWindowMinimize } from "react-icons/fa";
 
 const ResultsModal = ({
   isOpen,
@@ -20,6 +21,9 @@ const ResultsModal = ({
   includeWine,
   setIncludeWine,
   isLoading,
+  draftName,
+  setDraftName,
+  onSaveDraft
 }) => {
   const [showFullMenu, setShowFullMenu] = useState(false);
   const [categoryCounts, setCategoryCounts] = useState({});
@@ -27,6 +31,18 @@ const ResultsModal = ({
   const [showMessage, setShowMessage] = useState(false);
   const [hideMessagePermanently, setHideMessagePermanently] = useState(false);
   const [showMenuExport, setShowMenuExport] = useState(false);
+
+  const modalRef = useRef(null);///חדש 
+
+    useEffect(() => {
+    if (isOpen && modalRef.current) {
+      modalRef.current.focus();
+    }
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+;
 
   useEffect(() => {
     const allItems = results[0]?.items || [];
@@ -87,13 +103,16 @@ const ResultsModal = ({
   return createPortal(
     <div className="results-modal-overlay">
       <div className="header-buttons-row">
-        <button className="close-results-button" onClick={onClose}>✖</button>
+
+                         
+        
+        <button className="close-results-button" onClick={onClose}> <FaWindowClose /></button>
         <button
           className="minimize-button"
           onClick={() => setIsCollapsed((prev) => !prev)}
           title="מזער/פתח"
         >
-          {isCollapsed ? "⬈" : "–"}
+          {isCollapsed ? "⬈" :  <FaWindowMinimize />}
         </button>
       </div>
 
@@ -161,6 +180,21 @@ const ResultsModal = ({
           ) : (
             <button className="menu-action-button" onClick={handleGenerate}>🔁 טען מחדש</button>
           )}
+
+          {/* נתינת שם לתפריט הטיוטה */}
+          <input
+  type="text"
+  placeholder="הזן שם לתפריט"
+  value={draftName}
+  onChange={(e) => setDraftName(e.target.value)}
+  className="draft-name-input"
+/>
+
+          
+ <button className="menu-action-button" onClick={() => onSaveDraft(draftName)} disabled={isLoading}>
+  {isLoading ? "שומר..." : "💾 שמור טיוטה"}
+</button>
+
 
          <button className="menu-action-button" onClick={() => { setShowMenuExport(true);}}>✅ סיום</button>
         </div>

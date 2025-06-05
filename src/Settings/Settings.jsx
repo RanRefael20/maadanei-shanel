@@ -1,7 +1,15 @@
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";import "./Settings.css";
+import React, { useState, useEffect, forwardRef } from "react";
+import "./Settings.css";
 import { baseURL } from "../config"; // או הנתיב המתאים אצלך
+import useAuthSync from "../hooks/useAuthSync";
+
 
 const Settings = forwardRef((props, ref) => {
+
+
+const { user, loading, setUser, setLoading } = useAuthSync();
+  
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -17,57 +25,25 @@ const Settings = forwardRef((props, ref) => {
 
   const [showNewPasswordInput, setShowNewPasswordInput] = useState(false);
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(true);
 
-  const fetchUserData = async () => {
-    const token = localStorage.getItem("token");
-    const res = await fetch(`${baseURL}/api/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
 
-    const data = await res.json();
-    setFormData({
-      username: data.username || "",
-      email: data.email || "",
-      phone: data.phone || "",
-      birthdate: data.birthdate ? data.birthdate.substring(0, 10) : "",
-      address: data.address || ""
-    });
-  };
 
-  useImperativeHandle(ref, () => ({ fetchUserData }));
 
 useEffect(() => {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    console.warn("⚠️ אין טוקן - המשתמש לא מחובר");
-    setLoading(false);
-    setMessage("⚠️ אין גישה – התחבר כדי לערוך הגדרות");
-    return;
-  }
+  
+  if (user) {
 
-  fetch(`${baseURL}/api/me`, {
-    headers: { Authorization: `Bearer ${token}` }
-  })
-    .then((res) => {
-      if (!res.ok) throw new Error("טוקן שגוי או פג תוקף");
-      return res.json();
-    })
-    .then((data) => {
-      setFormData({
-        username: data.username || "",
-        email: data.email || "",
-        phone: data.phone || "",
-        birthdate: data.birthdate ? data.birthdate.substring(0, 10) : "",
-        address: data.address || ""
-      });
-    })
-    .catch((err) => {
-      console.error("❌ שגיאת אימות:", err);
-      setMessage("⚠️ גישה נדחתה – התחבר שוב");
-    })
-    .finally(() => setLoading(false));
-}, []);
+    setFormData({
+      username: user.username || "",
+      email: user.email || "",
+      phone: user.phone || "",
+      birthdate: user.birthdate ? user.birthdate.substring(0, 10) : "",
+      address: user.address || "",
+    });
+    setLoading(false);
+  }
+}, [user]);
+
 
 
   const handleChange = (e) => {
@@ -133,6 +109,8 @@ useEffect(() => {
     };
 
     try {
+      
+      
       const res = await fetch(`${baseURL}/api/update`, {
         method: "PUT",
         headers: {
@@ -140,9 +118,12 @@ useEffect(() => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
+        
       });
+      console.log("1212");
 
       const text = await res.text();
+       console.log(text);
       let data;
       try {
         data = JSON.parse(text);
@@ -152,7 +133,7 @@ useEffect(() => {
 
       if (!res.ok) throw new Error(data.message);
       setMessage("✅ הפרטים עודכנו בהצלחה");
-      await fetchUserData(); // ← רענון שדות בטופס
+      
     } catch (err) {
       setMessage("❌ שגיאה: " + err.message);
     }
