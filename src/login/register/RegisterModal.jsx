@@ -5,7 +5,7 @@ import RegisterErrorModal from "../Eror/RegisterErrorModal";
 import RegisterStatusModal from "./RegisterStatusModal";
 import { baseURL } from "..//./../config"; // או הנתיב המתאים אצלך
 
-const RegisterModal = ({ onClose, onSwitchToLogin, onLoginSuccess }) => {
+const RegisterModal = ({ onClose, onSwitchToLogin, handleLoginSuccess }) => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -59,7 +59,7 @@ localStorage.setItem("username", data.username); // ⬅️ חובה
       }
 
 
-      if (onLoginSuccess) onLoginSuccess(data.username, data.token);
+      if (handleLoginSuccess) handleLoginSuccess(data.username, data.token);
 
       setStatusModal("success");
 
@@ -72,6 +72,9 @@ localStorage.setItem("username", data.username); // ⬅️ חובה
       alert("שגיאה בתקשורת עם השרת.");
       setStatusModal("");
     }
+          setTimeout(() => {
+ // window.location.reload();
+}, 4500); // 10 שניות = 10,000 מילישניות
   };
 
   return ReactDOM.createPortal(

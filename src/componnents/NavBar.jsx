@@ -6,24 +6,25 @@ import { Link } from "react-router-dom";
 import logo from "../logo/LL.png";
 import useScroll from "../hooks/useScroll";
 import ContactModal from "./ContactModal";
-import AuthManager from "../login/AuthManager";
 import SettingsPanel from "../Settings/SettingsPanel";
-import LoadingSpinner from "./LoadingSpinner";
-import SavedMenusModal from "../SavedMenus/SavedMenus";
+import SavedMenus from "../SavedMenus/SavedMenus";
 import BudgetChat  from "./BudgetChat";
 import ResultsModal from "./ResultsModal";
-import { FaUserCircle } from "react-icons/fa";
 import "../styles/NavBar.css";
 import "../styles/hiddenLogo.css";
 import DraftSavedModal from "../SavedMenus/success/DraftSavedModal";
 import useAuthSync from "../hooks/useAuthSync"; // ✅ ייבוא חסר
+import { baseURL } from "../config" ;
+import Menu from "./userMenu/Menu";
+import AuthManager from "../login/AuthManager";
+
+
+
+
 
 const NavBar = () => {
-  const { user, loading, setUser } = useAuthSync();
-  const [showUserMenu, setShowUserMenu] = useState(false);
+  const { user, setUser } = useAuthSync();
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const userMenuRef = useRef(null);
   const [showDraftSaved, setShowDraftSaved] = useState(false); // מודל הצלחה לשמירת תפריט 
   const [draftName, setDraftName] = useState("");
 
@@ -31,6 +32,11 @@ const NavBar = () => {
 
   // טיוטות תפריטים
   const [showSavedMenus, setShowSavedMenus] = useState(false);
+  const [showBudgetChat, setShowBudgetChat] = useState(false); // ✅ תוסיף את זה
+  const [activeModal, setActiveModal] = useState(null); // 'login' | 'register' | null
+  const [showSettingsPanel, setShowSettingsPanel] = useState(false);//פותח הגדרות משתמש
+
+
   
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
@@ -39,36 +45,54 @@ const NavBar = () => {
   const [dessertCount, setDessertCount] = useState(0);
   const [includeWine, setIncludeWine] = useState(false);
 
-  const handleGenerate = () => {
-    // פונקציה לטעינה מחדש של התפריט
-  };
 
-  const handleSaveDraft = (name) => {
-    setDraftName(name);
-    setShowDraftSaved(true);
-    setTimeout(() => setShowDraftSaved(false), 3000);
-  };
 
-  const handleLogout = () => {
-    if (!user?.username) return;
-    setIsLoading(true);
-    setTimeout(() => {
-      localStorage.removeItem("token");
-      localStorage.removeItem("username");
-      setUser(null);
-      setIsLoading(false);
-    }, 1500);
-  };
+    /* שמירת טפריט */
+const handleSaveDraft = async (name) => {
+  if (!user?._id) {
+    alert("עליך להיות מחובר כדי לשמור טיוטה.");
+    return;
+  }
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
-        setShowUserMenu(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const payload = {
+  name: name || "טיוטה חדשה",
+ items: (results[0]?.items || []).map(item => ({
+  name: String(item.name),
+  price: Number(item.price)
+})),
+  total: results[0]?.total || 0,
+};
+
+
+
+  try {
+
+const res = await fetch(`${baseURL}/api/savedMenus`, {
+  method: "POST",
+headers: {
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${localStorage.getItem("token")}` // ✅ חשוב
+},
+body: JSON.stringify(payload)
+});
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "שגיאה בשמירה");
+   
+   // setDraftName(true);
+     setShowDraftSaved(true);      // ✅ הצג מודל הצלחה
+setDraftName("");             // 🧹 נקה שם טיוטה
+setResults([]);               // 🧹 נקה תוצאות
+setShowResults(false);        // ❌ סגור חלון התפריט
+  } catch (err) {
+    console.error("❌ שגיאה בשמירה:", err);
+    alert("❌ לא ניתן לשמור כעת");
+  }
+};
+
+  
+
+
 
   return (
     <header className={`navbar ${scrolling ? " shrink" : ""}`}>
@@ -80,39 +104,56 @@ const NavBar = () => {
 
       <NavBarCenter openContactModal={() => setShowModal(true)} />
 
-      {user?.username && <div className="welcome-message">שלום, {user.username} 👋</div>}
-
-      <AuthManager username={user?.username} onLoginSuccess={(name) => setUser({ username: name })} />
 
       <div className="navbar-right">
-        <div
-          className="user-menu-wrapper"
-          ref={userMenuRef}
-          onMouseEnter={() => setShowUserMenu(true)}
-          onClick={() => setShowUserMenu(true)}
-        >
-          <FaUserCircle size={28} className="user-icon" />
 
-          {showUserMenu && (
-            <div className="user-menu">
-              <div className="user-menu-header">שלום, {user?.username}</div>
-              <button className="user-menu-item">ההזמנות שלי</button>
-              <button className="user-menu-item" onClick={() => setShowSavedMenus(true)}>
-                תפריטים ששמרת
-              </button>
-              <div className="user-menu-item">
-                <SettingsPanel />
-              </div>
-              <button className="user-menu-item">הנקודות שלי</button>
-              {user?.username && (isLoading ? <LoadingSpinner text="... טוען" /> : <button className="user-menu-item logout" onClick={handleLogout}>התנתקות</button>)}
-            </div>
-          )}
-        </div>
+
+<Menu
+setShowBudgetChat={setShowBudgetChat}
+setShowSavedMenus={setShowSavedMenus}
+setShowSettingsPanel={setShowSettingsPanel}
+activeModal={activeModal}
+setActiveModal={setActiveModal}
+ 
+/>
+
+<AuthManager
+  username={user?.username}
+  activeModal={activeModal}
+  setActiveModal={setActiveModal}
+  onLoginSuccess={(name) => {
+    setUser({ username: name });
+    setResults([]);      // ✅ כאן תנקה כאשר מתחלף משתמש הנתונים הקודמים ימחקו
+    setDraftName("");    // ✅ גם תנקה
+  }}
+/>
+
       </div>
+
+
+
+<SettingsPanel
+  isOpen={showSettingsPanel}
+  onOpen={() => setShowSettingsPanel(true)}
+  onClose={() => setShowSettingsPanel(false)}
+/>
+<BudgetChat
+  isOpen={showBudgetChat}
+  setIsOpen={setShowBudgetChat}
+  draftName={draftName}
+  setDraftName={setDraftName}
+  setShowDraftSaved={setShowDraftSaved}
+  handleSaveDraft={handleSaveDraft} // ✅ חדש
+/>
+
+
+
+
 
       {showModal && <ContactModal onClose={() => setShowModal(false)} />}
 
-      <SavedMenusModal
+      <SavedMenus
+        key={user?._id} // ✅ כך SavedMenus תתאפס ותטען מחדש כשמשתמש משתנה
         isOpen={showSavedMenus}
         onClose={() => setShowSavedMenus(false)}
         onLoadMenu={(loadedMenu) => {
@@ -124,23 +165,24 @@ const NavBar = () => {
           setShowSavedMenus(false);
           setShowResults(true);
         }}
-        userId={user?._id}
+        user={user}
+  onSwitchToRegister={() => {
+    setShowSavedMenus(false);
+    setActiveModal("register"); // ✅ זה מה שפותח את מודאל ההרשמה
+  }}
+    openBudgetChat={() => setShowBudgetChat(true)} // ✅ זה הפונקציה ש־SavedMenus צריך!
+
       />
 
-<BudgetChat
-  draftName={draftName}
-        setDraftName={setDraftName}
-        onSaveDraft={handleSaveDraft}
-        setShowDraftSaved={setShowDraftSaved}
-          />
+      
 
+    
 
       <ResultsModal
         isOpen={showResults}
         onClose={() => setShowResults(false)}
         results={results}
         setResults={setResults}
-        handleGenerate={handleGenerate}
         budget={budget}
         setBudget={setBudget}
         people={people}
@@ -149,14 +191,19 @@ const NavBar = () => {
         setDessertCount={setDessertCount}
         includeWine={includeWine}
         setIncludeWine={setIncludeWine}
-        isLoading={false}
+        loading={false}
         draftName={draftName}
         setDraftName={setDraftName}
-        onSaveDraft={handleSaveDraft}
+  setShowDraftSaved={setShowDraftSaved}
       />
 
-      {showDraftSaved && <DraftSavedModal onClose={() => setShowDraftSaved(false)} />}
-        
+
+{showDraftSaved && (
+  <DraftSavedModal
+    onClose={() => setShowDraftSaved(false)}
+    onConfirmSave={handleSaveDraft} // רק כאן קוראים לשמירה
+  />
+)}        
     </header>
   );
 };

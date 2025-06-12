@@ -7,7 +7,7 @@ import useAuthSync from "../hooks/useAuthSync";
 const Settings = forwardRef((props, ref) => {
 
 
-const { user, loading, setUser, setLoading } = useAuthSync();
+  const { user } = useAuthSync();
   
 
   const [formData, setFormData] = useState({
@@ -40,7 +40,7 @@ useEffect(() => {
       birthdate: user.birthdate ? user.birthdate.substring(0, 10) : "",
       address: user.address || "",
     });
-    setLoading(false);
+  
   }
 }, [user]);
 
@@ -142,9 +142,7 @@ useEffect(() => {
   return (
     <div className="settings-container">
       <h2>שינוי הגדרות</h2>
-      {loading ? (
-        <p>טוען נתונים...</p>
-      ) : (
+      { (
         <form onSubmit={handleSubmit} className="settings-form">
           <input type="text" name="username" placeholder="שם משתמש" value={formData.username} onChange={handleChange} autoComplete="username" />
           <input type="email" name="email" placeholder="אימייל" value={formData.email} onChange={handleChange} autoComplete="email" />

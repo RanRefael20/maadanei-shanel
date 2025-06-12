@@ -3,13 +3,16 @@ import ReactDOM from "react-dom";
 import "./LoginModal.css";
 import { baseURL } from "../config";
 import LoadingSpinner from "../componnents/LoadingSpinner";
-import useAuthSync from "../hooks/useAuthSync"; // ✅ חדש
 
-const LoginModal = ({ onClose, onSwitchToRegister, onLoginSuccess }) => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+
+
+const LoginModal = ({ onClose, onSwitchToRegister, handleLoginSuccess  }) => {
+  const [formData, setFormData] = useState({ email: "Aviv@gmail.com", password: "123123" });
   const [errorMessage, setErrorMessage] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const { setUser } = useAuthSync(); // ✅ חדש
+  
+
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,6 +45,7 @@ const LoginModal = ({ onClose, onSwitchToRegister, onLoginSuccess }) => {
       }
 
       const data = await res.json();
+      console.log(data);
 
       if (!data.success) {
         setErrorMessage(data.message || "שגיאה לא צפויה");
@@ -57,21 +61,27 @@ const LoginModal = ({ onClose, onSwitchToRegister, onLoginSuccess }) => {
       }
 
       localStorage.setItem("token", data.token); // ⬅️ רק הטוקן
-     // localStorage.setItem("username", data.username); 
-setUser({  _id: data._id,  username: data.username,  email: data.email,  phone: data.phone,  address: data.address,  birthdate: data.birthdate,
-});      onLoginSuccess(data.username, data.token); // ⬅️ להשאיר אם צריך למודאלים
+      localStorage.setItem("username", data.username); 
+    
+      handleLoginSuccess (data.username, data.token); // ⬅️ להשאיר אם צריך למודאלים
 
     } catch (err) {
       console.error("❌ שגיאה בתקשורת עם השרת:", err);
       setErrorMessage("שגיאה בתקשורת עם השרת");
     } finally {
       setIsProcessing(false);
+      setTimeout(() => {
+ // window.location.reload();
+}, 4500); // 10 שניות = 10,000 מילישניות
+
     }
+   
+  
   };
 
   return ReactDOM.createPortal(
     <div className="login-overlay">
-      <div className="login-modal">
+      <div className="login-modal" >
         <button className="close-button" onClick={onClose}>✖</button>
         <h2 className="login-title">התחברות</h2>
 
@@ -120,6 +130,7 @@ setUser({  _id: data._id,  username: data.username,  email: data.email,  phone: 
           </>
         )}
       </div>
+      
     </div>,
     document.body
   );

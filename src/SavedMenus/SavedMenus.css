@@ -40,6 +40,104 @@
   }
 }
 
+/* עיצוב חדש  */
+
+.savedmenus-item {
+  margin-bottom: 1rem;
+margin-right: 35px;
+      width: 80%;
+
+}
+
+.menu-card {
+  border: 3px solid #e5f00c;
+  border-radius: 30px;
+  background-color: #939393df;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.497);
+  display: flex;
+  flex-direction: column;
+  transition: 0.2s ease-in-out;
+      cursor: pointer;  
+}
+
+.saved-menus-close-btn {
+  background:#939393df;
+border: 2px solid #e5f00c;
+  color: #e5f00c;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.saved-menus-close-btn:hover {
+  transform: scale(1.03);
+  border-color: #ffaa00;
+  box-shadow: 0 4px 20px #ffaa00;
+}
+
+.menu-card:hover {
+  transform: scale(1.03);
+  border-color: #ffaa00;
+  box-shadow: 0 4px 20px #ffaa00;
+}
+
+
+.menu-title {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+  
+}
+
+.menu-total {
+  font-size: 1.1rem;
+  color: #03a678;
+  margin-bottom: 0.4rem;
+}
+
+.menu-date {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.menu-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.load-button,
+.delete-button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+}
+
+.load-button {
+  background-color: #ffffff;
+  color: #1e90ff;
+  border: 1px solid #1e90ff;
+}
+
+.load-button:hover {
+  background-color: #1e90ff;
+  color: #ffffff;
+}
+
+.delete-button {
+  border: 1px solid #ff4d4d;
+  background-color: white;
+  color: #ff4d4d;
+}
+
+.delete-button:hover {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+/* סיום עיצוב חדש  */
+
 .saved-menus-header {
   background-color: #1e1e1e;
   color: white;
@@ -55,13 +153,7 @@
   font-weight: bold;
 }
 
-.saved-menus-close-btn {
-  background: none;
-  border: none;
-  color: #ffd95a;
-  font-size: 1.8rem;
-  cursor: pointer;
-}
+
 
 .saved-menus-list {
   flex: 1;
@@ -69,25 +161,6 @@
   background: #f9f9f9;
   padding: 1rem;
   max-height: 60vh; /* ✅ זה מגביל את הגובה כך שיווצר scroll אם צריך */
-}
-
-.saved-menu-item {
-  background: white;
-  margin: 0.5rem 1rem;
-  padding: 1rem;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.saved-menu-item:hover {
-  transform: scale(1.02);
-  border-color: #aaa;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
 .menu-info {
@@ -100,29 +173,8 @@
   color: #333;
 }
 
-.menu-date {
-  font-size: 0.85rem;
-  color: #777;
-}
-
-.menu-total {
-  font-weight: bold;
-  font-size: 1.1rem;
-  color: #C07F00;
-}
 
 
-/* כפתור מחיקת טיוטא  */
-.delete-button {
-  background-color: transparent;
-  border: none;
-  color: #ff4d4d;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.delete-button:hover {
-  transform: scale(1.2);
-  color: #d60000;
+ul{
+  list-style: none;
 }

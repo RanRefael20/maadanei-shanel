@@ -2,36 +2,44 @@ import React, { useState } from "react";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./register/RegisterModal";
 import LoginSuccessModal from "../login/success/LoginSuccessModal"; // אם התיקייה שלך היא login
+import SavedMenus from "../SavedMenus/SavedMenus";
 
-const AuthManager = ({ username, onLoginSuccess }) => {
-  const [activeModal, setActiveModal] = useState(null); // 'login' | 'register' | null
+
+const AuthManager = ({ username ,  activeModal,  setActiveModal, onLoginSuccess }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  
+  const [showSavedMenus, setShowSavedMenus] = useState(false);
 
   
+
+  /* פותח לי הרשמה דרך התפריטים שרשמת במצב לא מחובר  */
+const switchToRegisterViaModal = () => {
+  setActiveModal(null);
+  setTimeout(() => setActiveModal("register"), 100);
+};
+
 
 const handleLoginSuccess = (name, token) => {
   if (token) {
-    localStorage.setItem("token", token); // ⬅️ שמור את הטוקן פה אם טרם נשמר
+    localStorage.setItem("token", token);
+    
   }
 
-  onLoginSuccess(name); // מעדכן את NavBar
-  setShowSuccessModal(true); // פותח מודאל התחברות
+  if (onLoginSuccess) {
+    onLoginSuccess(name);
+  }
 
+  setShowSuccessModal(true);
   setTimeout(() => {
-    setActiveModal(null); // סגור את מודאל ההתחברות
-    setShowSuccessModal(false); // סגור את מודאל ההצלחה
+    setActiveModal(null);
+    setShowSuccessModal(false);
   }, 3000);
 };
 
 
+
   return (
     <>
-      {!username && (
-        <button className="login-button" onClick={() => setActiveModal("login")}>
-          התחברות
-        </button>
-      )}
+
 
       {username && (
         <div className="logged-in-name">
@@ -40,14 +48,13 @@ const handleLoginSuccess = (name, token) => {
         </div>
       )}
 
-      {activeModal === "login" && (
+  
+
+            {activeModal === "login" && (
         <LoginModal
           onClose={() => setActiveModal(null)}
-          onSwitchToRegister={() => {
-            setActiveModal(null);
-            setTimeout(() => setActiveModal("register"), 100);
-          }}
-          onLoginSuccess={handleLoginSuccess}
+          onSwitchToRegister={switchToRegisterViaModal}
+          handleLoginSuccess={handleLoginSuccess}
         />
       )}
 
@@ -58,7 +65,7 @@ const handleLoginSuccess = (name, token) => {
     setActiveModal(null);
     setTimeout(() => setActiveModal("login"), 100);
   }}
-  onLoginSuccess={handleLoginSuccess} // ⬅️ חדש!
+  handleLoginSuccess={handleLoginSuccess} // ⬅️ חדש!
 />
       )}
 
@@ -68,6 +75,19 @@ const handleLoginSuccess = (name, token) => {
     onClose={() => setShowSuccessModal(false)}
   />
 )}
+
+<SavedMenus
+  isOpen={showSavedMenus}
+  onClose={() => setShowSavedMenus(false)}
+  onLoadMenu={(loadedMenu) => {
+    setShowSavedMenus(false);
+    setShowResults(true);
+    setResults([{ ...loadedMenu }]);
+  }}
+  onSwitchToRegister={switchToRegisterViaModal} // ✅ חובה!
+/>
+
+
 
 
 

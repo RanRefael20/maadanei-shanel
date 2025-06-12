@@ -3,16 +3,14 @@ import { useEffect, useState } from "react";
 import { baseURL } from "../config";
 
 const useAuthSync = () => {
-  const [user, setUser] = useState(null); // null = לא מחובר
-  const [loading, setLoading] = useState(true);
-
+  const [user, setUser ] = useState(null); // null = לא מחובר
+  const [ loading , setLoading] = useState(null); // null = לא מחובר
   useEffect(() => {
     const checkToken = async () => {
       const token = localStorage.getItem("token");
       console.log("token from useAuth 👨‍💻 " + token)
       if (!token) {
         setUser(null);
-        setLoading(false);
         return;
       }
       try {
@@ -29,7 +27,7 @@ const useAuthSync = () => {
           localStorage.removeItem("token");
           setUser(null);
         } else {
-          const data = await res.json();
+          const data = await res.json();        
           if (data && data._id) {
             console.log("✅ התחברות הצליחה:", data);
             const { _id, username, email, phone, birthdate, address } = data;
@@ -46,12 +44,11 @@ const useAuthSync = () => {
         setUser(null);
       }
 
-      setLoading(false);
     };
 
     checkToken();
   }, []);
-  return { user, loading, setUser, setLoading };
+  return { user, setUser, loading , setLoading};
 };
 
 export default useAuthSync;

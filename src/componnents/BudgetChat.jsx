@@ -6,7 +6,6 @@ import ResultsModal from "./ResultsModal"; // או הנתיב הנכון אצל�
 import FullMenuSelector from "./FullMenuSelector";
 import LoadingSpinner from "./LoadingSpinner";
 import useAuthSync from "../hooks/useAuthSync";
-import { baseURL } from "../config" ;
 
 
 
@@ -128,7 +127,7 @@ function shuffle(array) {
   return array;
 }
 
-function generateMenus(budget, people, dessertCount, includeWine) {
+function generateMenus(budget, people, dessertCount, includeWine , handleSaveDraft ) {
   const [minBudget, maxBudget] = getBudgetRangeForPeople(people);
 
   if (budget < minBudget || budget > maxBudget) {
@@ -216,12 +215,11 @@ items.push({ name: dessert.name, price: dessert.price });
 
 
 
-const BudgetChat = ({ setDraftName , setShowDraftSaved }) => {
+const BudgetChat = ({  setShowDraftSaved, text, isOpen,  setIsOpen, }) => {
 
 
-  const { user } = useAuthSync();//ani po 
-
-  const [modalOpen, setModalOpen] = useState(false);
+  const { user , loading , setLoading } = useAuthSync();//ani po 
+  
   const [budget, setBudget] = useState(1000);
   const [people, setPeople] = useState(10);
   const [dessertCount, setDessertCount] = useState("");
@@ -230,11 +228,14 @@ const BudgetChat = ({ setDraftName , setShowDraftSaved }) => {
   const [results, setResults] = useState([]);
   const [showFullMenu, setShowFullMenu] = useState(false);
   const [focusedWindow, setFocusedWindow] = useState("results");
-  const [isLoading, setIsLoading] = useState(false);// טעינה של 'טען מחדש'
-   
+ 
   useEffect(() => {
   console.log("🧾 משתמש שהגיע מה־hook:", user);
 }, [user]);
+
+
+
+
 
   
 
@@ -257,8 +258,8 @@ const BudgetChat = ({ setDraftName , setShowDraftSaved }) => {
 
     
     // סגור את התוצאה הקודמת לפני פתיחה מחודשת
-   setIsLoading(true);
-     setModalOpen(false);//סגירה של באדגאט
+   setLoading(true);
+     setIsOpen(false);//סגירה של באדגאט
     setShowResultsModal(false);
     setResults([]);
 
@@ -267,63 +268,24 @@ const BudgetChat = ({ setDraftName , setShowDraftSaved }) => {
       setResults(menus);
       setShowResultsModal(true);
       setFocusedWindow("results");
-       setIsLoading(false);
+       setLoading(false);
     }, 500);
   };
 
-  /* שמירת טפריט */
-  const handleSaveDraft = async (name) => {
 
-  if (!user?._id) {
-    alert("עליך להיות מחובר כדי לשמור טיוטה.");
-    return;
-  }
-
-  const payload = {
-  name: name || "טיוטה חדשה",
- items: (results[0]?.items || []).map(item => ({
-  name: String(item.name),
-  price: Number(item.price)
-})),
-  total: results[0]?.total || 0,
-};
-
-
-
-  try {
-
-const res = await fetch(`${baseURL}/api/savedMenus`, {
-  method: "POST",
-headers: {
-  "Content-Type": "application/json",
-  Authorization: `Bearer ${localStorage.getItem("token")}` // ✅ חשוב
-},
-body: JSON.stringify(payload)
-});
-
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "שגיאה בשמירה");
-   
-   // setDraftName(true);
-     setShowDraftSaved(true);
-  } catch (err) {
-    console.error("❌ שגיאה בשמירה:", err);
-    alert("❌ לא ניתן לשמור כעת");
-  }
-};
 
   return (
     <>
-      <button className="chat-button" onClick={() => setModalOpen(true)}>
-        התאמת תפריט
-      </button>
+    
+
+
 
       <Modal
-        isOpen={modalOpen}
-        onRequestClose={() => setModalOpen(false)}
-        contentLabel="AI Menu Modal"
-        ariaHideApp={false}
-        style={{
+       isOpen={isOpen}
+  onRequestClose={() => setIsOpen(false)}
+  contentLabel="AI Menu Modal"
+  ariaHideApp={false}
+  style={{
           content: {
             height: window.innerWidth <= 600 ? "50%" : "70%",
             width: "85%",
@@ -343,8 +305,9 @@ body: JSON.stringify(payload)
           },
         }}
       >
+                  <button className="close-button" onClick={() => setIsOpen(false)}>סגור</button>
+
         <div className="budget-input-section">
-          <button className="close-button" onClick={() => setModalOpen(false)}>סגור</button>
           <h2 className="budget-title">באפשרותך לבנות תפריט לפי תקציב</h2>
 
           <input
@@ -396,7 +359,7 @@ body: JSON.stringify(payload)
             setShowFullMenu(true);
             setFocusedWindow("full");
           }}
-          isLoading={isLoading}// טעינה של טען מחדש ברזולט 
+          loading={loading}// טעינה של טען מחדש ברזולט 
           handleGenerate={handleGenerate} // ✅ חשוב
            
 
@@ -409,7 +372,7 @@ body: JSON.stringify(payload)
 setPeople={setPeople}
 setDessertCount={setDessertCount}
 setIncludeWine={setIncludeWine}
-  onSaveDraft={handleSaveDraft}
+  setShowDraftSaved={setShowDraftSaved}
 
         />
       )}
@@ -432,7 +395,7 @@ setIncludeWine={setIncludeWine}
         />
       )}
 
-      {isLoading && (
+      {loading && (
   <LoadingSpinner text="... טוען תפריט , אנא המתן " />
 )}
     </>

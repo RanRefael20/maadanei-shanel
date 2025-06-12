@@ -5,7 +5,7 @@ import "./LoginSuccessModal.css";
 
 const LoginSuccessModal = ({ username, onClose }) => {
   useEffect(() => {
-    const timer = setTimeout(onClose, 4000); // סוגר אוטומטית אחרי 3 שניות
+    const timer = setTimeout(onClose, 3000); // סוגר אוטומטית אחרי 3 שניות
     return () => clearTimeout(timer);
   }, [onClose]);
 

@@ -1,21 +1,6 @@
 /* src/styles/SettingsPanel.css */
 
 
-.settings-toggle-button {
-  color: #333;
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: normal;
-  display: flex;
-  align-items: center;
-    background-color: #f7f7f7;
-}
-
-
-
-.gear-icon {
-  font-size: 20px;
-}
 
 .settings-modal-overlay {
   position: fixed;
@@ -39,6 +24,7 @@
   position: relative;
   animation: slideUp 0.3s ease;
   direction: rtl;
+  
 }
 
 .settings-close-button {

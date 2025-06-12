@@ -3,6 +3,8 @@ import { createPortal } from "react-dom";
 import "../styles/BudgetChat_modal_results.css";
 import { fullMenu } from "../data/fullMenu";
 import FullMenuSelector from "./FullMenuSelector";
+import SwipeToCloseWrapper from "../hooks/SwipeToCloseWrapper";
+
 import MenuExportWrapper from "../componnents/MenuExport/MenuExportWrapper";
 import { FaWindowClose, FaWindowMinimize } from "react-icons/fa";
 
@@ -20,10 +22,7 @@ const ResultsModal = ({
   setDessertCount,
   includeWine,
   setIncludeWine,
-  isLoading,
-  draftName,
-  setDraftName,
-  onSaveDraft
+   setShowDraftSaved // ✅ 
 }) => {
   const [showFullMenu, setShowFullMenu] = useState(false);
   const [categoryCounts, setCategoryCounts] = useState({});
@@ -42,7 +41,8 @@ const ResultsModal = ({
 
   if (!isOpen) return null;
 
-;
+
+
 
   useEffect(() => {
     const allItems = results[0]?.items || [];
@@ -100,13 +100,13 @@ const ResultsModal = ({
   if (!isOpen) return null;
   
 
-  return createPortal(
+  return createPortal(  
     <div className="results-modal-overlay">
-      <div className="header-buttons-row">
-
-                         
+<SwipeToCloseWrapper onClose={onClose}> 
+      <div className={`modal-header ${isCollapsed ? "collapsed" : ""}`}>
         
-        <button className="close-results-button" onClick={onClose}> <FaWindowClose /></button>
+      <div className="closeAndMininize" >
+               <button className="close-results-button" onClick={onClose} title="סגור"> <FaWindowClose /></button>
         <button
           className="minimize-button"
           onClick={() => setIsCollapsed((prev) => !prev)}
@@ -114,14 +114,16 @@ const ResultsModal = ({
         >
           {isCollapsed ? "⬈" :  <FaWindowMinimize />}
         </button>
-      </div>
+        </div>
 
-      <div className={`results-modal ${isCollapsed ? "collapsed" : ""}`}>
-        <div className="modal-header">
-          <div className="header-center">
+        
             <div className="input-summary">
+              
               <div className="input-row">
-                <label>📋 תקציב:
+                              <div className="explanation">רוצה לשנות תקציב ? 💶 <br></br>כמות אנשים ? <br></br>אולי להוסיף קינוח ?🍰 <br></br>
+                     כאן תוכל  לערוך נתונים מחדש ולבסוף ללחוץ על "טען תוצאות מחדש🔁"  <br></br>עד שתקבל את התפריט שבול בשבילך.  </div>
+              
+               <label>📋 תקציב:
                   <input type="number" value={budget} onChange={(e) => setBudget(Number(e.target.value))} className="input-field" /> ₪
                 </label>
                 <label>👥 סועדים:
@@ -133,10 +135,33 @@ const ResultsModal = ({
                 <label>🍷 יין:
                   <input type="checkbox" checked={includeWine} onChange={(e) => setIncludeWine(e.target.checked)} />
                 </label>
-              </div>
-            </div>
+                             <button className="menu-action-button" onClick={handleGenerate}>טען תוצאות מחדש🔁</button>
+                      
+  <button
+    className="menu-action-button"
+    onClick={() => {
+      setShowFullMenu(true);
+      if (!hideMessagePermanently) setShowMessage(true);
+    }}
+    title="כאן תוכל לראות את כל המנות במסעדה 🥽.
+תוכל להוסיף פריטים לתפריט שלך עם לחיצה על ➕. 
+או להוריד עם ➖."
 
-            <div className="category-counts-row">
+  >
+    ➕ הוספת פריטים
+  </button>
+
+  <button className="menu-action-button"onClick={() => setShowDraftSaved(true)} title="שמור טיוטא בתפריטים שלך 💾 . 
+תמיד תוכל להיכנס אליו ולערוך אותו.">
+  💾 שמור טיוטה
+</button>
+       
+         <button className="menu-action-button" onClick={() => { setShowMenuExport(true);}}>✅ סיום</button>
+
+              </div>
+              
+            </div>
+              <div className="category-counts-row">
               {Object.entries(categoryCounts).map(([cat, count]) => (
                 <div key={cat} className="category-count">
                   <span>{cat}</span>
@@ -144,13 +169,13 @@ const ResultsModal = ({
                 </div>
               ))}
             </div>
-
+        
+        
             <div className="header-summary-row">
-              <span className="modal-title">טיוטת תפריט</span>
               <span className="menu-total-header">סה״כ: {results[0]?.total || 0}₪</span>
             </div>
-          </div>
-        </div>
+          
+        
 
         <div className="results-content">
           {results.map((menu, i) => (
@@ -158,46 +183,17 @@ const ResultsModal = ({
               <h3 className="menu-type">{menu.name}</h3>
               <ul className="menu-list">
                 {menu.items.map((item, idx) => (
-                  <li key={idx} className="menu-item">
-                    <span>{item.name}</span>
-                    <span> - {item.price} ₪</span>
-                    <button className="delete-item-button" onClick={() => handleDeleteItem(i, idx)} title="מחק פריט">✖</button>
-                  </li>
+            <li key={idx} className="menu-item">
+  <button className="delete-item-button" onClick={() => handleDeleteItem(i, idx)} title="מחק פריט">✖</button>
+  <span>{item.name} - {item.price} ₪</span>
+</li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
 
-        <div className="menu-buttons-row">
-          <button className="menu-action-button" onClick={() => {
-            setShowFullMenu(true);
-            if (!hideMessagePermanently) setShowMessage(true);
-          }}>➕ הוספת פריטים</button>
-
-          {isLoading ? (
-            <button className="menu-action-button loading" disabled>⏳ טוען תפריט...</button>
-          ) : (
-            <button className="menu-action-button" onClick={handleGenerate}>🔁 טען מחדש</button>
-          )}
-
-          {/* נתינת שם לתפריט הטיוטה */}
-          <input
-  type="text"
-  placeholder="הזן שם לתפריט"
-  value={draftName}
-  onChange={(e) => setDraftName(e.target.value)}
-  className="draft-name-input"
-/>
-
-          
- <button className="menu-action-button" onClick={() => onSaveDraft(draftName)} disabled={isLoading}>
-  {isLoading ? "שומר..." : "💾 שמור טיוטה"}
-</button>
-
-
-         <button className="menu-action-button" onClick={() => { setShowMenuExport(true);}}>✅ סיום</button>
-        </div>
+ 
 
         {showMessage && createPortal(
           <div className="global-fullscreen-popup">
@@ -215,7 +211,10 @@ const ResultsModal = ({
           </div>,
           document.body
         )}
-      </div>
+        </div>
+              </SwipeToCloseWrapper> {/* ← כאן מסתיים העטיפה */}
+
+      
 
       {showFullMenu && (
         <FullMenuSelector
@@ -234,8 +233,9 @@ selectedItems={results[0]?.items || []}  onClose={onClose}
   onBackToEdit={() => setShowMenuExport(false)}/>
       )}
     </div>,
+        
     document.getElementById("modal-root")
-  );
+     ) ;
 };
 
 export default ResultsModal;

@@ -2,21 +2,31 @@ import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import "../SavedMenus/SavedMenus.css";
 import { baseURL } from "../config";
-import useAuthSync from "../hooks/useAuthSync"; // ודא שזה הנתיב הנכון אצלך
+import useAuthSync from "../hooks/useAuthSync"; // ✅ ייבוא חסר
+import LoadingSpinner from "../componnents/LoadingSpinner";
 
-const SavedMenus = ({ isOpen, onClose, onLoadMenu }) => {
-  const { user, loading: authLoading } = useAuthSync();
+
+
+const SavedMenus = ({ isOpen, onClose, onLoadMenu, onSwitchToRegister ,openBudgetChat , user  }) => {
   const [savedMenus, setSavedMenus] = useState([]);
-  const [loading, setLoading] = useState(false);
+        const {loading , setLoading } = useAuthSync();
 
-  useEffect(() => {
-    if (isOpen && user?._id) {
-      fetchMenus();
-    }
-  }, [isOpen, user]);
+
+
+
+useEffect(() => {
+  if (isOpen && user) {
+    fetchMenus(); // טוען את הטיוטות של המשתמש החדש
+  } else if (isOpen && !user) {
+    setSavedMenus([]); // ✅ מנקה את הטיוטות של המשתמש הקודם בהתנתקות
+  }
+}, [isOpen, user]); // ✅ גם user וגם isOpen בתלויות
+
+
 
 const fetchMenus = async () => {
-  setLoading(true);
+    setLoading(true); // ⬅️ התחלת טעינה
+
   try {
     const res = await fetch(`${baseURL}/api/savedmenus/${user._id}`, {
       headers: {
@@ -26,6 +36,7 @@ const fetchMenus = async () => {
     });
 
     const data = await res.json();
+console.log("setSavedMenus([]);" , data);
 
     if (!res.ok) {
       console.error("❌ שגיאה מהשרת:", data.message);
@@ -43,9 +54,10 @@ const fetchMenus = async () => {
   } catch (err) {
     console.error("❌ שגיאה בטעינת טיוטות:", err);
     setSavedMenus([]);
-  } finally {
-    setLoading(false);
-  }
+      } finally {
+    setLoading(false); // ⬅️ סיום טעינה
+  
+  } 
 };
 
 
@@ -60,7 +72,7 @@ const fetchMenus = async () => {
     }
   };
 
-  if (!isOpen || authLoading || !user) return null;
+  if (!isOpen) return null;
 
   /* פונקציית מחיקה */
   const handleDeleteMenu = async (menuId) => {
@@ -82,41 +94,77 @@ setSavedMenus((prev) => prev.filter((m) => m._id !== menuId));
 };
 
 
-  return createPortal(
-   <div className="saved-menus-overlay">
-  <div className="saved-menus-modal">
-    <div className="saved-menus-header">
-          <h2>📂 תפריטים ששמרת</h2>
-          <button className="close-button" onClick={onClose}>✖</button>
-        </div>
 
-        {loading ? (
-          <p className="loading-text">⏳ טוען...</p>
-        ) : (
-          <ul className="savedmenus-list">
-            {savedMenus.length === 0 ? (
-              <li className="empty-message">אין עדיין טיוטות שמורות.</li>
-            ) : (
-              savedMenus.map((menu) => (
-                <li key={menu._id} className="savedmenus-item">
-                  <div className="menu-info">
-                    <strong>{menu.name}</strong>
-                     <button   className="delete-button"  onClick={() => handleDeleteMenu(menu._id)}>  🗑️ מחק</button>
-                    <div>💰 סה"כ: {menu.total} ₪</div>
-                    <div>📅 תאריך: {new Date(menu.createdAt).toLocaleDateString("he-IL")}</div>
-              
-               
-                  </div>
-                  <button onClick={() => handleLoad(menu._id)} className="load-button">טען</button>
-                </li>
-              ))
-            )}
-          </ul>
-        )}
+return createPortal(
+  <div className="saved-menus-overlay">
+    <div className="saved-menus-modal">
+      <div className="saved-menus-header">
+        <h2>📂 תפריטים ששמרת</h2>
+        <button className="saved-menus-close-btn" onClick={onClose}>✖</button>
+
       </div>
-    </div>,
-    document.getElementById("modal-root")
-  );
+
+      <ul className="savedmenus-list">
+        <>
+            {console.log("📦 savedMenus:", savedMenus)}
+
+        { !user ? (
+          <ul className="empty-message"><li>🔒 עליך להתחבר כדי לראות את התפריטים שלך.</li>
+          <li>אם עדיין לא נרשמתה⬅️<button
+                className="link-button"
+                onClick={() => {
+                  onClose();
+                  onSwitchToRegister();
+                }}
+              >לחץ כאן להרשמה בחינם וקבל מלא הטבות !
+              </button></li>
+              <li>לאחר הרשמה תוכל לשמור לעצמך תפריטים.</li>
+              </ul>
+              ) : loading ? (
+            <LoadingSpinner text="...טוען תפריטים " />
+        ) : savedMenus.length === 0 ? (
+          <li className="empty-message">אין עדיין תפריטים שמורים .
+          <button  className="chat-button"
+  onClick={() => {
+    onClose(); // סוגר את המודל הזה
+    openBudgetChat(); // פותח את BudgetChat מ־NavBar
+  }}
+>
+  בנה תפריט אישי
+</button>
+
+          </li>
+          
+          
+        ) : (
+          savedMenus.map((menu) => (
+            
+  <li key={menu._id} className="savedmenus-item">
+  <div className="menu-card">
+    <div className="menu-info">
+      <strong className="menu-title">📌 שם התפריט: {menu.name}</strong>
+      <div className="menu-total">💰 תפריט על סך: {menu.total} ₪</div>
+      <div className="menu-date">📅 נוצר ב־ {new Date(menu.createdAt).toLocaleDateString("he-IL")}</div>
+    </div>
+    <div className="menu-actions">
+      <button onClick={() => handleLoad(menu._id)} className="load-button">פתח תפריט / עריכה</button>
+      <button className="delete-button" onClick={() => handleDeleteMenu(menu._id)}>🗑️ מחק תפריט</button>
+    </div>
+  </div>
+</li>
+
+          ))
+          
+        )}
+        
+        </>
+      </ul>
+
+    </div>
+  </div>,
+  document.getElementById("modal-root")
+);
+
 };
 
 export default SavedMenus;

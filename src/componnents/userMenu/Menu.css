@@ -1,0 +1,70 @@
+/* === תפריט משתמש אישי (אייקון) === */
+.user-menu-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-top: 5px;
+  cursor: pointer;
+  margin-right: 25px;
+  margin-top: 25px;
+    z-index: 99;
+
+}
+
+.user-icon {
+  
+  color: #FFD95A;
+  transition: color 0.2s ease;
+  margin-left: -70px;
+  
+}
+
+.user-icon:hover {
+  color: #e1b842;
+}
+
+.user-menu {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 180px;
+  z-index: 10000;
+  direction: rtl;
+}
+
+.user-menu-header {
+  font-weight: normal;
+  font-size: 14px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+  background-color: #f7f7f7;
+}
+
+.user-menu-item {
+  width: 100%;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  text-align: right;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s ease;
+}
+
+.user-menu-item:hover {
+  background-color: #f0f0f0;
+}
+
+.user-menu-item.logout {
+  color: #a20000;
+}
+
+.user-menu-item.logout:hover {
+  background-color: #f8e0e0;
+}

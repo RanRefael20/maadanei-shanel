@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom"; // ✅ הוספת דפדפן �
 import "./index.css";
 import App from "./App.jsx";
 
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
