@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import  { useEffect, useRef, useState } from "react";
 import "../styles/section.css";
 import useScroll from "../hooks/useScroll";
 import useScrollToNextSection from "../hooks/useScrollToNextSection";
-import SplashAnimation from "../hooks/SplashAnimation";
 import useIsMobile from "../hooks/useIsMobile";
 
 export default function Section() {

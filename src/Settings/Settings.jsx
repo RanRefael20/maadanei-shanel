@@ -2,12 +2,15 @@ import React, { useState, useEffect, forwardRef } from "react";
 import "./Settings.css";
 import { baseURL } from "../config"; // או הנתיב המתאים אצלך
 import useAuthSync from "../hooks/useAuthSync";
+import LoadingSpinner from "../componnents/LoadingSpinner";
+
 
 
 const Settings = forwardRef((props, ref) => {
 
 
   const { user } = useAuthSync();
+    const [isProcessing, setIsProcessing] = useState(false);
   
 
   const [formData, setFormData] = useState({
@@ -76,6 +79,7 @@ useEffect(() => {
   };
 
   const checkCurrentPassword = async () => {
+        setIsProcessing(true);
     const token = localStorage.getItem("token");
     const res = await fetch(`${baseURL}/api/verify-password`, {
       method: "POST",
@@ -88,21 +92,31 @@ useEffect(() => {
 
     const data = await res.json();
     if (!res.ok) {
+          setIsProcessing(false);
       setMessage("❌ סיסמה נוכחית שגויה");
       return false;
     }
 
     setShowNewPasswordInput(true);
+    setIsProcessing(false);
     setMessage("✅ סיסמה אומתה, ניתן להזין סיסמה חדשה");
     return true;
   };
 
   const handleSubmit = async (e) => {
+    setIsProcessing(true);
     e.preventDefault();
     setMessage("");
-    if (!validateForm()) return;
-
+    if (!validateForm()){
+          setIsProcessing(false);
+         return;
+    } 
     const token = localStorage.getItem("token");
+        if (!token){
+         setIsProcessing(false);
+         return;
+        } 
+
     const payload = {
       ...formData,
       password: passwords.newPassword || undefined,
@@ -128,25 +142,33 @@ useEffect(() => {
       try {
         data = JSON.parse(text);
       } catch {
+         setIsProcessing(false);
         throw new Error("השרת החזיר תשובה לא תקינה");
       }
 
-      if (!res.ok) throw new Error(data.message);
+      if (!res.ok){
+         setIsProcessing(false);
+         throw new Error(data.message);
+      } 
+      setIsProcessing(false);
       setMessage("✅ הפרטים עודכנו בהצלחה");
       
     } catch (err) {
+      setIsProcessing(false);
       setMessage("❌ שגיאה: " + err.message);
     }
   };
 
   return (
     <div className="settings-container">
-      <h2>שינוי הגדרות</h2>
-      { (
+      <h2>שינוי פרטי משתמש</h2>
+       {isProcessing ? (
+      <LoadingSpinner text="טוען..." />
+    ) : (
         <form onSubmit={handleSubmit} className="settings-form">
           <input type="text" name="username" placeholder="שם משתמש" value={formData.username} onChange={handleChange} autoComplete="username" />
           <input type="email" name="email" placeholder="אימייל" value={formData.email} onChange={handleChange} autoComplete="email" />
-          <input type="tel" name="phone" placeholder="טלפון" value={formData.phone} onChange={handleChange} autoComplete="tel" />
+          <input type="phone" name="phone" placeholder="טלפון" value={formData.phone} onChange={handleChange} autoComplete="tel" />
           <input type="text" name="address" placeholder="כתובת" value={formData.address} onChange={handleChange} autoComplete="street-address" />
           <input type="date" name="birthdate" value={formData.birthdate} onChange={handleChange} />
 
@@ -173,7 +195,13 @@ useEffect(() => {
             />
           )}
 
-          <button type="submit" className="save-button">שמור שינויים</button>
+          <button type="submit" className="save-button"
+            onClick={() => {
+              if(setShowNewPasswordInput){
+                setShowNewPasswordInput(false)
+              } 
+    }}
+          >שמור שינויים</button>
           {message && <div className="settings-message">{message}</div>}
         </form>
       )}

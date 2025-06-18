@@ -20,23 +20,30 @@ const LoginModal = ({ onClose, onSwitchToRegister, handleLoginSuccess  }) => {
   };
 
   const handleSubmit = async () => {
+    console.log("123123");
+    
     setErrorMessage("");
     setIsProcessing(true);
 
     try {
+      
       const res = await fetch(`${baseURL}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
+console.log(res, " RES");
+
 
       if (!res.ok) {
         const data = await res.json();
+        
         console.error("❌ שגיאת שרת:", data.message);
         setErrorMessage(data.message);
         setIsProcessing(false);
         return;
       }
+
 
       const contentType = res.headers.get("content-type");
       if (!contentType || !contentType.includes("application/json")) {
@@ -45,7 +52,7 @@ const LoginModal = ({ onClose, onSwitchToRegister, handleLoginSuccess  }) => {
       }
 
       const data = await res.json();
-      console.log(data);
+      console.log(data , " DATA");
 
       if (!data.success) {
         setErrorMessage(data.message || "שגיאה לא צפויה");

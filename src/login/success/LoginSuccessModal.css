@@ -11,6 +11,7 @@
 }
 
 .login-success-modal {
+  margin-left: 30px;
   background-color: #ffffff;
   border-radius: 16px;
   padding: 24px 32px;
@@ -19,7 +20,9 @@
   text-align: center;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   animation: slideUp 0.4s ease;
+  position: relative; /* ✅ חובה כדי שהאיקס יתמקם ביחס לתיבה */
 }
+
 
 .login-success-modal p {
   font-size: 18px;
@@ -27,6 +30,45 @@
   font-weight: 600;
   margin: 0;
 }
+
+.close-button {
+  position: absolute;
+  
+  right: -240px; /* ✅ מימין במקום left */
+  color: #00b8d9;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  z-index: 10;
+}
+
+.close-button:hover {
+  color: #ff5e5e;
+  transform: scale(1.2);
+}
+
+
+.extra-button {
+  margin-top: 12px;
+  padding: 8px 16px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #00b8d9;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.extra-button:hover {
+  background-color: #0098b3;
+}
+
+
+
+
 
 /* אנימציות */
 @keyframes slideUp {

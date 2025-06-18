@@ -27,17 +27,7 @@ import { FaUserCircle } from "react-icons/fa";
     }, []);
 
 
-    /* לא עובד כרגע  */
-/*       const handleGenerate = () => {
-    // פונקציה לטעינה מחדש של התפריט
-  }; */
 
-  /* לא עובד  כרגע  */
-/* const triggerDraftModal = (name) => {
-  setDraftName(name);
-  setShowDraftSaved(true);
-  setTimeout(() => setShowDraftSaved(false), 3000);
-}; */
 
   const handleLogout = () => {
     if (!user?.username) return;

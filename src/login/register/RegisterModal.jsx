@@ -4,6 +4,7 @@ import "./RegisterModal.css";
 import RegisterErrorModal from "../Eror/RegisterErrorModal";
 import RegisterStatusModal from "./RegisterStatusModal";
 import { baseURL } from "..//./../config"; // או הנתיב המתאים אצלך
+import LoadingSpinner from "../../componnents/LoadingSpinner";
 
 const RegisterModal = ({ onClose, onSwitchToLogin, handleLoginSuccess }) => {
   const [formData, setFormData] = useState({
@@ -25,6 +26,7 @@ const RegisterModal = ({ onClose, onSwitchToLogin, handleLoginSuccess }) => {
   };
 
   const handleSubmit = async () => {
+    
     setStatusModal("loading");
     setShowError(false);
     setErrorMessage("");
@@ -37,7 +39,6 @@ const RegisterModal = ({ onClose, onSwitchToLogin, handleLoginSuccess }) => {
         body: JSON.stringify(formData),
       });
 
-      console.log("🌐 baseURL:", baseURL);
       const data = await res.json();
 
     
@@ -124,7 +125,7 @@ localStorage.setItem("username", data.username); // ⬅️ חובה
         />
         <input
           name="phone"
-          type="tel"
+          type="phone"
           placeholder="טלפון"
           className="register-input"
           value={formData.phone}
@@ -146,7 +147,7 @@ localStorage.setItem("username", data.username); // ⬅️ חובה
           onChange={handleChange}
         />
 
-        <button className="submit-button" onClick={handleSubmit}>שלח הרשמה</button>
+        <button className="menu-action-button" onClick={handleSubmit}>שלח הרשמה</button>
 
         <div className="register-links">
           <button

@@ -4,12 +4,18 @@ import "../SavedMenus/SavedMenus.css";
 import { baseURL } from "../config";
 import useAuthSync from "../hooks/useAuthSync"; // ✅ ייבוא חסר
 import LoadingSpinner from "../componnents/LoadingSpinner";
+import RegisterErrorModal from "../login/Eror/RegisterErrorModal";
 
 
 
-const SavedMenus = ({ isOpen, onClose, onLoadMenu, onSwitchToRegister ,openBudgetChat , user  }) => {
+const SavedMenus = ({ isOpen, onClose, onLoadMenu, onSwitchToRegister ,openBudgetChat , user , draftId,  setDraftId  }) => {
   const [savedMenus, setSavedMenus] = useState([]);
-        const {loading , setLoading } = useAuthSync();
+  const [menusCount, setMenusCount] = useState(0);//מספר שמורים
+ const {loading , setLoading } = useAuthSync();
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // ✅ חדש
+const [IdmenuToDelete, setIdMenuToDelete] = useState(null); // מחזיק את ID למחיקה
+
 
 
 
@@ -17,8 +23,11 @@ const SavedMenus = ({ isOpen, onClose, onLoadMenu, onSwitchToRegister ,openBudge
 useEffect(() => {
   if (isOpen && user) {
     fetchMenus(); // טוען את הטיוטות של המשתמש החדש
+        fetchSavedMenusCount().then(setMenusCount); // טוען את הכמות
+
   } else if (isOpen && !user) {
     setSavedMenus([]); // ✅ מנקה את הטיוטות של המשתמש הקודם בהתנתקות
+     setMenusCount(0); // אפס ספירה
   }
 }, [isOpen, user]); // ✅ גם user וגם isOpen בתלויות
 
@@ -36,60 +45,114 @@ const fetchMenus = async () => {
     });
 
     const data = await res.json();
-console.log("setSavedMenus([]);" , data);
+    
 
-    if (!res.ok) {
-      console.error("❌ שגיאה מהשרת:", data.message);
-      setSavedMenus([]); // או הצג שגיאה למשתמש
-      return;
-    }
 
-    if (!Array.isArray(data)) {
-      console.error("⚠️ המידע שהתקבל אינו מערך:", data);
-      setSavedMenus([]);
-      return;
-    }
+      if (!res.ok) {
+        setErrorMessage(data.message || "שגיאה בטעינת טיוטות");
+        setShowErrorModal(true);
+        setSavedMenus([]);
+        return;
+      }
+
+     if (!Array.isArray(data)) {
+        setErrorMessage("המידע שהתקבל אינו תקין.");
+        setShowErrorModal(true);
+        setSavedMenus([]);
+        return;
+      }
+
 
     setSavedMenus(data);
-  } catch (err) {
-    console.error("❌ שגיאה בטעינת טיוטות:", err);
-    setSavedMenus([]);
-      } finally {
-    setLoading(false); // ⬅️ סיום טעינה
-  
-  } 
-};
-
-
-  const handleLoad = async (menuId) => {
-    try {
-      const res = await fetch(`${baseURL}/api/savedmenus/single/${menuId}`);
-      const data = await res.json();
-      onLoadMenu(data); // מעלה את הטיוטה ל־ResultsModal
-      onClose(); // סוגר את המודל
     } catch (err) {
-      console.error("❌ שגיאה בטעינת טיוטה:", err);
+      setErrorMessage("שגיאה כללית בטעינת הטיוטות");
+      setShowErrorModal(true);
+      setSavedMenus([]);
+    } finally {
+      setLoading(false);
     }
   };
 
+/* קבלת מספר השמורים */
+const fetchSavedMenusCount = async () => {
+  try {
+    const res = await fetch(`${baseURL}/api/savedMenus/count`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+
+    const data = await res.json();
+    console.log("✅ כמות תפריטים שמורים:", data.count);
+    return data.count;
+  } catch (err) {
+    console.error("❌ שגיאה בקבלת כמות תפריטים", err);
+    return 0;
+  }
+};
+
+
+
+
+
+const handleLoad = async (menuId) => {
+  try {
+    const res = await fetch(`${baseURL}/api/savedmenus/single/${menuId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // ✅ זה היה חסר
+        "Content-Type": "application/json"
+      }
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "שגיאה בטעינת הטיוטה");
+    }
+
+    onLoadMenu(data);
+    setDraftId(menuId); // ✅ העבר את ה־ID לרזולט
+    onClose();
+  } catch (err) {
+    setErrorMessage(err.message || "שגיאה בטעינת הטיוטה");
+    setShowErrorModal(true);
+  }
+};
+
   if (!isOpen) return null;
+
+
 
   /* פונקציית מחיקה */
   const handleDeleteMenu = async (menuId) => {
-  if (!window.confirm("האם אתה בטוח שברצונך למחוק את הטיוטה?")) return;
 
+
+const token = localStorage.getItem("token");
+if (!token) {
+  setErrorMessage(".יש להתחבר או להרשם")
+  setShowErrorModal(true);
+  return false;
+}
   try {
     const res = await fetch(`${baseURL}/api/savedMenus/delete/${menuId}`, {
-      method: "DELETE"
+         method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
     });
-
-    if (!res.ok) throw new Error("שגיאה במחיקת הטיוטה");
+ 
 
     // הסרה מהתצוגה
-setSavedMenus((prev) => prev.filter((m) => m._id !== menuId));
-  } catch (err) {
-    console.error("שגיאה במחיקה:", err);
-    alert("❌ לא הצלחנו למחוק את הטיוטה");
+setSavedMenus((prev) => {
+  const updated = prev.filter((m) => m._id !== menuId);
+  setMenusCount(updated.length); // ← כאן מתבצע העדכון
+  return updated;
+});
+
+} catch (err) {
+  setErrorMessage("שגיאה כללית בשרת");
+  setShowErrorModal(true);
+  return false;
   }
 };
 
@@ -99,14 +162,13 @@ return createPortal(
   <div className="saved-menus-overlay">
     <div className="saved-menus-modal">
       <div className="saved-menus-header">
-        <h2>📂 תפריטים ששמרת</h2>
+<h2>📂 תפריטים ששמרת ({menusCount})</h2>
         <button className="saved-menus-close-btn" onClick={onClose}>✖</button>
 
       </div>
 
       <ul className="savedmenus-list">
         <>
-            {console.log("📦 savedMenus:", savedMenus)}
 
         { !user ? (
           <ul className="empty-message"><li>🔒 עליך להתחבר כדי לראות את התפריטים שלך.</li>
@@ -121,7 +183,7 @@ return createPortal(
               <li>לאחר הרשמה תוכל לשמור לעצמך תפריטים.</li>
               </ul>
               ) : loading ? (
-            <LoadingSpinner text="...טוען תפריטים " />
+            <LoadingSpinner text="טוען..." />
         ) : savedMenus.length === 0 ? (
           <li className="empty-message">אין עדיין תפריטים שמורים .
           <button  className="chat-button"
@@ -131,15 +193,16 @@ return createPortal(
   }}
 >
   בנה תפריט אישי
+  
 </button>
 
           </li>
           
           
         ) : (
-          savedMenus.map((menu) => (
-            
+savedMenus.map((menu, index) => (
   <li key={menu._id} className="savedmenus-item">
+    <span className="menu-serial">{index + 1}</span>
   <div className="menu-card">
     <div className="menu-info">
       <strong className="menu-title">📌 שם התפריט: {menu.name}</strong>
@@ -148,10 +211,19 @@ return createPortal(
     </div>
     <div className="menu-actions">
       <button onClick={() => handleLoad(menu._id)} className="load-button">פתח תפריט / עריכה</button>
-      <button className="delete-button" onClick={() => handleDeleteMenu(menu._id)}>🗑️ מחק תפריט</button>
-    </div>
+<button
+  className="delete-button"
+  onClick={() => {
+    setIdMenuToDelete(menu._id);                // שמור את המזהה
+    setErrorMessage("?האם אתה בטוח רוצה למחוק את התפריט");
+    setShowErrorModal(true);                  // פתח את המודל
+  }}
+>
+  🗑️ מחק תפריט
+</button>    </div>
   </div>
 </li>
+
 
           ))
           
@@ -159,9 +231,41 @@ return createPortal(
         
         </>
       </ul>
-
     </div>
+
+    {showErrorModal && (
+  <RegisterErrorModal
+  IdmenuToDelete={  IdmenuToDelete}
+    message={errorMessage}
+    onClose={() => {
+      setShowErrorModal(false);
+      setIdMenuToDelete(null); // איפוס
+    }}
+    actions={[
+      {
+        label: "ביטול",
+        onClick: () => {
+          setShowErrorModal(false);
+          setIdMenuToDelete(null);
+        }
+      },
+      {
+        label: "🗑️ מחק",
+        onClick: async () => {
+          setLoading(true); // ⬅️ התחלת טעינה
+          setShowErrorModal(false);
+  await handleDeleteMenu(IdmenuToDelete); // ✅ השתמש במזהה השמור
+          setIdMenuToDelete(null);
+          setLoading(false);
+        }
+      }
+    ]}
+  />
+)}
+
+
   </div>,
+  
   document.getElementById("modal-root")
 );
 

@@ -127,7 +127,7 @@ function shuffle(array) {
   return array;
 }
 
-function generateMenus(budget, people, dessertCount, includeWine , handleSaveDraft ) {
+function generateMenus(budget, people, dessertCount, includeWine  ) {
   const [minBudget, maxBudget] = getBudgetRangeForPeople(people);
 
   if (budget < minBudget || budget > maxBudget) {
@@ -142,8 +142,11 @@ function generateMenus(budget, people, dessertCount, includeWine , handleSaveDra
   const categories = [...CATEGORY_KEYS];
   if (includeWine) categories.push("יינות");
 
-  const baseItems = categories.flatMap(cat => menuItems[cat] || []);
-  const dessertItems = menuItems["קינוחים"] || [];
+const baseItems = categories.flatMap(cat =>
+  (menuItems[cat] || []).map(item => ({ ...item, category: cat }))
+);
+  const dessertItems = (menuItems["קינוחים"] || []).map(item => ({ ...item, category: "קינוחים" }));
+
 
   let bestCombo = [];
   let bestTotal = 0;
@@ -161,7 +164,7 @@ function generateMenus(budget, people, dessertCount, includeWine , handleSaveDra
       for (let i = 0; i < shuffledDesserts.length && dessertAdded < dessertCount; i++) {
         const dessert = shuffledDesserts[i];
         if (total + dessert.price <= maxTotal) {
-items.push({ name: dessert.name, price: dessert.price });
+items.push({ name: dessert.name, price: dessert.price , category: item.category });
           total += dessert.price;
           dessertAdded++;
         }
@@ -178,7 +181,7 @@ items.push({ name: dessert.name, price: dessert.price });
         if (item.category === "קינוחים") continue; // לא מוסיפים עוד קינוחים
 
         if (total + item.price <= maxTotal) {
-        items.push({ name: item.name, price: item.price });
+        items.push({ name: item.name, price: item.price , category: item.category });
 
           total += item.price;
           itemAdded = true;
@@ -215,11 +218,11 @@ items.push({ name: dessert.name, price: dessert.price });
 
 
 
-const BudgetChat = ({  setShowDraftSaved, text, isOpen,  setIsOpen, }) => {
+const BudgetChat = ({  isOpen,  setIsOpen, }) => {
 
 
   const { user , loading , setLoading } = useAuthSync();//ani po 
-  
+    const [showDraftSaved, setShowDraftSaved] = useState(false); // מודל הצלחה לשמירת תפריט 
   const [budget, setBudget] = useState(1000);
   const [people, setPeople] = useState(10);
   const [dessertCount, setDessertCount] = useState("");
@@ -373,6 +376,7 @@ setPeople={setPeople}
 setDessertCount={setDessertCount}
 setIncludeWine={setIncludeWine}
   setShowDraftSaved={setShowDraftSaved}
+  showDraftSaved={showDraftSaved}
 
         />
       )}
@@ -380,15 +384,16 @@ setIncludeWine={setIncludeWine}
       {showFullMenu && (
         <FullMenuSelector
           onClose={() => setShowFullMenu(false)}
-        onAddItem={(item) => {
-  const { name, price } = item; // שומרים רק את הנתונים הרלוונטיים
+onAddItem={(item) => {
+  const { name, price, category } = item;
   setResults(prev => {
     const updated = [...prev];
-    updated[0].items.push({ name, price });
+    updated[0].items.push({ name, price, category }); // ⬅️ עכשיו כולל category
     updated[0].total += price;
     return updated;
   });
 }}
+
 
           focusedWindow={focusedWindow}
           setFocusedWindow={setFocusedWindow}

@@ -1,19 +1,4 @@
-.register-button {
-  padding: 10px 20px;
-  background-color: #C07F00;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  font-family: 'Rubik', sans-serif;
-  transition: background-color 0.3s ease;
-}
 
-.register-button:hover {
-  background-color: #FFD95A;
-  color: #000;
-}
 
 .register-overlay {
   position: fixed;
@@ -38,6 +23,7 @@
   box-shadow: 0 0 10px #00000088;
   text-align: right;
   font-family: 'Rubik', sans-serif;
+  direction: rtl;
 }
 
 .close-button {
@@ -45,12 +31,14 @@
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: #4C3D3D;
+  color: #cd1212;
   cursor: pointer;
+    margin-top:-10px;
+
 }
 
 .register-title {
-  margin-bottom: 20px;
+
   font-size: 1.3rem;
   color: #4C3D3D;
 }

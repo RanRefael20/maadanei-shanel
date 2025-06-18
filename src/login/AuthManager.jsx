@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./register/RegisterModal";
 import LoginSuccessModal from "../login/success/LoginSuccessModal"; // אם התיקייה שלך היא login
-import SavedMenus from "../SavedMenus/SavedMenus";
 
 
-const AuthManager = ({ username ,  activeModal,  setActiveModal, onLoginSuccess }) => {
+const AuthManager = ({ username ,  activeModal,  setActiveModal, onLoginSuccess   }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showSavedMenus, setShowSavedMenus] = useState(false);
 
   
 
@@ -73,19 +71,11 @@ const handleLoginSuccess = (name, token) => {
   <LoginSuccessModal
     username={username}
     onClose={() => setShowSuccessModal(false)}
+    
   />
 )}
 
-<SavedMenus
-  isOpen={showSavedMenus}
-  onClose={() => setShowSavedMenus(false)}
-  onLoadMenu={(loadedMenu) => {
-    setShowSavedMenus(false);
-    setShowResults(true);
-    setResults([{ ...loadedMenu }]);
-  }}
-  onSwitchToRegister={switchToRegisterViaModal} // ✅ חובה!
-/>
+
 
 
 

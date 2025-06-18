@@ -1,6 +1,6 @@
 // ✅ קובץ App.jsx מחובר עם ResultsModal מתוך SavedMenusModal
 
-import React, { useState, useEffect, useRef } from "react";
+import  { useState, useEffect, useRef } from "react";
 import NavBarCenter from "./NavBarCenter";
 import { Link } from "react-router-dom";
 import logo from "../logo/LL.png";
@@ -12,11 +12,11 @@ import BudgetChat  from "./BudgetChat";
 import ResultsModal from "./ResultsModal";
 import "../styles/NavBar.css";
 import "../styles/hiddenLogo.css";
-import DraftSavedModal from "../SavedMenus/success/DraftSavedModal";
 import useAuthSync from "../hooks/useAuthSync"; // ✅ ייבוא חסר
-import { baseURL } from "../config" ;
 import Menu from "./userMenu/Menu";
 import AuthManager from "../login/AuthManager";
+
+
 
 
 
@@ -25,13 +25,16 @@ import AuthManager from "../login/AuthManager";
 const NavBar = () => {
   const { user, setUser } = useAuthSync();
   const [showModal, setShowModal] = useState(false);
-  const [showDraftSaved, setShowDraftSaved] = useState(false); // מודל הצלחה לשמירת תפריט 
   const [draftName, setDraftName] = useState("");
+  const [showDraftSaved, setShowDraftSaved] = useState(false);//בשביל הטעינה של התפריטים השמורים , רק מפה אפשר להעביר לרזולט
+   const [draftId, setDraftId] = useState(null); //ID של כל תפריט
+
 
   const scrolling = useScroll();
 
   // טיוטות תפריטים
   const [showSavedMenus, setShowSavedMenus] = useState(false);
+
   const [showBudgetChat, setShowBudgetChat] = useState(false); // ✅ תוסיף את זה
   const [activeModal, setActiveModal] = useState(null); // 'login' | 'register' | null
   const [showSettingsPanel, setShowSettingsPanel] = useState(false);//פותח הגדרות משתמש
@@ -47,48 +50,9 @@ const NavBar = () => {
 
 
 
-    /* שמירת טפריט */
-const handleSaveDraft = async (name) => {
-  if (!user?._id) {
-    alert("עליך להיות מחובר כדי לשמור טיוטה.");
-    return;
-  }
-
-  const payload = {
-  name: name || "טיוטה חדשה",
- items: (results[0]?.items || []).map(item => ({
-  name: String(item.name),
-  price: Number(item.price)
-})),
-  total: results[0]?.total || 0,
-};
 
 
 
-  try {
-
-const res = await fetch(`${baseURL}/api/savedMenus`, {
-  method: "POST",
-headers: {
-  "Content-Type": "application/json",
-  Authorization: `Bearer ${localStorage.getItem("token")}` // ✅ חשוב
-},
-body: JSON.stringify(payload)
-});
-
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "שגיאה בשמירה");
-   
-   // setDraftName(true);
-     setShowDraftSaved(true);      // ✅ הצג מודל הצלחה
-setDraftName("");             // 🧹 נקה שם טיוטה
-setResults([]);               // 🧹 נקה תוצאות
-setShowResults(false);        // ❌ סגור חלון התפריט
-  } catch (err) {
-    console.error("❌ שגיאה בשמירה:", err);
-    alert("❌ לא ניתן לשמור כעת");
-  }
-};
 
   
 
@@ -114,8 +78,9 @@ setShowSavedMenus={setShowSavedMenus}
 setShowSettingsPanel={setShowSettingsPanel}
 activeModal={activeModal}
 setActiveModal={setActiveModal}
- 
 />
+
+
 
 <AuthManager
   username={user?.username}
@@ -126,6 +91,7 @@ setActiveModal={setActiveModal}
     setResults([]);      // ✅ כאן תנקה כאשר מתחלף משתמש הנתונים הקודמים ימחקו
     setDraftName("");    // ✅ גם תנקה
   }}
+
 />
 
       </div>
@@ -142,16 +108,13 @@ setActiveModal={setActiveModal}
   setIsOpen={setShowBudgetChat}
   draftName={draftName}
   setDraftName={setDraftName}
-  setShowDraftSaved={setShowDraftSaved}
-  handleSaveDraft={handleSaveDraft} // ✅ חדש
-/>
+  />
 
-
+  
 
 
 
       {showModal && <ContactModal onClose={() => setShowModal(false)} />}
-
       <SavedMenus
         key={user?._id} // ✅ כך SavedMenus תתאפס ותטען מחדש כשמשתמש משתנה
         isOpen={showSavedMenus}
@@ -165,6 +128,7 @@ setActiveModal={setActiveModal}
           setShowSavedMenus(false);
           setShowResults(true);
         }}
+        setDraftId={setDraftId} 
         user={user}
   onSwitchToRegister={() => {
     setShowSavedMenus(false);
@@ -175,6 +139,7 @@ setActiveModal={setActiveModal}
       />
 
       
+
 
     
 
@@ -192,18 +157,15 @@ setActiveModal={setActiveModal}
         includeWine={includeWine}
         setIncludeWine={setIncludeWine}
         loading={false}
-        draftName={draftName}
-        setDraftName={setDraftName}
+         showDraftSaved={showDraftSaved}
   setShowDraftSaved={setShowDraftSaved}
-      />
+  draftId={draftId}                 // ✅ זה הקו החשוב!
+  setDraftId={setDraftId}
+
+        />
 
 
-{showDraftSaved && (
-  <DraftSavedModal
-    onClose={() => setShowDraftSaved(false)}
-    onConfirmSave={handleSaveDraft} // רק כאן קוראים לשמירה
-  />
-)}        
+     
     </header>
   );
 };

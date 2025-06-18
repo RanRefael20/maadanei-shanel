@@ -15,7 +15,7 @@ const SettingsPanel = ({ isOpen, onOpen, onClose }) => {
           >
             <button
               className="settings-close-button"
-              onClick={onClose}
+            onClick={onClose}
             >
               ✖
             </button>

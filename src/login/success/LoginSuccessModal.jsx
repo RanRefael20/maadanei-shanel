@@ -1,20 +1,30 @@
 // src/login/LoginSuccessModal.jsx
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./LoginSuccessModal.css";
 
-const LoginSuccessModal = ({ username, onClose }) => {
+const LoginSuccessModal = ({ username, onClose, message , autoClose = true   }) => {
   useEffect(() => {
-    const timer = setTimeout(onClose, 3000); // סוגר אוטומטית אחרי 3 שניות
+    if (!autoClose) return; // ❌ אל תפעיל טיימר אם מבוטל
+
+    const timer = setTimeout(onClose, 3000);
     return () => clearTimeout(timer);
-  }, [onClose]);
+  }, [autoClose, onClose]);
 
   return ReactDOM.createPortal(
-    <div className="login-success-overlay">
-      <div className="login-success-modal">
-        <p>שלום {username}, התחברת בהצלחה! 🎉</p>
-      </div>
-    </div>,
+<div className="login-success-overlay">
+  <div className="login-success-modal">
+    {!autoClose && (
+      <button className="close-button" onClick={onClose}>✖</button>
+    )}
+    <p>{message || `שלום ${username}, התחברת בהצלחה! 🎉`}</p>
+         {!autoClose && (
+     <button className="extra-button" >
+            התפריטים שלי
+          </button>
+      )}
+  </div>
+</div> ,
     document.body
   );
 };

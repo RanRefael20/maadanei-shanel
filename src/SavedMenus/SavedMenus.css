@@ -139,14 +139,22 @@ border: 2px solid #e5f00c;
 /* סיום עיצוב חדש  */
 
 .saved-menus-header {
-  background-color: #1e1e1e;
+  position: sticky; /* במקום fixed */
+  top: 0;
+  background-color: #636363df;
   color: white;
   padding: 1rem 1.5rem;
   font-size: 1.4rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 10;
+  width: 100%;
+  box-sizing: border-box;
 }
+
+
+
 
 .saved-menus-header h2 {
   margin: 0;

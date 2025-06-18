@@ -1,15 +1,15 @@
 import React, { useState, useEffect , useRef  } from "react";
 import { createPortal } from "react-dom";
 import "../styles/BudgetChat_modal_results.css";
-import { fullMenu } from "../data/fullMenu";
 import FullMenuSelector from "./FullMenuSelector";
 import SwipeToCloseWrapper from "../hooks/SwipeToCloseWrapper";
-
 import MenuExportWrapper from "../componnents/MenuExport/MenuExportWrapper";
+import DraftSavedModal from "../SavedMenus/success/DraftSavedModal";
+
 import { FaWindowClose, FaWindowMinimize } from "react-icons/fa";
 
 const ResultsModal = ({
-  isOpen,
+   isOpen,
   onClose,
   results,
   setResults,
@@ -22,14 +22,20 @@ const ResultsModal = ({
   setDessertCount,
   includeWine,
   setIncludeWine,
-   setShowDraftSaved // ✅ 
+  showDraftSaved,
+   setShowDraftSaved, 
+    draftId, // ✅ חדש
+  setDraftId, // ✅ חדש
 }) => {
+    if (!isOpen) return null;
+
   const [showFullMenu, setShowFullMenu] = useState(false);
   const [categoryCounts, setCategoryCounts] = useState({});
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const [hideMessagePermanently, setHideMessagePermanently] = useState(false);
   const [showMenuExport, setShowMenuExport] = useState(false);
+  const [overlayOpacity, setOverlayOpacity] = useState(0.9); // שקיפות רגע בעת גרירת חלון
 
   const modalRef = useRef(null);///חדש 
 
@@ -44,23 +50,24 @@ const ResultsModal = ({
 
 
 
-  useEffect(() => {
-    const allItems = results[0]?.items || [];
-    const newCounts = Object.entries(fullMenu).reduce((acc, [cat, items]) => {
-      const namesInCategory = items.map((item) => item.name);
-      const count = allItems.filter((selectedItem) =>
-        namesInCategory.includes(selectedItem.name)
-      ).length;
-      if (count > 0) acc[cat] = count;
-      return acc;
-    }, {});
-    setCategoryCounts(newCounts);
-  }, [results]);
+useEffect(() => {
+  const allItems = results[0]?.items || [];
+  const newCounts = allItems.reduce((acc, item) => {
+    if (item.category) {
+      acc[item.category] = (acc[item.category] || 0) + 1;
+    }
+    return acc;
+  }, {});
+  setCategoryCounts(newCounts);
+}, [results]);
+
 
   const itemQuantities = {};
-  results[0]?.items.forEach((item) => {
+if (results[0]?.items) {
+  results[0].items.forEach((item) => {
     itemQuantities[item.name] = (itemQuantities[item.name] || 0) + 1;
   });
+}
 
   const handleDeleteItem = (menuIndex, itemIndex) => {
     const updatedResults = results.map((menu, i) => {
@@ -88,7 +95,7 @@ const ResultsModal = ({
     const updatedResults = [...results];
     const currentMenu = updatedResults[0];
     const indexToRemove = currentMenu.items.findIndex(
-      (item) => item.name === itemToRemove.name
+    (item) => item.name === itemToRemove.name && item.category === itemToRemove.category
     );
     if (indexToRemove !== -1) {
       currentMenu.items.splice(indexToRemove, 1);
@@ -97,12 +104,14 @@ const ResultsModal = ({
     }
   };
 
-  if (!isOpen) return null;
-  
+
+
+
 
   return createPortal(  
-    <div className="results-modal-overlay">
-<SwipeToCloseWrapper onClose={onClose}> 
+    <div className="results-modal-overlay"   style={{ backgroundColor: `rgba(0, 0, 0, ${overlayOpacity})` }}
+>
+<SwipeToCloseWrapper onClose={onClose} setOverlayOpacity={setOverlayOpacity}>
       <div className={`modal-header ${isCollapsed ? "collapsed" : ""}`}>
         
       <div className="closeAndMininize" >
@@ -135,8 +144,9 @@ const ResultsModal = ({
                 <label>🍷 יין:
                   <input type="checkbox" checked={includeWine} onChange={(e) => setIncludeWine(e.target.checked)} />
                 </label>
-                             <button className="menu-action-button" onClick={handleGenerate}>טען תוצאות מחדש🔁</button>
-                      
+{handleGenerate && (
+  <button className="menu-action-button" onClick={handleGenerate}>טען תוצאות מחדש🔁</button>
+)}                      
   <button
     className="menu-action-button"
     onClick={() => {
@@ -156,7 +166,6 @@ const ResultsModal = ({
   💾 שמור טיוטה
 </button>
        
-         <button className="menu-action-button" onClick={() => { setShowMenuExport(true);}}>✅ סיום</button>
 
               </div>
               
@@ -177,21 +186,40 @@ const ResultsModal = ({
           
         
 
-        <div className="results-content">
+        
           {results.map((menu, i) => (
             <div key={i} className="results-menu-card">
               <h3 className="menu-type">{menu.name}</h3>
-              <ul className="menu-list">
-                {menu.items.map((item, idx) => (
-            <li key={idx} className="menu-item">
-  <button className="delete-item-button" onClick={() => handleDeleteItem(i, idx)} title="מחק פריט">✖</button>
-  <span>{item.name} - {item.price} ₪</span>
-</li>
-                ))}
-              </ul>
+<div className="menu-list">
+  {Object.entries(
+    menu.items.reduce((acc, item) => {
+      const cat = item.category || "ללא קטגוריה";
+      if (!acc[cat]) acc[cat] = [];
+      acc[cat].push(item);
+      return acc;
+    }, {})
+  ).map(([category, items]) => (
+    <div key={category} className="category-group">
+      <h4 className="category-title">📁 {category}</h4>
+      <ul>
+        {items.map((item, idx) => (
+          <li key={idx} className="menu-item">
+            <button className="delete-item-button" onClick={() => handleDeleteItem(i, menu.items.indexOf(item))} title="מחק פריט">✖</button>
+            <span>{item.name} - {item.price} ₪</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</div>
+
             </div>
           ))}
-        </div>
+          <div className="fixed-footer">
+            <button className="menu-action-button" onClick={() => { setShowMenuExport(true);}}>✅ סיום</button>
+
+          </div>
+
 
  
 
@@ -224,6 +252,14 @@ const ResultsModal = ({
           itemQuantities={itemQuantities}
         />
       )}
+
+      {showDraftSaved && (
+        <DraftSavedModal
+          onClose={() => setShowDraftSaved(false)}
+          results={results}             
+  
+        />
+      )}   
 
 
 

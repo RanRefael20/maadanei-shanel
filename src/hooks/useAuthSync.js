@@ -8,7 +8,6 @@ const useAuthSync = () => {
   useEffect(() => {
     const checkToken = async () => {
       const token = localStorage.getItem("token");
-      console.log("token from useAuth 👨‍💻 " + token)
       if (!token) {
         setUser(null);
         return;
@@ -29,7 +28,6 @@ const useAuthSync = () => {
         } else {
           const data = await res.json();        
           if (data && data._id) {
-            console.log("✅ התחברות הצליחה:", data);
             const { _id, username, email, phone, birthdate, address } = data;
             setUser({ _id, username, email, phone, birthdate, address });
           } else {

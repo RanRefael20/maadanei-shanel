@@ -16,8 +16,8 @@ const CreditModal = ({ totalAmount, onClose, onSuccess }) => {
     holder: "",
   });
 
-  const [isProcessing, setIsProcessing] = useState(false);
 
+  36.
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));

@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { fullMenu } from "../data/fullMenu";
 import "../styles/FullMenuSelector.css";
 
-const FullMenuSelector = ({ onClose, onAddItem  , onRemoveItem, itemQuantities }) => {
+const FullMenuSelector = ({ onClose, onAddItem, onRemoveItem, itemQuantities }) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const modalRef = useRef(null);
   const pos = useRef({ x: 0, y: 0, dx: 0, dy: 0 });
@@ -54,18 +54,21 @@ const FullMenuSelector = ({ onClose, onAddItem  , onRemoveItem, itemQuantities }
             {Object.entries(fullMenu).map(([category, items]) => (
               <div key={category} className="menu-category">
                 <h3>{category}</h3>
-                {items.map((item) => (
-                  <div key={item.name} className="item-select">
-                    <span>
-                      {item.name} – {item.price}₪
-                    </span>
-                   <div className="quantity-controls">
-  <button onClick={() => onRemoveItem({ name: item.name, price: item.price })}>➖</button>
-<span className="item-count">{itemQuantities[item.name] || 0}</span>
-<button onClick={() => onAddItem({ name: item.name, price: item.price })}>➕</button>
-  </div>
-                  </div>
-                ))}
+                {items.map((item) => {
+                  const itemWithCategory = { ...item, category };
+                  return (
+                    <div key={item.name} className="item-select">
+                      <span>
+                        {item.name} – {item.price}₪
+                      </span>
+                      <div className="quantity-controls">
+                        <button onClick={() => onRemoveItem(itemWithCategory)}>➖</button>
+                        <span className="item-count">{itemQuantities[item.name] || 0}</span>
+                        <button onClick={() => onAddItem(itemWithCategory)}>➕</button>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             ))}
           </div>
