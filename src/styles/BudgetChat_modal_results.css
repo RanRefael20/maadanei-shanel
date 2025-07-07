@@ -338,3 +338,61 @@
     font-size: 14px;
   }
 }
+@media (max-width: 400px) {
+  .modal-header {
+    flex-direction: column;
+    padding: 6px;
+  }
+
+  .input-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .input-row label {
+    width: 100%;
+    justify-content: space-between;
+    font-size: 13px;
+  }
+
+  .menu-action-button {
+    width: 100%;
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .category-counts-row {
+    padding-inline: 6px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+
+  .explanation {
+    font-size: 13px;
+    padding: 6px;
+    line-height: 1.4;
+  }
+
+  .menu-item {
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .delete-item-button {
+    padding: 5px 8px;
+    font-size: 13px;
+  }
+
+  .menu-total-header {
+    font-size: 0.95rem;
+  }
+
+  .popup-box h3 {
+    font-size: 16px;
+  }
+
+  .popup-box p {
+    font-size: 13px;
+  }
+}
