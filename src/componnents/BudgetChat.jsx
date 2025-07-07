@@ -371,7 +371,7 @@ items.push({ name: dessert.name, price: dessert.price , category: dessert.catego
 
 
 
-const BudgetChat = ({  isOpen,  setIsOpen }) => {
+const BudgetChat = ({  isOpen,  setIsOpen , results, setResults }) => {
 
 
   const { user , loading , setLoading } = useAuthSync();//ani po 
@@ -380,8 +380,7 @@ const BudgetChat = ({  isOpen,  setIsOpen }) => {
   const [people, setPeople] = useState("");
   const [dessertCount, setDessertCount] = useState("");
   const [includeWine, setIncludeWine] = useState(false);
-  const [showResultsModal, setShowResultsModal] = useState(false);
-  const [results, setResults] = useState([]);
+  const [showResultsModal, setShowResultsModal] = useState(() => localStorage.getItem("showResultsModal") === "true");
   const [showFullMenu, setShowFullMenu] = useState(false);
   const [focusedWindow, setFocusedWindow] = useState("results");
 
@@ -512,7 +511,7 @@ setHideButtonPeople(false)
     
     // סגור את התוצאה הקודמת לפני פתיחה מחודשת
    setLoading(true);
-     setIsOpen(false);//סגירה של באדגאט
+     
     setShowResultsModal(false);
     setResults([]);
 
@@ -526,6 +525,12 @@ setHideButtonPeople(false)
        setLoading(false);
     }, 500);
   };
+
+
+  useEffect(() => {
+  localStorage.setItem("showResultsModal", showResultsModal ? "true" : "false");
+}, [showResultsModal]);
+
 
 
 
@@ -556,7 +561,7 @@ setHideButtonPeople(false)
           },
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.4)",
-            zIndex: 200,
+            zIndex: 98,
           },
         }}
       >
@@ -569,6 +574,7 @@ setHideButtonPeople(false)
                       setBudget("")
                       setDessertCount("")
                       setIncludeWine("")
+                      localStorage.setItem("budgetChatOpen", "false");
                   }}>סגור</button>
 
         <div className="budget-input-section">

@@ -84,7 +84,9 @@ useEffect(() => {
               <button className="user-menu-item" onClick={() => {
                             setShowBudgetChat(true); // פתח את BudgetChat
                                                          }} >צור תפריט אישי</button>
-              <button className="user-menu-item" onClick={() => setShowSavedMenus(true)}>
+              <button className="user-menu-item" onClick={() => {setShowSavedMenus(true)
+                
+              }}>
                 תפריטים ששמרת
               </button>
               <button className="user-menu-item"    onClick={() => {

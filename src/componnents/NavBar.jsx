@@ -27,29 +27,37 @@ import MyOrdersModal from "../componnents/MyOrdersModal";
 
 const NavBar = () => {
   const { user, setUser , loading , setLoading } = useAuthSync();
-  const [showModal, setShowModal] = useState(false);
-  const [draftName, setDraftName] = useState("");
-  const [showDraftSaved, setShowDraftSaved] = useState(false);//בשביל הטעינה של התפריטים השמורים , רק מפה אפשר להעביר לרזולט
 
 
   const scrolling = useScroll();
 
   // טיוטות תפריטים
-  const [showSavedMenus, setShowSavedMenus] = useState(false);
 
-  const [showBudgetChat, setShowBudgetChat] = useState(false); // ✅ תוסיף את זה
-  const [activeModal, setActiveModal] = useState(null); // 'login' | 'register' | null
-  const [showSettingsPanel, setShowSettingsPanel] = useState(false);//פותח הגדרות משתמש
-const [showMyOrders, setShowMyOrders] = useState(false);// ההזמנות שלי
+const [showBudgetChat, setShowBudgetChat] = useState(() => {
+  const saved = localStorage.getItem("budgetChatOpen");
+  return saved === "true"; // אם כן – תפתח אוטומטית
+});
 
+const [showSavedMenus, setShowSavedMenus] = useState(() => localStorage.getItem("showSavedMenus") === "true");
+const [showMyOrders, setShowMyOrders] = useState(() => localStorage.getItem("showMyOrders") === "true");
+const [showSettingsPanel, setShowSettingsPanel] = useState(() => localStorage.getItem("showSettingsPanel") === "true");
+const [activeModal, setActiveModal] = useState(() => localStorage.getItem("activeModal") || null);
+const [showDraftSaved, setShowDraftSaved] = useState(false);
+const [draftName, setDraftName] = useState("");
+const [people, setPeople] = useState(0);
+const [dessertCount, setDessertCount] = useState(0);
+const [includeWine, setIncludeWine] = useState(false);
+const [showResults, setShowResults] = useState(false); 
+const [showModal, setShowModal] = useState(false); 
 
-  
-  const [results, setResults] = useState([]);
-  const [showResults, setShowResults] = useState(false);
-  const [budget, setBudget] = useState(0);
-  const [people, setPeople] = useState(0);
-  const [dessertCount, setDessertCount] = useState(0);
-  const [includeWine, setIncludeWine] = useState(false);
+const [results, setResults] = useState(() => {
+  const saved = localStorage.getItem("results");
+  return saved ? JSON.parse(saved) : [];
+});
+const [budget, setBudget] = useState(() => {
+  return localStorage.getItem("budget") || "0";
+
+})
 
 
 
@@ -64,7 +72,40 @@ const switchToRegisterViaModal = () => {
 
 
 
+
+
+useEffect(() => {
+  localStorage.setItem("results", JSON.stringify(results)); // results הוא מערך
+}, [results]);
+
+useEffect(() => {
+  localStorage.setItem("budget", budget); // budget הוא מחרוזת או מספר, לא צריך JSON
+}, [budget]);
+
   
+useEffect(() => {
+  
+//localStorage.clear();
+  localStorage.setItem("budgetChatOpen", showBudgetChat ? "true" : "false");
+}, [showBudgetChat]);
+
+
+
+useEffect(() => {
+  localStorage.setItem("showSavedMenus", showSavedMenus ? "true" : "false");
+}, [showSavedMenus]);
+
+useEffect(() => {
+  localStorage.setItem("showMyOrders", showMyOrders ? "true" : "false");
+}, [showMyOrders]);
+
+useEffect(() => {
+  localStorage.setItem("showSettingsPanel", showSettingsPanel ? "true" : "false");
+}, [showSettingsPanel]);
+
+useEffect(() => {
+  localStorage.setItem("activeModal", activeModal || "");
+}, [activeModal]);
 
 
 
@@ -126,6 +167,8 @@ onLoginSuccess={() => {
   setIsOpen={setShowBudgetChat}
   draftName={draftName}
   setDraftName={setDraftName}
+  results  = {results}
+  setResults = {setResults}
   />
 
 
@@ -134,6 +177,8 @@ onLoginSuccess={() => {
 
 
       {showModal && <ContactModal onClose={() => setShowModal(false)} />}
+
+        
       <SavedMenus
         key={user?._id} // ✅ כך SavedMenus תתאפס ותטען מחדש כשמשתמש משתנה
         isOpen={showSavedMenus}
@@ -186,7 +231,9 @@ onLoginSuccess={() => {
 
      
     </header>
+    
   );
+  
 };
 
 export default NavBar;
