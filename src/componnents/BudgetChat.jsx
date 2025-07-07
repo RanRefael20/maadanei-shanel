@@ -6,6 +6,7 @@ import ResultsModal from "./ResultsModal"; // או הנתיב הנכון אצל�
 import FullMenuSelector from "./FullMenuSelector";
 import LoadingSpinner from "./LoadingSpinner";
 import useAuthSync from "../hooks/useAuthSync";
+import RegisterErrorModal from "../login/Eror/RegisterErrorModal";
 
 
 
@@ -25,69 +26,208 @@ const CATEGORY_KEYS = [
   "דגים"
 ];
 
-const menuItems = {
+const menuItems= {
+
   "סלטים": [
-    { name: "סלט חלומי | 4.5 ליטר", price: 180 },
-    { name: "סלט כרוב עם פיצוחים ברוטב חמאת בוטנים | 4.5 ליטר ", price: 180 },
-    { name: "סלט מיקס ירוקים עם בטטה ושקדים | 4.5 ליטר ", price: 180 },
-    { name: "סלט יווני | 4.5 ליטר", price: 180 },
-    { name: "סלט קינואה בליווי ירקות | 4.5 ליטר ", price: 180 },
-    { name: "סלט כרוב עם פיצוחים ברוטב מתוק | 4.5 ליטר ", price: 180 },
-    { name: "סלט ירקות ישראלי | 4.5 ליטר ", price: 180 },
-    { name: "מגש אנטי-פסטי", price: 180 },
-    { name: "כוסות אישיות עם מקלות ירקות | 30 יחידות", price: 180 },
-    { name: "פלטת ירקות", price: 180 },
+    { name: "סלט חלומי", 
+        sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      }
+     },
+    { name: "סלט כרוב עם פיצוחים ברוטב חמאת בוטנים  ",  
+     sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      }
+    },
+    { name: "סלט מיקס ירוקים עם בטטה ושקדים  ", 
+    sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      }
+    },
+    { name: "סלט יווני ",   sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "סלט קינואה בליווי ירקות ",   sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "סלט כרוב עם פיצוחים ברוטב מתוק  ",   sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "סלט ירקות ישראלי",   sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "מגש ירקות אנטי-פסטי בתנור",   sizes: {
+        M: { label: "M", price: 120, volume: 3 },
+        L: { label: "L", price: 185, volume: 5 }
+      } },
+    { name: "כוסות אישיות עם מקלות ירקות ",   sizes: {
+        M: { label: "20 יח'", price: 130, volume: 3 },
+        L: { label: "30 יח'", price: 185, volume: 5 }
+      } },
+    { name: "פלטת ירקות",  sizes: {
+        M: { label: "M", price: 130, volume: 3 },
+        L: { label: "L", price: 185, volume: 5 }
+      } },
   ],
   "בייגל בייגל": [
-    { name: " מגש 20 יחידות |בייגל טונה", price: 330 },
-    { name: "מגש 20 יחידות |בייגל שמנת סלמון", price: 400 },
-    { name: "מגש 20 יחידות |בייגל ביצים", price: 300 },
-    { name: " מגש 20 יחידות |בייגל פסטו , גבינת פטה ואנטי-פסטי", price: 300 }
+    { name: "בייגל טונה", sizes: {
+        M: { label: "12 יח'", price: 189, volume: 7 },
+        L: { label: "20 יח'", price: 315, volume: 12 }
+      } },
+    { name: "בייגל שמנת סלמון", sizes: {
+        M: { label: "12 יח'", price: 230, volume: 7 },
+        L: { label: "20 יח'", price: 385, volume: 12 }
+      } },
+    { name: "בייגל סלט ביצים , בצל ירוק וחסה לאליק", sizes: {
+        M: { label: "12 יח'", price: 189, volume: 7 },
+        L: { label: "20 יח'", price: 315, volume: 12 }
+      } },
+    { name: "בייגל פסטו , גבינת פטה ואנטי-פסטי", sizes: {
+        M: { label: "12 יח'", price: 189, volume: 7 },
+        L: { label: "20 יח'", price: 315, volume: 12 }
+      } }
   ],
   "פסטות": [
-    { name: "פסטה שמנת פטריות | 4.5 ליטר ", price: 180 },
-    { name: "פסטה רוזה | 4.5 ליטר ", price: 180 },
-    { name: "פסטה עגבניות | 4.5 ליטר ", price: 180 },
-    { name: "פסטה פסטו שמנת | 4.5 ליטר ", price: 180 },
-    { name: "מגש לזניה | 4.5 ליטר ", price: 180 },
-    { name: "מגש תפוח אדמה מוקרם | 4.5 ליטר ", price: 180 },
+    { name: "פסטה שמנת פטריות ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "פסטה רוזה ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "פסטה עגבניות ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "פסטה פסטו שמנת ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "מגש לזניה  ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "מגש תפוח אדמה מוקרם ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
   ],
   "קישים ומאפים": [
-    { name: "קיש גבינות ובטטה | קוטר 29", price: 180 },
-    { name: "קיש גבינות וברוקולי | קוטר 29", price: 180 },
-    { name: "קיש גבינות ופטריות  | קוטר 29 ", price: 180 },
-    { name: "קיש גבינות וטירס  | קוטר 29 ", price: 180 },
-    { name: "קיש גבינות ובצלים  | קוטר 29 ", price: 180 },
-    { name: "מגש לחמי הבית בלווי מטבלים ", price: 250 },
-    { name: "מגש לחם שום | 20 יחידות ", price: 180 }
+    { name: "קיש גבינות ובטטה", sizes: {
+        L: { label: "קוטר 29", price: 165, volume: 6 }
+      } },
+    { name: "קיש גבינות וברוקולי ", sizes: {
+        L: { label: "קוטר 29", price: 165, volume: 6 }
+      } },
+    { name: "קיש גבינות ופטריות   ", sizes: {
+        L: { label: "קוטר 29", price: 165, volume: 6 }
+      }},
+    { name: "קיש גבינות וטירס   ", sizes: {
+        L: { label: "קוטר 29", price: 165, volume: 6 }
+      } },
+    { name: "קיש גבינות ובצלים   ", sizes: {
+        L: { label: "קוטר 29", price: 165, volume: 6 }
+      } },
+    { name: "מגש לחמי הבית בלווי מטבלים  ", sizes: {
+        L: { label: "L", price: 235, volume: 7 }
+      } },
+    { name: "מגש לחם שום | 20 יחידות ", sizes: {
+        M: { label: "10 יח'", price: 80, volume: 4 },
+        L: { label: "20 יח'", price: 165, volume: 8 }
+      } }
   ],
   "קינוחים": [
-    { name: "מגש פובלובות | 30 יחידות ", price: 300 },
-    { name: "מגש פירות העונה | 7 אנשים", price: 280 },
-    { name: "מגש פחזניות | 30 יחידות ", price: 320 },
-    { name: "מגש קונוסים במילוי קרם ", price: 300 },
-    { name: "מגש טארלטים במילוי טעמים שונים", price: 220 },
-    { name: "מגש עוגיות מפנק - תמרים , שקדים ובראוניז ", price: 280 },
-    { name: "מגש עוגות - תפוזים , גזר ושוקולד ", price: 200 },
-    { name: "עוגות שמרים שוקולד | 2 פסים ", price: 210 },
-    { name: "עוגת קדאיף | קוטר 29 ", price: 230 },
-    { name: "מגש אצבעות מילפיי | 20 יחידות ", price: 310 }
+    { name: "מגש פובלובות | תוספת פרי לבחירה - לציין בהערות", sizes: {
+        M: { label: "20 יח'", price: 190, volume: 3 },
+        L: { label: "30 יח'", price: 285, volume: 5 }
+      } },
+    { name: "מגש פירות העונה", sizes: {
+        M: { label: "M", price: 180, volume: 3 },
+        L: { label: "לארג'", price: 270, volume: 5 }
+      } },
+    { name: "מגש פחזניות", sizes: {
+        M: { label: "20 יח'", price: 305, volume: 3 },
+        L: { label: "30 יח'", price: 205, volume: 5 }
+      } },
+    { name: "מגש קונוסים במילוי קרם ", sizes: {
+        M: { label: "20 יח'", price: 190, volume: 3 },
+        L: { label: "30 יח'", price: 285, volume: 5 }
+      } },
+    { name: "מגש טארלטים במילוי קרם פיסטוק , שוקולד לבן , קינדר וכו'", sizes: {
+        L: { label: "22 יח'", price: 179, volume: 5 }
+      } },
+    { name: "מגש מיקס עוגיות - בראוניז , תמרים ושקדים ", sizes: {
+        M: { label: "מדיום", price: 180, volume: 3 },
+        L: { label: "לארג'", price: 265, volume: 5 }
+      } },
+    { name: "מיקס עוגות - שוקולד , תפוזים , גזר ", sizes: {
+        M: { label: "מדיום", price: 190, volume: 3 },
+        L: { label: "לארג'", price: 285, volume: 5 }
+      } },
+    { name: "פס שוקולד שמרים", sizes: {
+        L: { label: "2 יח'", price: 140, volume: 5 }
+      } },
+    { name: "עוגת קדאיף ", sizes: {
+        
+        L: { label: "קוטר 29", price: 185, volume: 5 }
+      } },
+    { name: "צבעות מילפיי ",sizes: {
+        M: { label: "10 יח'", price: 150, volume: 3 },
+        L: { label: "20 יח'", price: 295, volume: 5 }
+      } }
   ],
-  "מגשי אירוח": [
-    { name: "מגש גבינות מפנק ", price: 400 },
-    { name: "מגש דגים מעושנים", price: 400 },
-    { name: "מגש בורקיטס במילוי ממרח פסטו , קוביה בולגרית , וחסה לאליק", price: 400 },
-    { name: "מגש טארטלים במילוי שמנת וסלמון", price: 300 },
-    { name: "מגש פריקסה מפנק", price: 450 },
-    { name: "מגש פיתות סביח אישיות", price: 375 },
-    { name: "מגש גבינות מפנק", price: 400 },
-    { name: "מגש חצאי טורטיות במילוי סלט טונה / ביצים", price: 330 }
+  "מגשי פרימיום": [
+    { name: "מגש גבינות מפנק ", sizes: {
+        M: { label: "מדיום", price: 285, volume: 5 },
+        L: { label: "לארג'", price: 385, volume: 10 }
+      } },
+    { name: "מגש דגים מעושנים", sizes: {
+        M: { label: "מדיום", price: 285, volume: 5 },
+        L: { label: "לארג'", price: 385, volume: 10 }
+      } },
+    { name: "מגש בורקיטס במילוי ממרח פסטו , קוביה בולגרית , וחסה לאליק", sizes: {
+        M: { label: "20 יח'", price: 255, volume: 7 },
+        L: { label: "30 יח'", price: 385, volume: 14 }
+      } },
+    { name: "מגש טארטלים במילוי שמנת וסלמון",sizes: {
+        M: { label: "20 יח'", price: 190, volume: 6 },
+        L: { label: "30 יח'", price: 285, volume: 12 }
+      } },
+    { name: "מגש פריקסה מפנק", sizes: {
+        M: { label: "20 יח'", price: 320, volume: 8 },
+        L: { label: "27 יח'", price: 435, volume: 14 }
+      } },
+    { name: "מגש פיתות סביח אישיות", sizes: {
+        M: { label: "15 יח'", price: 215, volume: 6 },
+        L: { label: "25 יח'", price: 360, volume: 12 }
+      } },
+    { name: "מגש חצאי טורטיות במילוי סלט טונה / ביצים", sizes: {
+        L: { label: "20 יח'", price: 315, volume: 10 }
+      } }
   ],
   "דגים": [
-    { name: "פילה סלמון ברוטב מתקתק " , price: 350 },
-    { name: "פילה סלמון ברוטב פסטו עם פרורי לחם מעל", price: 350 },
-    { name: "פילה מושט ברוטב לימוני", price: 350 },
-    { name: "פילה דניס ברוטב לימוני", price: 350 }
+    { name: "פילה סלמון ברוטב מתקתק " , sizes: {
+        L: { label: "שלם", price: 335, volume: 10 }
+      } },
+    { name: "פילה סלמון ברוטב פסטו עם פרורי לחם מעל", sizes: {
+        
+        L: { label: "שלם", price: 335, volume: 10 }
+      } },
+    { name: "פילה מושט ברוטב לימוני", sizes: {
+        
+        L: { label: "10 יח'", price: 335, volume: 10 }
+      } },
+    { name: "פילה דניס ברוטב לימוני", sizes: {
+        L: { label: "שאל את המוכר לגבי הכמות", price: 430, volume: 10 }
+      } }
   ],
   "יינות": [
     { name: "יין שורש אדום / לבן | יקב צרעה", price: 210 },
@@ -96,26 +236,8 @@ const menuItems = {
   ]
 };
 
-function getBudgetRangeForPeople(people) {
-   if (people <= 5) return [500, 3000];
-  if (people <= 10) return [600, 3000];
-  if (people <= 15) return [1100, 3000];
-  if (people <= 20) return [1500, 4000];
-  if (people <= 30) return [2200, 5000];
-  if (people <= 40) return [3000, 15000];
-  if (people <= 50) return [4000, 15000];
-  if (people <= 60) return [4500, 15000];
-  if (people <= 70) return [5500, 15000];
-  if (people <= 80) return [6500, 20000];
-  if (people <= 90) return [7500, 20000];
-  if (people <= 100) return [8000, 20000];
-  if (people <= 110) return [8500, 20000];
-  if (people <= 120) return [9500, 20000];
-  if (people <= 130) return [10500, 20000];
-  if (people <= 140) return [11500, 20000];
-  if (people <= 150) return [12500, 30000];
-  if (people <= 160) return [13500, 30000];
-  return [10000, 30000];  }
+
+
 
 function shuffle(array) {
   let currentIndex = array.length, randomIndex;
@@ -127,12 +249,22 @@ function shuffle(array) {
   return array;
 }
 
-function generateMenus(budget, people, dessertCount, includeWine  ) {
-  const [minBudget, maxBudget] = getBudgetRangeForPeople(people);
+function generateMenus(budget, dessertCount, includeWine  ) {
+const minBudget = budget - 200;
+const maxBudget = budget + 180;
 
-  if (budget < minBudget || budget > maxBudget) {
-    alert(`מיד ממשיכים ! \n שים לב : התקציב שהוזן לא תואם את כמות הסועדים.\nהמלצה לתקציב: ${minBudget}₪ - ${maxBudget}₪`);
-  }
+
+    const createItemsWithSizes = (items, category) => {
+    return items.flatMap(item => {
+      if (!item.sizes) return [];
+      return Object.entries(item.sizes).map(([sizeKey, sizeData]) => ({
+        name: `${item.name} - ${sizeData.label}`,
+        price: sizeData.price,
+        volume: sizeData.volume,
+        category,
+      }));
+    });
+  };
 
   const allowedUnder = 200;
   const allowedOver = 180;
@@ -143,9 +275,10 @@ function generateMenus(budget, people, dessertCount, includeWine  ) {
   if (includeWine) categories.push("יינות");
 
 const baseItems = categories.flatMap(cat =>
-  (menuItems[cat] || []).map(item => ({ ...item, category: cat }))
+  createItemsWithSizes(menuItems[cat] || [], cat)
 );
-  const dessertItems = (menuItems["קינוחים"] || []).map(item => ({ ...item, category: "קינוחים" }));
+const dessertItems = createItemsWithSizes(menuItems["קינוחים"] || [], "קינוחים");
+
 
 
   let bestCombo = [];
@@ -159,12 +292,32 @@ const baseItems = categories.flatMap(cat =>
     const shuffled = shuffle([...baseItems]);
     const shuffledDesserts = shuffle([...dessertItems]);
 
+    let wineAdded = 0;
+const requiredWines = 1; // או 2 או 0 – מה שתרצה כברירת מחדל
+const wineItems = shuffle((menuItems["יינות"] || []).map(item => ({ ...item, category: "יינות" })));
+
+// הוספת בקבוקי יין לפני כל דבר אחר
+if (includeWine) {
+  for (let i = 0; i < wineItems.length && wineAdded < requiredWines; i++) {
+    const wine = wineItems[i];
+    if (total + wine.price <= maxTotal) {
+      items.push({ name: wine.name, price: wine.price, category: wine.category });
+      total += wine.price;
+      wineAdded++;
+    }
+  }
+
+  // אם לא הצלחנו להוסיף את כמות היינות הנדרשת – דלג על הניסיון הנוכחי
+  if (wineAdded < requiredWines) continue;
+}
+
+
     // לולאת קינוחים – רק עד הכמות שהוגדרה
     if (!isNaN(dessertCount) && dessertCount > 0) {
       for (let i = 0; i < shuffledDesserts.length && dessertAdded < dessertCount; i++) {
         const dessert = shuffledDesserts[i];
         if (total + dessert.price <= maxTotal) {
-items.push({ name: dessert.name, price: dessert.price , category: item.category });
+items.push({ name: dessert.name, price: dessert.price , category: dessert.category });
           total += dessert.price;
           dessertAdded++;
         }
@@ -218,24 +371,36 @@ items.push({ name: dessert.name, price: dessert.price , category: item.category 
 
 
 
-const BudgetChat = ({  isOpen,  setIsOpen, }) => {
+const BudgetChat = ({  isOpen,  setIsOpen }) => {
 
 
   const { user , loading , setLoading } = useAuthSync();//ani po 
     const [showDraftSaved, setShowDraftSaved] = useState(false); // מודל הצלחה לשמירת תפריט 
-  const [budget, setBudget] = useState(1000);
-  const [people, setPeople] = useState(10);
+  const [budget, setBudget] = useState("");
+  const [people, setPeople] = useState("");
   const [dessertCount, setDessertCount] = useState("");
   const [includeWine, setIncludeWine] = useState(false);
   const [showResultsModal, setShowResultsModal] = useState(false);
   const [results, setResults] = useState([]);
   const [showFullMenu, setShowFullMenu] = useState(false);
   const [focusedWindow, setFocusedWindow] = useState("results");
- 
-  useEffect(() => {
-  console.log("🧾 משתמש שהגיע מה־hook:", user);
-}, [user]);
 
+
+const [remainingVolume, setRemainingVolume] = useState(0);
+const [remainingDessertVolume, setRemainingDessertVolume] = useState(0);
+
+ const [errorMessage, setErrorMessage] = useState("");
+  const [showError, setShowError] = useState(false);
+  const [showBudgetInput, setShowBudgetInput] = useState(false);
+  const [showPeopleInput, setShowPeopleInput] = useState(false);
+    const [hideButtonPeople, setHideButtonPeople] = useState(false);
+    const [hideButtonBudget, setHideButtonBudget] = useState(false);
+ 
+
+    /*אחראי על הודעה חד פעמית לאחר חריגה  */
+
+const [dessertVolumeExceededOnce, setDessertVolumeExceededOnce] = useState(false);
+const [mainVolumeExceededOnce, setMainVolumeExceededOnce] = useState(false);
 
 
 
@@ -250,15 +415,100 @@ const BudgetChat = ({  isOpen,  setIsOpen, }) => {
     }
   }, [showFullMenu, showResultsModal]);
 
-  const handleGenerate = () => {
-    const b = parseInt(budget);
+  const handleVolumeMode = () => {
+    setDessertVolumeExceededOnce(false);
+setMainVolumeExceededOnce(false);
+
+    setHideButtonBudget(true)
+    setShowPeopleInput(true)
     const p = parseInt(people);
-    const d = parseInt(dessertCount);
-    if (isNaN(b) || b < 100 || isNaN(p) || p < 1) {
-      alert("הכנס תקציב ומספר סועדים תקפים");
+  if (isNaN(p) || p < 4 ) {
+      setErrorMessage(" הזינו את מספר הסועדים, לפי המספר שתזינו תקבלו יתרת נקודות. נקודות לקינוחים בנפרד ונקודות לשאר המאכלים בנפרד. לאחר מכן תוכלו להתחיל לבחור על ידי לחיצה על-➕. במהלך הבחירה, תמיד יוצג לכם מספר הנקודות הנותר, כאשר תגיעו ל-0 תדעו שזוהי הכמות המומלצת - אך הבחירה הסופית תמיד בידיים שלכם. פחות, יותר- הכל בהתאם להעדפה אישית. אנחנו כאן כדי ללוות אתכם בבחירה מדוייקת "  )
+      setShowError(true)
       return;
     }
+    setHideButtonBudget(false)
+    setShowPeopleInput(false)
 
+  const mainVolume = (p * 2) + 1;
+  const dessertVol = p * 0.5;
+
+ setRemainingVolume(mainVolume);
+  setRemainingDessertVolume(dessertVol);
+  setResults([
+    {
+      name: "מותאם לפי אנשים",
+      items: [],
+      total: 0,
+    },
+  ]);
+
+  setShowResultsModal(true); // ✅ פותח תוצאה
+setIsOpen(false);//סגירה של באדגאט
+
+};
+
+
+
+const handleAddItemWithVolume = (item) => {
+  
+  if( parseInt(budget)>590){    
+      const updatedResults = [...results];
+  const currentMenu = updatedResults[0];
+   currentMenu.items.unshift(item);
+    currentMenu.total += item.price;
+    setResults(updatedResults);
+    return;
+  }
+  const updatedResults = [...results];
+  const currentMenu = updatedResults[0];
+  const { volume, category } = item;
+  const isDessert = category === "קינוחים";
+
+  if (isDessert) {
+    if (remainingDessertVolume < volume) {
+      if (!dessertVolumeExceededOnce) {
+        setErrorMessage("חרגת מהנפח המותר לקינוחים עבור מספר הסועדים. תוכל עדיין להוסיף, אך זה מעבר להמלצה.");
+        setShowError(true);
+        setDessertVolumeExceededOnce(true);
+      }
+    }
+    setRemainingDessertVolume(prev => prev - volume);
+  } else {
+    if (remainingVolume < volume) {
+      if (!mainVolumeExceededOnce) {
+        setErrorMessage("חרגת מהנפח המומלץ לפריטים לפי מספר הסועדים. תוכל עדיין להוסיף, אך מומלץ להישאר בתחום.");
+        setShowError(true);
+        setMainVolumeExceededOnce(true);
+      }
+    }
+    setRemainingVolume(prev => prev - volume);
+  }
+  currentMenu.items.unshift(item);
+    currentMenu.total += item.price;
+    setResults(updatedResults);
+
+};
+
+
+
+
+  const handleGenerate = () => {
+    setDessertVolumeExceededOnce(false);
+setMainVolumeExceededOnce(false);
+
+    setShowBudgetInput(true);
+    setHideButtonPeople(true)
+    
+    const b = parseInt(budget);
+    
+    const d = parseInt(dessertCount);
+    if (isNaN(b) || b < 599 ) {
+      setErrorMessage(" מינימום תקציב 600₪. התפריט יבנה נטו על פי תקציב, ללא התחשבות בכמות האנשים. באפשרותך לבחור מספר קינוחים שתרצה שיהיו כלולים בתקציב(לא חובה). בנוסף תוכל לבחור אם להכניס יין. 💃 הזמנה נעימה "  )
+      setShowError(true)
+      return;
+    }
+setHideButtonPeople(false)
     
     // סגור את התוצאה הקודמת לפני פתיחה מחודשת
    setLoading(true);
@@ -267,9 +517,11 @@ const BudgetChat = ({  isOpen,  setIsOpen, }) => {
     setResults([]);
 
     setTimeout(() => {
-      const menus = generateMenus(b, p, d, includeWine);
+      const menus = generateMenus(b,  d, includeWine);
       setResults(menus);
       setShowResultsModal(true);
+      setShowBudgetInput(false);
+      
       setFocusedWindow("results");
        setLoading(false);
     }, 500);
@@ -308,26 +560,32 @@ const BudgetChat = ({  isOpen,  setIsOpen, }) => {
           },
         }}
       >
-                  <button className="close-button" onClick={() => setIsOpen(false)}>סגור</button>
+                  <button className="close-button" onClick={() => {setIsOpen(false)
+                    setShowBudgetInput(false)
+                    setHideButtonPeople(false)
+                        setHideButtonBudget(false)
+                      setShowPeopleInput(false)
+                      setPeople("")
+                      setBudget("")
+                      setDessertCount("")
+                      setIncludeWine("")
+                  }}>סגור</button>
 
         <div className="budget-input-section">
-          <h2 className="budget-title">באפשרותך לבנות תפריט לפי תקציב</h2>
-
-          <input
+          <h2 className="budget-title">באפשרותך לבנות תפריט לפי תקציב או לפי כמות סועדים</h2>
+{showBudgetInput&&(
+  <>
+  הזן תקציב
+     <input
+     
             type="number"
             className="budget-input"
             placeholder="הכנס תקציב ב-₪"
             value={budget}
             onChange={(e) => setBudget(e.target.value)}
           />
-          <input
-            type="number"
-            className="budget-input"
-            placeholder="מספר סועדים"
-            value={people}
-            onChange={(e) => setPeople(e.target.value)}
-          />
-          <input
+הכנס מספר קינוחים (לא חייב)
+             <input
             type="number"
             className="budget-input"
             placeholder="כמה קינוחים (או השאר ריק)"
@@ -335,7 +593,7 @@ const BudgetChat = ({  isOpen,  setIsOpen, }) => {
             onChange={(e) => setDessertCount(e.target.value)}
           />
 
-          <label className="checkbox-label">
+  <label className="checkbox-label">
             <input
               type="checkbox"
               checked={includeWine}
@@ -343,15 +601,39 @@ const BudgetChat = ({  isOpen,  setIsOpen, }) => {
             />
             רוצים יין?
           </label>
+        </>  
+   )}
+     
+     {showPeopleInput&&(
+          <input
+            type="number"
+            className="budget-input"
+            placeholder="מספר סועדים"
+            value={people}
+            onChange={(e) => setPeople(e.target.value)}
+          />
 
-          <button className="generate-button" onClick={handleGenerate}>
-            צור תפריט
+     )}
+          {!hideButtonBudget &&(
+   <button className="generate-button" onClick={handleGenerate}>
+            צור תפריט לפי תקציב
           </button>
-        </div>
-      </Modal>
+          )}
+       
+          {!hideButtonPeople&&(
+          <button className="generate-button" onClick={handleVolumeMode}>
+           צור תפריט לפי כמות אנשים (יותר מדיוק)
+          </button>
+          )}
 
+ 
+        </div>
+       
+      </Modal>
+ 
       {showResultsModal && (
         <ResultsModal
+        
           isOpen={showResultsModal}
           onClose={() => setShowResultsModal(false)}
           results={results}
@@ -364,7 +646,7 @@ const BudgetChat = ({  isOpen,  setIsOpen, }) => {
           }}
           loading={loading}// טעינה של טען מחדש ברזולט 
           handleGenerate={handleGenerate} // ✅ חשוב
-           
+           handleVolumeMode={handleVolumeMode}
 
           /* אינפוטים של תקציב וכו */
             budget={budget}
@@ -377,31 +659,34 @@ setDessertCount={setDessertCount}
 setIncludeWine={setIncludeWine}
   setShowDraftSaved={setShowDraftSaved}
   showDraftSaved={showDraftSaved}
+    handleAddItemWithVolume={handleAddItemWithVolume}
+remainingVolume={remainingVolume}
+setRemainingVolume={setRemainingVolume}
+remainingDessertVolume={remainingDessertVolume}
+setRemainingDessertVolume={setRemainingDessertVolume} 
 
         />
+      )}
+
+           {showError && (
+        <RegisterErrorModal
+          onClose={() => setShowError(false)}
+          errorMessage={errorMessage}
+          source={"budget"}        
+        />
+        
       )}
 
       {showFullMenu && (
-        <FullMenuSelector
-          onClose={() => setShowFullMenu(false)}
-onAddItem={(item) => {
-  const { name, price, category } = item;
-  setResults(prev => {
-    const updated = [...prev];
-    updated[0].items.push({ name, price, category }); // ⬅️ עכשיו כולל category
-    updated[0].total += price;
-    return updated;
-  });
-}}
+<FullMenuSelector
+  onClose={() => setShowFullMenu(false)}
 
+/>
 
-          focusedWindow={focusedWindow}
-          setFocusedWindow={setFocusedWindow}
-        />
       )}
 
       {loading && (
-  <LoadingSpinner text="... טוען תפריט , אנא המתן " />
+  <LoadingSpinner text="...טוען" />
 )}
     </>
   );

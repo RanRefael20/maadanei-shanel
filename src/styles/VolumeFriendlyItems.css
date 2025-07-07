@@ -1,0 +1,98 @@
+/* ✅ VolumeFriendlyItems.css */
+
+.suggested-items-container {
+  background-color: #ffffff;
+  border-radius: 18px;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  margin-top: 20px;
+  max-height: 50vh;
+  overflow-y: auto;
+  font-family: "Rubik", sans-serif;
+  direction: rtl;
+  transition: all 0.3s ease-in-out;
+}
+
+.suggested-items-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1.2rem;
+  color: #00b894;
+  text-align: center;
+}
+
+.color-red {
+  color: #FF6B00;
+}
+
+.no-suggestions {
+  color: #999;
+  text-align: center;
+  font-size: 0.95rem;
+  padding: 1rem 0;
+}
+
+.suggested-items-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggested-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding: 0.6rem 0;
+  transition: background-color 0.2s ease;
+}
+
+.suggested-item:hover {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+.item-name {
+  flex: 1;
+  font-size: 1rem;
+  color: #00b894;
+  padding-right: 8px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quantity-controls button {
+  font-size: 1.1rem;
+  background: #f0f0f0;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.quantity-controls button:hover {
+  background-color: #e0e0e0;
+}
+
+.item-count {
+  min-width: 24px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1rem;
+  color: #00b894;
+}
+
+.add-button {
+  color: #00b894;
+}
+
+.remove-button {
+  color: #d63031;
+}
+
+

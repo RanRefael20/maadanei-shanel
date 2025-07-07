@@ -1,66 +1,205 @@
 export const fullMenu = {
+
   "סלטים": [
-    { name: "סלט חלומי | 4.5 ליטר", price: 180 },
-    { name: "סלט כרוב עם פיצוחים ברוטב חמאת בוטנים | 4.5 ליטר ", price: 180 },
-    { name: "סלט מיקס ירוקים עם בטטה ושקדים | 4.5 ליטר ", price: 180 },
-    { name: "סלט יווני | 4.5 ליטר", price: 180 },
-    { name: "סלט קינואה בליווי ירקות | 4.5 ליטר ", price: 180 },
-    { name: "סלט כרוב עם פיצוחים ברוטב מתוק | 4.5 ליטר ", price: 180 },
-    { name: "סלט ירקות ישראלי | 4.5 ליטר ", price: 180 },
-    { name: "מגש אנטי-פסטי", price: 180 },
-    { name: "כוסות אישיות עם מקלות ירקות | 30 יחידות", price: 180 },
-    { name: "פלטת ירקות", price: 180 },
+    { name: "סלט חלומי", 
+        sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      }
+     },
+    { name: "סלט כרוב עם פיצוחים ברוטב חמאת בוטנים  ",  
+     sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      }
+    },
+    { name: "סלט מיקס ירוקים עם בטטה ושקדים  ", 
+    sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      }
+    },
+    { name: "סלט יווני ",   sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "סלט קינואה בליווי ירקות ",   sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "סלט כרוב עם פיצוחים ברוטב מתוק  ",   sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "סלט ירקות ישראלי",   sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "מגש ירקות אנטי-פסטי בתנור",   sizes: {
+        M: { label: "M", price: 120, volume: 3 },
+        L: { label: "L", price: 185, volume: 5 }
+      } },
+    { name: "כוסות אישיות עם מקלות ירקות ",   sizes: {
+        M: { label: "20 יח'", price: 130, volume: 3 },
+        L: { label: "30 יח'", price: 185, volume: 5 }
+      } },
+    { name: "פלטת ירקות",  sizes: {
+        M: { label: "M", price: 130, volume: 3 },
+        L: { label: "L", price: 185, volume: 5 }
+      } },
   ],
   "בייגל בייגל": [
-    { name: " מגש 20 יחידות |בייגל טונה", price: 330 },
-    { name: "מגש 20 יחידות |בייגל שמנת סלמון", price: 400 },
-    { name: "מגש 20 יחידות |בייגל ביצים", price: 300 },
-    { name: " מגש 20 יחידות |בייגל פסטו , גבינת פטה ואנטי-פסטי", price: 300 }
+    { name: "בייגל טונה", sizes: {
+        M: { label: "12 יח'", price: 189, volume: 7 },
+        L: { label: "20 יח'", price: 315, volume: 12 }
+      } },
+    { name: "בייגל שמנת סלמון", sizes: {
+        M: { label: "12 יח'", price: 230, volume: 7 },
+        L: { label: "20 יח'", price: 385, volume: 12 }
+      } },
+    { name: "בייגל סלט ביצים , בצל ירוק וחסה לאליק", sizes: {
+        M: { label: "12 יח'", price: 189, volume: 7 },
+        L: { label: "20 יח'", price: 315, volume: 12 }
+      } },
+    { name: "בייגל פסטו , גבינת פטה ואנטי-פסטי", sizes: {
+        M: { label: "12 יח'", price: 189, volume: 7 },
+        L: { label: "20 יח'", price: 315, volume: 12 }
+      } }
   ],
   "פסטות": [
-    { name: "פסטה שמנת פטריות | 4.5 ליטר ", price: 180 },
-    { name: "פסטה רוזה | 4.5 ליטר ", price: 180 },
-    { name: "פסטה עגבניות | 4.5 ליטר ", price: 180 },
-    { name: "פסטה פסטו שמנת | 4.5 ליטר ", price: 180 },
-    { name: "מגש לזניה | 4.5 ליטר ", price: 180 },
-    { name: "מגש תפוח אדמה מוקרם | 4.5 ליטר ", price: 180 },
+    { name: "פסטה שמנת פטריות ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "פסטה רוזה ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "פסטה עגבניות  ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "פסטה פסטו שמנת ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "מגש לזניה  ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "מגש תפוח אדמה מוקרם ", sizes: {
+        M: { label: "3 ליטר'", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
   ],
   "קישים ומאפים": [
-    { name: "קיש גבינות ובטטה | קוטר 29", price: 180 },
-    { name: "קיש גבינות וברוקולי | קוטר 29", price: 180 },
-    { name: "קיש גבינות ופטריות  | קוטר 29 ", price: 180 },
-    { name: "קיש גבינות וטירס  | קוטר 29 ", price: 180 },
-    { name: "קיש גבינות ובצלים  | קוטר 29 ", price: 180 },
-    { name: "מגש לחמי הבית בלווי מטבלים  | קוטר 29 ", price: 250 },
-    { name: "מגש לחם שום | 20 יחידות ", price: 180 }
+    { name: "קיש גבינות ובטטה", sizes: {
+        L: { label: "קוטר 29", price: 165, volume: 6 }
+      } },
+    { name: "קיש גבינות וברוקולי ", sizes: {
+        L: { label: "קוטר 29", price: 165, volume: 6 }
+      } },
+    { name: "קיש גבינות ופטריות   ", sizes: {
+        L: { label: "קוטר 29", price: 165, volume: 6 }
+      }},
+    { name: "קיש גבינות וטירס   ", sizes: {
+        L: { label: "קוטר 29", price: 165, volume: 6 }
+      } },
+    { name: "קיש גבינות ובצלים   ", sizes: {
+        L: { label: "קוטר 29", price: 165, volume: 6 }
+      } },
+    { name: "מגש לחמי הבית בלווי מטבלים  ", sizes: {
+        L: { label: "L", price: 235, volume: 7 }
+      } },
+    { name: "מגש לחם שום | 20 יחידות ", sizes: {
+        M: { label: "10 יח'", price: 80, volume: 4 },
+        L: { label: "20 יח'", price: 165, volume: 8 }
+      } }
   ],
   "קינוחים": [
-    { name: "מגש פובלובות | 30 יחידות ", price: 300 },
-    { name: "מגש פירות העונה | 7 אנשים", price: 280 },
-    { name: "מגש פחזניות | 30 יחידות ", price: 320 },
-    { name: "מגש קונוסים במילוי קרם ", price: 300 },
-    { name: "מגש טארלטים במילוי טעמים שונים", price: 220 },
-    { name: "מגש עוגיות מפנק - תמרים , שקדים ובראוניז ", price: 280 },
-    { name: "מגש עוגות - תפוזים , גזר ושוקולד ", price: 200 },
-    { name: "עוגות שמרים שוקולד | 2 פסים ", price: 210 },
-    { name: "עוגת קדאיף | קוטר 29 ", price: 230 },
-    { name: "מגש אצבעות מילפיי | 20 יחידות ", price: 310 }
+    { name: "מגש פובלובות | תוספת פרי לבחירה - לציין בהערות", sizes: {
+        M: { label: "20 יח'", price: 190, volume: 3 },
+        L: { label: "30 יח'", price: 285, volume: 5 }
+      } },
+    { name: "מגש פירות העונה", sizes: {
+        M: { label: "M", price: 180, volume: 3 },
+        L: { label: "לארג'", price: 270, volume: 5 }
+      } },
+    { name: "מגש פחזניות", sizes: {
+        M: { label: "20 יח'", price: 305, volume: 3 },
+        L: { label: "30 יח'", price: 205, volume: 5 }
+      } },
+    { name: "מגש קונוסים במילוי קרם ", sizes: {
+        M: { label: "20 יח'", price: 190, volume: 3 },
+        L: { label: "30 יח'", price: 285, volume: 5 }
+      } },
+    { name: "מגש טארלטים במילוי קרם פיסטוק , שוקולד לבן , קינדר וכו'", sizes: {
+        L: { label: "22 יח'", price: 179, volume: 5 }
+      } },
+    { name: "מגש מיקס עוגיות - בראוניז , תמרים ושקדים ", sizes: {
+        M: { label: "מדיום", price: 180, volume: 3 },
+        L: { label: "לארג'", price: 265, volume: 5 }
+      } },
+    { name: "מיקס עוגות - שוקולד , תפוזים , גזר ", sizes: {
+        M: { label: "מדיום", price: 190, volume: 3 },
+        L: { label: "לארג'", price: 285, volume: 5 }
+      } },
+    { name: "פס שוקולד שמרים", sizes: {
+        L: { label: "2 יח'", price: 140, volume: 5 }
+      } },
+    { name: "עוגת קדאיף ", sizes: {
+        
+        L: { label: "קוטר 29", price: 185, volume: 5 }
+      } },
+    { name: "צבעות מילפיי ",sizes: {
+        M: { label: "10 יח'", price: 150, volume: 3 },
+        L: { label: "20 יח'", price: 295, volume: 5 }
+      } }
   ],
-  "מגשי אירוח": [
-    { name: "מגש גבינות מפנק ", price: 400 },
-    { name: "מגש דגים מעושנים", price: 400 },
-    { name: "מגש בורקיטס במילוי ממרח פסטו , קוביה בולגרית , וחסה לאליק", price: 400 },
-    { name: "מגש טארטלים במילוי שמנת וסלמון", price: 300 },
-    { name: "מגש פריקסה מפנק", price: 450 },
-    { name: "מגש פיתות סביח אישיות", price: 375 },
-    { name: "מגש גבינות מפנק", price: 400 },
-    { name: "מגש חצאי טורטיות במילוי סלט טונה / ביצים", price: 330 }
+  "מגשי פרימיום": [
+    { name: "מגש גבינות מפנק ", sizes: {
+        M: { label: "מדיום", price: 285, volume: 5 },
+        L: { label: "לארג'", price: 385, volume: 10 }
+      } },
+    { name: "מגש דגים מעושנים", sizes: {
+        M: { label: "מדיום", price: 285, volume: 5 },
+        L: { label: "לארג'", price: 385, volume: 10 }
+      } },
+    { name: "מגש בורקיטס במילוי ממרח פסטו , קוביה בולגרית , וחסה לאליק", sizes: {
+        M: { label: "20 יח'", price: 255, volume: 7 },
+        L: { label: "30 יח'", price: 385, volume: 14 }
+      } },
+    { name: "מגש טארטלים במילוי שמנת וסלמון",sizes: {
+        M: { label: "20 יח'", price: 190, volume: 6 },
+        L: { label: "30 יח'", price: 285, volume: 12 }
+      } },
+    { name: "מגש פריקסה מפנק", sizes: {
+        M: { label: "20 יח'", price: 320, volume: 8 },
+        L: { label: "27 יח'", price: 435, volume: 14 }
+      } },
+    { name: "מגש פיתות סביח אישיות", sizes: {
+        M: { label: "15 יח'", price: 215, volume: 6 },
+        L: { label: "25 יח'", price: 360, volume: 12 }
+      } },
+    { name: "מגש חצאי טורטיות במילוי סלט טונה / ביצים", sizes: {
+        L: { label: "20 יח'", price: 315, volume: 10 }
+      } }
   ],
   "דגים": [
-    { name: "פילה סלמון ברוטב מתקתק " , price: 350 },
-    { name: "פילה סלמון ברוטב פסטו עם פרורי לחם מעל", price: 350 },
-    { name: "פילה מושט ברוטב לימוני", price: 350 },
-    { name: "פילה דניס ברוטב לימוני", price: 350 }
+    { name: "פילה סלמון ברוטב מתקתק " , sizes: {
+        L: { label: "שלם", price: 335, volume: 10 }
+      } },
+    { name: "פילה סלמון ברוטב פסטו עם פרורי לחם מעל", sizes: {
+        
+        L: { label: "שלם", price: 335, volume: 10 }
+      } },
+    { name: "פילה מושט ברוטב לימוני", sizes: {
+        
+        L: { label: "10 יח'", price: 335, volume: 10 }
+      } },
+    { name: "פילה דניס ברוטב לימוני", sizes: {
+        L: { label: "שאל את המוכר לגבי הכמות", price: 430, volume: 10 }
+      } }
   ],
   "יינות": [
     { name: "יין שורש אדום / לבן | יקב צרעה", price: 210 },

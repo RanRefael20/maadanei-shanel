@@ -1,0 +1,83 @@
+.payment-success-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment-success-modal {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 30px 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  position: relative;
+  font-family: "Assistant", sans-serif;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.payment-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.payment-message {
+  font-size: 16px;
+  color: #333;
+  margin: 15px 0;
+  white-space: pre-line;
+}
+
+.payment-actions {
+  margin-top: 20px;
+    display: flex;
+  gap: 10px; /* רווח אופקי בין הכפתורים */
+  justify-content: center; /* למרכז את הכפתורים */
+  
+}
+
+.view-order-button {
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.view-order-button:hover {
+  background: #218838;
+}
+
+.payment-close-button {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #888;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

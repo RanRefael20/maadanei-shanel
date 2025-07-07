@@ -15,6 +15,9 @@ import "../styles/hiddenLogo.css";
 import useAuthSync from "../hooks/useAuthSync"; // ✅ ייבוא חסר
 import Menu from "./userMenu/Menu";
 import AuthManager from "../login/AuthManager";
+import MyOrdersModal from "../componnents/MyOrdersModal";
+
+
 
 
 
@@ -23,11 +26,10 @@ import AuthManager from "../login/AuthManager";
 
 
 const NavBar = () => {
-  const { user, setUser } = useAuthSync();
+  const { user, setUser , loading , setLoading } = useAuthSync();
   const [showModal, setShowModal] = useState(false);
   const [draftName, setDraftName] = useState("");
   const [showDraftSaved, setShowDraftSaved] = useState(false);//בשביל הטעינה של התפריטים השמורים , רק מפה אפשר להעביר לרזולט
-   const [draftId, setDraftId] = useState(null); //ID של כל תפריט
 
 
   const scrolling = useScroll();
@@ -38,6 +40,7 @@ const NavBar = () => {
   const [showBudgetChat, setShowBudgetChat] = useState(false); // ✅ תוסיף את זה
   const [activeModal, setActiveModal] = useState(null); // 'login' | 'register' | null
   const [showSettingsPanel, setShowSettingsPanel] = useState(false);//פותח הגדרות משתמש
+const [showMyOrders, setShowMyOrders] = useState(false);// ההזמנות שלי
 
 
   
@@ -50,6 +53,13 @@ const NavBar = () => {
 
 
 
+  /* פותח לי הרשמה דרך התפריטים שרשמת במצב לא מחובר  */
+const switchToRegisterViaModal = () => {
+  setActiveModal(null);
+  console.log("נפתחחחחחח");
+  
+  setTimeout(() => setActiveModal("register"), 100);
+};
 
 
 
@@ -78,19 +88,27 @@ setShowSavedMenus={setShowSavedMenus}
 setShowSettingsPanel={setShowSettingsPanel}
 activeModal={activeModal}
 setActiveModal={setActiveModal}
+setShowMyOrders={setShowMyOrders} // ✅ תעביר את זה!
+user={user}
+loading ={loading}
+setLoading={setLoading}
+setUser={setUser}
 />
 
+{showMyOrders && <MyOrdersModal onClose={() => setShowMyOrders(false)}
+openBudgetChat ={() => setShowBudgetChat(true)}
+setActiveModal={setActiveModal}
+/>}
 
 
 <AuthManager
-  username={user?.username}
+  setShowMyOrders={setShowMyOrders}
   activeModal={activeModal}
   setActiveModal={setActiveModal}
-  onLoginSuccess={(name) => {
-    setUser({ username: name });
-    setResults([]);      // ✅ כאן תנקה כאשר מתחלף משתמש הנתונים הקודמים ימחקו
-    setDraftName("");    // ✅ גם תנקה
-  }}
+onLoginSuccess={() => {
+  setResults([]);
+  setDraftName("");
+}}
 
 />
 
@@ -110,6 +128,7 @@ setActiveModal={setActiveModal}
   setDraftName={setDraftName}
   />
 
+
   
 
 
@@ -120,7 +139,12 @@ setActiveModal={setActiveModal}
         isOpen={showSavedMenus}
         onClose={() => setShowSavedMenus(false)}
         onLoadMenu={(loadedMenu) => {
-          setResults([{ ...loadedMenu }]);
+          setResults([{
+  name: loadedMenu.name || "תפריט אישי",
+  items: loadedMenu.items || [],
+  total: loadedMenu.total || loadedMenu.items?.reduce((sum, i) => sum + i.price, 0) || 0
+}]);
+
           setBudget(0);
           setPeople(0);
           setDessertCount(0);
@@ -128,20 +152,15 @@ setActiveModal={setActiveModal}
           setShowSavedMenus(false);
           setShowResults(true);
         }}
-        setDraftId={setDraftId} 
         user={user}
-  onSwitchToRegister={() => {
-    setShowSavedMenus(false);
-    setActiveModal("register"); // ✅ זה מה שפותח את מודאל ההרשמה
-  }}
+        loading={loading}
+        setLoading={setLoading}
     openBudgetChat={() => setShowBudgetChat(true)} // ✅ זה הפונקציה ש־SavedMenus צריך!
+  SwitchToRegister={switchToRegisterViaModal} // ✅ זה מה שהיה חסר!
 
       />
 
-      
 
-
-    
 
       <ResultsModal
         isOpen={showResults}
@@ -159,10 +178,10 @@ setActiveModal={setActiveModal}
         loading={false}
          showDraftSaved={showDraftSaved}
   setShowDraftSaved={setShowDraftSaved}
-  draftId={draftId}                 // ✅ זה הקו החשוב!
-  setDraftId={setDraftId}
-
+  
         />
+
+
 
 
      

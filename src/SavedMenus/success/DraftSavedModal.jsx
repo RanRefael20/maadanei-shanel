@@ -11,7 +11,7 @@ import LoginSuccessModal from "../../login/success/LoginSuccessModal";
 
 
 
-const DraftSavedModal = ({ onClose , results  }) => {
+const DraftSavedModal = ({ onClose , results   }) => {
   const [draftName, setDraftName] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -150,6 +150,7 @@ setErrorMessage(String(err));
       setShowSuccess(false);
       onClose();
     }}
+    
    
 
   />

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./register/RegisterModal";
-import LoginSuccessModal from "../login/success/LoginSuccessModal"; // אם התיקייה שלך היא login
+import ForgotPassword from "../login/ForgotPassword"; // אם התיקייה שלך היא login
+import useAuthSync from "../hooks/useAuthSync"; // ✅
 
 
-const AuthManager = ({ username ,  activeModal,  setActiveModal, onLoginSuccess   }) => {
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+const AuthManager = ({  activeModal,  setActiveModal, onLoginSuccess , setShowMyOrders    }) => {
+  const { checkToken } = useAuthSync(); // ✅ שלוף את הפונקציה
 
   
 
@@ -16,45 +17,42 @@ const switchToRegisterViaModal = () => {
 };
 
 
-const handleLoginSuccess = (name, token) => {
+const handleLoginSuccess = async (name, token) => {
   if (token) {
     localStorage.setItem("token", token);
-    
   }
+
+  await checkToken(); // ✅ זה יביא את כל הנתונים של המשתמש
 
   if (onLoginSuccess) {
-    onLoginSuccess(name);
+    onLoginSuccess(); // 🟡 לא צריך להעביר רק את השם, כי checkToken כבר עדכן את המשתמש
   }
 
-  setShowSuccessModal(true);
   setTimeout(() => {
     setActiveModal(null);
-    setShowSuccessModal(false);
   }, 3000);
 };
 
 
+const openForgotPassword = () => setActiveModal("forgot");
 
   return (
     <>
 
 
-      {username && (
-        <div className="logged-in-name">
-          {/* שם המשתמש מוצג כבר ב־NavBar דרך props */}
-        
-        </div>
-      )}
-
-  
 
             {activeModal === "login" && (
         <LoginModal
-          onClose={() => setActiveModal(null)}
+setShowMyOrders={setShowMyOrders}
+        onClose={() => setActiveModal(null)}
           onSwitchToRegister={switchToRegisterViaModal}
           handleLoginSuccess={handleLoginSuccess}
+           onForgotPassword={openForgotPassword} // ⬅️ חשוב!
+
         />
       )}
+
+   
 
       {activeModal === "register" && (
   <RegisterModal
@@ -67,13 +65,11 @@ const handleLoginSuccess = (name, token) => {
 />
       )}
 
-{showSuccessModal && (
-  <LoginSuccessModal
-    username={username}
-    onClose={() => setShowSuccessModal(false)}
-    
-  />
+      {activeModal === "forgot" && (
+  <ForgotPassword onClose={() => setActiveModal(null)} />
 )}
+
+
 
 
 

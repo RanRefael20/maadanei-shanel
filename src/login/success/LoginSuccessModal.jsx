@@ -3,11 +3,11 @@ import  { useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./LoginSuccessModal.css";
 
-const LoginSuccessModal = ({ username, onClose, message , autoClose = true   }) => {
+const LoginSuccessModal = ({ username, onClose, message , autoClose = true    }) => {
   useEffect(() => {
     if (!autoClose) return; // ❌ אל תפעיל טיימר אם מבוטל
 
-    const timer = setTimeout(onClose, 3000);
+    const timer = setTimeout(onClose, 10000);
     return () => clearTimeout(timer);
   }, [autoClose, onClose]);
 
@@ -19,7 +19,7 @@ const LoginSuccessModal = ({ username, onClose, message , autoClose = true   }) 
     )}
     <p>{message || `שלום ${username}, התחברת בהצלחה! 🎉`}</p>
          {!autoClose && (
-     <button className="extra-button" >
+     <button className="extra-button">
             התפריטים שלי
           </button>
       )}

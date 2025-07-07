@@ -3,13 +3,21 @@ import ReactDOM from "react-dom";
 import "./LoginModal.css";
 import { baseURL } from "../config";
 import LoadingSpinner from "../componnents/LoadingSpinner";
+import LoginSuccessModal from "../login/success/LoginSuccessModal"; // אם התיקייה שלך היא login
 
 
 
-const LoginModal = ({ onClose, onSwitchToRegister, handleLoginSuccess  }) => {
-  const [formData, setFormData] = useState({ email: "Aviv@gmail.com", password: "123123" });
+
+
+
+const LoginModal = ({ onClose, onSwitchToRegister, handleLoginSuccess , onForgotPassword   }) => {
+  const [formData, setFormData] = useState({ email: "ranrefaelbiton@gmail.com", password: "123123" });
   const [errorMessage, setErrorMessage] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+      const [username, setUsername] = useState("");
+      
+
   
 
   
@@ -20,7 +28,7 @@ const LoginModal = ({ onClose, onSwitchToRegister, handleLoginSuccess  }) => {
   };
 
   const handleSubmit = async () => {
-    console.log("123123");
+    
     
     setErrorMessage("");
     setIsProcessing(true);
@@ -32,7 +40,6 @@ const LoginModal = ({ onClose, onSwitchToRegister, handleLoginSuccess  }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-console.log(res, " RES");
 
 
       if (!res.ok) {
@@ -52,7 +59,6 @@ console.log(res, " RES");
       }
 
       const data = await res.json();
-      console.log(data , " DATA");
 
       if (!data.success) {
         setErrorMessage(data.message || "שגיאה לא צפויה");
@@ -69,7 +75,10 @@ console.log(res, " RES");
 
       localStorage.setItem("token", data.token); // ⬅️ רק הטוקן
       localStorage.setItem("username", data.username); 
-    
+      setUsername(data.username)
+    if(data.token){
+      setShowSuccessModal(true)
+    }
       handleLoginSuccess (data.username, data.token); // ⬅️ להשאיר אם צריך למודאלים
 
     } catch (err) {
@@ -123,17 +132,37 @@ console.log(res, " RES");
               התחבר
             </button>
             <div className="login-links">
-              <button className="link-button">שכחת סיסמה?</button>
+<button
+  className="link-button"
+  onClick={() => {
+    onClose(); // סגור את LoginModal
+    onForgotPassword(); // פתח את ForgotPassword
+    setShowMyOrders(false)
+  }}
+>
+  שכחת סיסמה?
+</button>
               <button
                 className="link-button"
                 onClick={() => {
                   onClose();
                   onSwitchToRegister();
+                  setShowMyOrders(false)
                 }}
               >
                 הרשם
               </button>
             </div>
+
+             {showSuccessModal && (
+              <LoginSuccessModal
+                username={username}
+                onClose={() => setShowSuccessModal(false)}
+                
+              />
+            )}
+
+
           </>
         )}
       </div>

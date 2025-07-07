@@ -88,7 +88,7 @@ export default function Section() {
         </div>
 
         {/* כפתור אישור השגחה */}
-        <button
+   {/*      <button
           className="certificate-button"
           onClick={() => window.open("/photos/certificate.jpg", "_blank", "noopener,noreferrer,width=800,height=600")}
           style={{
@@ -98,7 +98,7 @@ export default function Section() {
           }}
         >
           אישור<br />השגחה
-        </button>
+        </button> */}
 
       </section>
     </div>

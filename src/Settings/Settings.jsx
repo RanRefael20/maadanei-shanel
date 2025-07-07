@@ -9,7 +9,7 @@ import LoadingSpinner from "../componnents/LoadingSpinner";
 const Settings = forwardRef((props, ref) => {
 
 
-  const { user } = useAuthSync();
+  const { user, loading } = useAuthSync(); // שימוש נכון ב-loading מתוך ה-hook
     const [isProcessing, setIsProcessing] = useState(false);
   
 
@@ -158,6 +158,13 @@ useEffect(() => {
       setMessage("❌ שגיאה: " + err.message);
     }
   };
+
+  
+    if (loading) {
+    return (
+      <LoadingSpinner text="טוען פרטי משתמש..." />
+    );
+  }
 
   return (
     <div className="settings-container">

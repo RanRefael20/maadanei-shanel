@@ -9,6 +9,10 @@ import DraftSavedModal from "../SavedMenus/success/DraftSavedModal";
 import { FaWindowClose, FaWindowMinimize } from "react-icons/fa";
 
 const ResultsModal = ({
+  
+handleAddItemWithVolume,
+  handleVolumeMode,
+  setShowMyOrders,
    isOpen,
   onClose,
   results,
@@ -24,9 +28,14 @@ const ResultsModal = ({
   setIncludeWine,
   showDraftSaved,
    setShowDraftSaved, 
-    draftId, // ✅ חדש
-  setDraftId, // ✅ חדש
+remainingVolume,
+setRemainingVolume,
+remainingDessertVolume,
+setRemainingDessertVolume, 
+   
+  
 }) => {
+  
     if (!isOpen) return null;
 
   const [showFullMenu, setShowFullMenu] = useState(false);
@@ -40,6 +49,7 @@ const ResultsModal = ({
   const modalRef = useRef(null);///חדש 
 
     useEffect(() => {
+      
     if (isOpen && modalRef.current) {
       modalRef.current.focus();
     }
@@ -91,18 +101,35 @@ if (results[0]?.items) {
     setResults(updatedResults);
   };
 
-  const handleRemoveItem = (itemToRemove) => {
-    const updatedResults = [...results];
-    const currentMenu = updatedResults[0];
-    const indexToRemove = currentMenu.items.findIndex(
+const handleRemoveItem = (itemToRemove) => {
+  const updatedResults = [...results];
+  const currentMenu = updatedResults[0];
+
+  const indexToRemove = currentMenu.items.findIndex(
     (item) => item.name === itemToRemove.name && item.category === itemToRemove.category
-    );
-    if (indexToRemove !== -1) {
-      currentMenu.items.splice(indexToRemove, 1);
-      currentMenu.total -= itemToRemove.price;
-      setResults(updatedResults);
+  );
+
+  if (indexToRemove !== -1) {
+    // 🟡 שלב 1: עדכון ווליום לפני המחיקה
+    const isDessert = itemToRemove.category === "קינוחים";
+    const volumeToRestore = itemToRemove.volume;
+
+    // 🟢 שלב 2: מחיקה ועדכון סכום
+    currentMenu.items.splice(indexToRemove, 1);
+    currentMenu.total -= itemToRemove.price;
+
+    // 🟢 שלב 3: עדכון סטייט
+    setResults(updatedResults);
+
+    // 🔁 שלב 4: עדכון יתרת נפח
+    if (isDessert) {
+      setRemainingDessertVolume((prev) => prev + volumeToRestore);
+    } else {
+      setRemainingVolume((prev) => prev + volumeToRestore);
     }
-  };
+  }
+};
+
 
 
 
@@ -115,7 +142,13 @@ if (results[0]?.items) {
       <div className={`modal-header ${isCollapsed ? "collapsed" : ""}`}>
         
       <div className="closeAndMininize" >
-               <button className="close-results-button" onClick={onClose} title="סגור"> <FaWindowClose /></button>
+               <button className="close-results-button" onClick={()=>{setBudget("") 
+               setPeople("")
+               setIncludeWine("")
+               setDessertCount("")
+                onClose();
+               }
+               } title="סגור"> <FaWindowClose /></button>
         <button
           className="minimize-button"
           onClick={() => setIsCollapsed((prev) => !prev)}
@@ -129,24 +162,39 @@ if (results[0]?.items) {
             <div className="input-summary">
               
               <div className="input-row">
-                              <div className="explanation">רוצה לשנות תקציב ? 💶 <br></br>כמות אנשים ? <br></br>אולי להוסיף קינוח ?🍰 <br></br>
-                     כאן תוכל  לערוך נתונים מחדש ולבסוף ללחוץ על "טען תוצאות מחדש🔁"  <br></br>עד שתקבל את התפריט שבול בשבילך.  </div>
-              
+                {people ==="" && handleGenerate &&(
+                  
+                              <div className="explanation">רוצה לשנות תקציב ? 💶  <br></br>אולי להוסיף קינוח ?🍰 <br></br>
+                     כאן תוכל  לערוך נתונים מחדש ולבסוף ללחוץ על "טען תוצאות מחדש🔁"  <br></br>עד שתקבל את התפריט שבול בשבילך. <br></br> או שעל ידי הוספת פריטים➕ תוכל לבנות תפריט בצורה חופשית</div>
+                )}
+               {people ==="" && handleGenerate &&(
                <label>📋 תקציב:
                   <input type="number" value={budget} onChange={(e) => setBudget(Number(e.target.value))} className="input-field" /> ₪
                 </label>
-                <label>👥 סועדים:
+               )}
+
+                {people !=="" && handleVolumeMode &&(
+                  <> 
+                
+ <label>👥 סועדים:
                   <input type="number" value={people} onChange={(e) => setPeople(Number(e.target.value))} className="input-field" />
                 </label>
+  <button className="menu-action-button" onClick={handleVolumeMode}>טען מחדש🔁</button>
+  </>
+                )}
+               
+                {people ==="" && handleGenerate &&(
+                  <> 
                 <label>🍰 קינוחים:
                   <input type="number" value={dessertCount} onChange={(e) => setDessertCount(Number(e.target.value))} className="input-field" />
                 </label>
                 <label>🍷 יין:
                   <input type="checkbox" checked={includeWine} onChange={(e) => setIncludeWine(e.target.checked)} />
                 </label>
-{handleGenerate && (
+              
   <button className="menu-action-button" onClick={handleGenerate}>טען תוצאות מחדש🔁</button>
-)}                      
+   </>
+                )}
   <button
     className="menu-action-button"
     onClick={() => {
@@ -161,15 +209,52 @@ if (results[0]?.items) {
     ➕ הוספת פריטים
   </button>
 
+{results[0]?.total > 1 &&(
   <button className="menu-action-button"onClick={() => setShowDraftSaved(true)} title="שמור טיוטא בתפריטים שלך 💾 . 
 תמיד תוכל להיכנס אליו ולערוך אותו.">
   💾 שמור טיוטה
 </button>
+)}
        
 
               </div>
-              
             </div>
+            
+             {people !=="" && handleVolumeMode &&(
+                 <div className="explanation"><h4>📊 הגדרנו עבורך את כמות המנות המומלצת</h4>
+<p>
+  בהתאם למספר הסועדים שהזנת, חישבנו עבורך את כמות הפריטים המומלצת.<br />
+  תוכל בכל שלב לשנות את מספר הסועדים וללחוץ על <strong>טען מחדש 🔁</strong> כדי לעדכן את החישוב.
+</p>
+
+<h4>🍽️ עכשיו הזמן לבחור את המנות</h4>
+<p>
+  לרשותך עומדת:
+  <br />
+  ✅ <strong>יתרת נקודות כללית:</strong> <span className="highlight">{remainingVolume}</span>
+  <br />
+  ✅ <strong>יתרת נקודות לקינוחים:</strong> <span className="highlight">{remainingDessertVolume}</span>
+  <br /><br />
+  אין חובה לנצל את כל הנקודות.
+  <br />
+  בכל בחירה – יתרת הנקודות תתעדכן.
+  כשתגיע ל־0 נקודות, תקבל התראה. כמובן, תוכל לבחור פחות או יותר – לפי רצונך 🎯
+</p>
+  <button
+    className="menu-action-button"
+    onClick={() => {
+      setShowFullMenu(true);
+      if (!hideMessagePermanently) setShowMessage(true);
+    }}
+    title="כאן תוכל לראות את כל המנות במסעדה 🥽.
+תוכל להוסיף פריטים לתפריט שלך עם לחיצה על ➕. 
+או להוריד עם ➖."
+
+  >
+    ➕ התחל לבחור
+  </button>
+                        </div>
+        ) }
               <div className="category-counts-row">
               {Object.entries(categoryCounts).map(([cat, count]) => (
                 <div key={cat} className="category-count">
@@ -200,11 +285,11 @@ if (results[0]?.items) {
     }, {})
   ).map(([category, items]) => (
     <div key={category} className="category-group">
-      <h4 className="category-title">📁 {category}</h4>
+      <h4 className="category-title">📁 {category} - ({items.length}) </h4>
       <ul>
         {items.map((item, idx) => (
           <li key={idx} className="menu-item">
-            <button className="delete-item-button" onClick={() => handleDeleteItem(i, menu.items.indexOf(item))} title="מחק פריט">✖</button>
+            <button className="delete-item-button" onClick={() => handleDeleteItem(i, menu.items.indexOf(item))} title="מחק פריט">🗑️מחק</button>
             <span>{item.name} - {item.price} ₪</span>
           </li>
         ))}
@@ -247,26 +332,35 @@ if (results[0]?.items) {
       {showFullMenu && (
         <FullMenuSelector
           onClose={() => setShowFullMenu(false)}
-          onAddItem={handleAddItem}
+         onAddItem={ handleAddItemWithVolume ? handleAddItemWithVolume : handleAddItem}
           onRemoveItem={handleRemoveItem}
           itemQuantities={itemQuantities}
-        />
+          remainingVolume={remainingVolume}
+setRemainingVolume = {setRemainingVolume}
+remainingDessertVolume={remainingDessertVolume}
+setRemainingDessertVolume={setRemainingDessertVolume}
+results={results}
+ setResults={setResults}
+people={people}
+budget={budget}
+/>
       )}
 
-      {showDraftSaved && (
-        <DraftSavedModal
-          onClose={() => setShowDraftSaved(false)}
-          results={results}             
-  
-        />
-      )}   
+   {showDraftSaved && (
+  <DraftSavedModal
+    onClose={() => setShowDraftSaved(false)}
+    results={results}
+  />
+)} 
 
 
 
       {showMenuExport && (
 <MenuExportWrapper
+setShowMyOrders={setShowMyOrders}
 selectedItems={results[0]?.items || []}  onClose={onClose}
   onBackToEdit={() => setShowMenuExport(false)}/>
+ 
       )}
     </div>,
         

@@ -1,188 +1,252 @@
+
+
+/* רקע מודאל */
 .saved-menus-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* חלון מודאל */
 .saved-menus-modal {
-  background: white;
-  width: 90%;
-  max-width: 600px;
-  max-height: 90vh;
-  border-radius: 20px;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
+  background: #fff;
+  width: 92%;
+  max-width: 620px;
+  max-height: 95vh;
+  border-radius: 18px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   font-family: "Rubik", sans-serif;
-  animation: slideIn 0.3s ease-in-out;
   direction: rtl;
-    max-height: 90vh;
-  overflow: hidden; /* שמור על זה כדי לא לפגוע במבנה הכללי */
   overflow-y: auto;
 }
 
-@keyframes slideIn {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* עיצוב חדש  */
-
-.savedmenus-item {
-  margin-bottom: 1rem;
-margin-right: 35px;
-      width: 80%;
-
-}
-
-.menu-card {
-  border: 3px solid #e5f00c;
-  border-radius: 30px;
-  background-color: #939393df;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.497);
-  display: flex;
-  flex-direction: column;
-  transition: 0.2s ease-in-out;
-      cursor: pointer;  
-}
-
-.saved-menus-close-btn {
-  background:#939393df;
-border: 2px solid #e5f00c;
-  color: #e5f00c;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-.saved-menus-close-btn:hover {
-  transform: scale(1.03);
-  border-color: #ffaa00;
-  box-shadow: 0 4px 20px #ffaa00;
-}
-
-.menu-card:hover {
-  transform: scale(1.03);
-  border-color: #ffaa00;
-  box-shadow: 0 4px 20px #ffaa00;
-}
-
-
-.menu-title {
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
-  color: #222;
-  
-}
-
-.menu-total {
-  font-size: 1.1rem;
-  color: #03a678;
-  margin-bottom: 0.4rem;
-}
-
-.menu-date {
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.menu-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.load-button,
-.delete-button {
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  transition: all 0.2s ease-in-out;
-  border: 1px solid transparent;
-}
-
-.load-button {
-  background-color: #ffffff;
-  color: #1e90ff;
-  border: 1px solid #1e90ff;
-}
-
-.load-button:hover {
-  background-color: #1e90ff;
-  color: #ffffff;
-}
-
-.delete-button {
-  border: 1px solid #ff4d4d;
-  background-color: white;
-  color: #ff4d4d;
-}
-
-.delete-button:hover {
-  background-color: #ff4d4d;
-  color: white;
-}
-
-/* סיום עיצוב חדש  */
-
+/* כותרת המודאל */
 .saved-menus-header {
-  position: sticky; /* במקום fixed */
+  position: sticky;
   top: 0;
-  background-color: #636363df;
-  color: white;
-  padding: 1rem 1.5rem;
-  font-size: 1.4rem;
+  background-color: #ffffff;
+  color: #000;
+  padding: 1rem;
+  font-size: 1.3rem;
+  font-weight: bold;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #ddd;
   z-index: 10;
-  width: 100%;
-  box-sizing: border-box;
 }
 
+/* כפתור סגירה */
+.saved-menus-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #333;
+  transition: 0.2s;
+}
+.saved-menus-close-btn:hover {
+  color: #ff4d4d;
+}
 
-
-
-.saved-menus-header h2 {
+/* רשימת התפריטים */
+.savedmenus-list {
+  list-style: none;
+  padding: 0 1rem 1rem;
   margin: 0;
+}
+
+/* תפריט בודד */
+.savedmenus-item {
+  margin: 0.8rem 0;
+  border-radius: 14px;
+  background-color: #f8f8f8;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  transition: 0.2s;
+}
+.savedmenus-item:hover {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+}
+
+/* כרטיס תפריט */
+.menu-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* טקסטים */
+.menu-title {
+  font-size: 1.1rem;
   font-weight: bold;
+  color: #333;
 }
-
-
-
-.saved-menus-list {
-  flex: 1;
-  overflow-y: auto;
-  background: #f9f9f9;
-  padding: 1rem;
-  max-height: 60vh; /* ✅ זה מגביל את הגובה כך שיווצר scroll אם צריך */
+.menu-total {
+  font-size: 1rem;
+  color: #00a884;
 }
-
+.menu-date {
+  font-size: 0.85rem;
+  color: #888;
+}
+.menu-serial {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-bottom: 4px;
+  display: inline-block;
+}
 .menu-info {
   display: flex;
   flex-direction: column;
 }
 
-.menu-info span {
-  font-size: 1rem;
-  color: #333;
+/* פעולות */
+.menu-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  justify-content: flex-start;
+}
+.load-button,
+.delete-button,
+.chat-button,
+.link-button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+.load-button {
+  background: #00a884;
+  color: #fff;
+}
+.load-button:hover {
+  background: #00997a;
+}
+.delete-button {
+  background: #fff;
+  color: #ff4d4d;
+  border: 1px solid #ff4d4d;
+}
+.delete-button:hover {
+  background: #ff4d4d;
+  color: white;
+}
+.chat-button {
+  background: #00aaff;
+  color: white;
+}
+.chat-button:hover {
+  background: #008bcc;
+}
+.link-button {
+  background: none;
+  color: #007aff;
+  text-decoration: underline;
+}
+.link-button:hover {
+  color: #0051aa;
+}
+
+/* הודעות ריקות */
+.empty-message {
+  text-align: center;
+  color: #555;
+  padding: 1.5rem;
+}
+
+/* אזור חיפוש */
+.search-filters {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  background-color: #f2f2f2;
+}
+.search-input {
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 45%;
+}
+
+@media (max-width: 600px) {
+  .saved-menus-modal {
+    width: 95%;
+    max-height: 95vh;
+    border-radius: 14px;
+    padding: 0;
+  }
+
+  .saved-menus-header {
+    font-size: 1.1rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .saved-menus-close-btn {
+    font-size: 1rem;
+  }
+
+  .search-filters {
+    flex-direction: column;
+    gap: 6px;
+    padding: 0.8rem;
+  }
+
+  .search-input {
+    width: 100%;
+    font-size: 0.95rem;
+  }
+
+  .savedmenus-item {
+    padding: 10px;
+    margin: 0.5rem 0;
+  }
+
+  .menu-title {
+    font-size: 1rem;
+  }
+
+  .menu-total {
+    font-size: 0.95rem;
+  }
+
+  .menu-date {
+    font-size: 0.8rem;
+  }
+
+  .menu-actions {
+    flex-direction: column;
+    gap: 6px;
+    align-items: stretch;
+  }
+
+  .load-button,
+  .delete-button {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 8px 0;
+  }
+
+  .empty-message {
+    font-size: 0.95rem;
+    padding: 1rem;
+  }
 }
 
 
 
-ul{
-  list-style: none;
-}
+

@@ -1,19 +1,27 @@
 import React, { useState, useEffect , useRef  } from "react";
 import { createPortal } from "react-dom";
 import "../../componnents/userMenu/Menu.css";
-import useAuthSync from "../../hooks/useAuthSync"; // ✅ ייבוא חסר
 import LoadingSpinner from "../LoadingSpinner";
 import { FaUserCircle } from "react-icons/fa";
 
 
 
 
-  const Menu = ({setShowBudgetChat , setShowSavedMenus , setShowSettingsPanel  ,  setActiveModal  }) => {
+  const Menu = ({setShowBudgetChat , setShowSavedMenus , setShowSettingsPanel  ,  setActiveModal  , user , loading , setLoading , setUser , setShowMyOrders}) => {
       const [showUserMenu, setShowUserMenu] = useState(false);
   const userMenuRef = useRef(null);  
-      const { user, setUser , loading , setLoading } = useAuthSync();
+  const [expireDate, setExpireDate] = useState(null);
 
+      
   
+
+useEffect(() => {
+  if (user?.lastOrderAt) {
+    const date = new Date(user.lastOrderAt);
+    date.setMonth(date.getMonth() + 3);
+    setExpireDate(date);
+  }
+}, [user]);
 
     /* לחיצה עם תפריט משתמש */
       useEffect(() => {
@@ -67,7 +75,12 @@ import { FaUserCircle } from "react-icons/fa";
   )}
 </div>
 
-              <button className="user-menu-item">ההזמנות שלי</button>
+              <button
+  className="user-menu-item"
+  onClick={() => setShowMyOrders(true)}
+>
+  ההזמנות שלי
+</button>
               <button className="user-menu-item" onClick={() => {
                             setShowBudgetChat(true); // פתח את BudgetChat
                                                          }} >צור תפריט אישי</button>
@@ -79,11 +92,25 @@ import { FaUserCircle } from "react-icons/fa";
   }}>
  הגדרות משתמש  
               </button>
-              <button className="user-menu-item">הנקודות שלי</button>
-              {user?.username && (loading ? <LoadingSpinner text="... מתנתק" /> : <button className="user-menu-item logout" onClick={handleLogout}>התנתקות</button>)}
+{user?.points != null && (
+  <button className="user-menu-item">
+    יש לך: {user.points} נקודות<br></br>
+        {user.points>0 && ( 
+               <small className="points-note">
+      ניתן לממש עד {new Date(expireDate)
+      .toLocaleDateString("he-IL")}
+    </small>
+)}
+
+
+  </button>
+)}  
+
+            {user?.username && (loading ?  <LoadingSpinner />: <button className="user-menu-item logout" onClick={handleLogout}>התנתקות</button>)}
             </div>
           )}
         </div>
+//<LoadingSpinner result="error" />
     );
         };
         export default Menu;

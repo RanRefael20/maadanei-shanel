@@ -87,6 +87,7 @@ color: #f6c216;
 }
 
 .item-select {
+  color: #009DE0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -129,6 +130,109 @@ color: #f6c216;
   text-align: center;
   font-weight: bold;
 }
+
+.size-selection-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  pointer-events: auto !important;
+  z-index: 10001;
+  text-align: center;
+  width: 90%;
+  max-width: 320px;
+  font-family: 'Varela Round', sans-serif;
+
+  /* ✅ גלילה פנימית אם יש הרבה כפתורים */
+  max-height: 80vh;
+  overflow-y: auto;
+  direction: rtl;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+.size-selection-popup h4 {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  color: #111;
+}
+
+.size-selection-popup button {
+  display: block;
+  width: 100%;
+  background-color: #00bcd4;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.size-selection-popup button:hover {
+  background-color: #00a0b6;
+  transform: scale(1.02);
+}
+
+.size-selection-popup button:last-child {
+  background-color: #eee;
+  color: #333;
+}
+
+.size-selection-popup button:last-child:hover {
+  background-color: #ddd;
+}
+
+/* מחיקת פריט */
+
+
+/* עוטף כפתור מחיקה + הודעה */
+.delete-option-wrapper {
+  position: relative;
+}
+
+.deleted-msg {
+  position: absolute;
+  top: 57%;
+  left: 50%;
+  width: 85%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background-color: #00b853;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.deleted-msg.show {
+  opacity: 1;
+  transform: translate(-50%, -60%) scale(1.1);
+}
+
+
+.volume-info {
+  background-color: #fff6d6;
+  color: #000;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
 
   
 @media (max-width: 600px) {

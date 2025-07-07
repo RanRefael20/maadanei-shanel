@@ -22,7 +22,7 @@
 }
 
 .modal-header {
-  background-color: #00000000;
+  background-color: #de141400;
   color: #1f2937;
   border-radius: 12px 12px 0 0;
   direction: rtl;
@@ -52,7 +52,7 @@
   padding: 8px 12px;
   border-radius: 12px;
   color: #333;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.5;
   flex: 1;
   text-align: right;
@@ -76,6 +76,7 @@
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
+  margin: 5px;
 }
 
 .input-row {
@@ -139,7 +140,6 @@
 .category-group {
   margin-bottom: 1rem;
   padding: 0.5rem;
-  border-bottom: 1px dashed #ccc;
 }
 
 .category-title {
@@ -180,17 +180,14 @@
 }
 
 .delete-item-button {
+   padding: 8px 14px;
+  border-radius: 15px;
   background: transparent;
-  border: none;
   color: #ef4444;
-  font-size: 18px;
   cursor: pointer;
-  margin-right: 8px;
 }
 
-.delete-item-button:hover {
-  color: #dc2626;
-}
+
 
 .menu-buttons-row {
   display: flex;
@@ -218,15 +215,9 @@
   background-color: #009eb2;
 }
 
-.fixed-footer {
-  position: fixed;
-  bottom: 10px; /* גובה מהרצפה */
-  left: 50%;
-  transform: translateX(-56%);
-  background:transparent;
-  z-index: 1000;
-  width: 100%;
-}
+
+
+
 
 
 

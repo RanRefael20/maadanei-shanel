@@ -1,18 +1,36 @@
-// RegisterErrorModal.jsx
 import ReactDOM from "react-dom";
 import "./RegisterErrorModal.css";
 
-const RegisterErrorModal = ({ onClose, errorMessage, message, actions , IdmenuToDelete }) => {
+const RegisterErrorModal = ({ onClose, errorMessage, message, actions, IdmenuToDelete, type, source , setActiveModal  }) => {
+  const token = localStorage.getItem("token");
+
   return ReactDOM.createPortal(
     <div className="error-overlay">
-      <div className="error-modal">
-     
-          <button className="error-close-button" onClick={onClose}>✖</button>
-      
-        <h2 className="error-title">  שגיאה</h2>
-        <p className="error-message">{errorMessage || message|| "אירעה שגיאה לא ידועה."}</p>
-     {/* ✅ אם יש actions – הצג כפתורים */}
-        {IdmenuToDelete !== null && (
+{      <div className={`error-modal ${type === "success" ? "modal-success" : "modal-error"}`}>
+        <button className="error-close-button" onClick={onClose}>✖</button>
+       <h2 className="error-title">
+  {type === "success"
+    ? "הצלחה"
+    : source === "budget"
+    ? "שימו לב"
+    : "שגיאה"}
+</h2>
+        <p className="error-message"> 
+{source==="MyOrders" &&(
+   
+      <button  className="link-button" 
+       onClick={() => {
+        setActiveModal("login")
+              onClose();
+          }}
+             >
+            התחבר
+          </button>
+)}
+    
+               {errorMessage || message || "אירעה שגיאה לא ידועה."}</p>
+         
+        {IdmenuToDelete !== null && token && actions?.length > 0 && (
           <div className="error-actions">
             {actions.map((action, index) => (
               <button
@@ -25,7 +43,7 @@ const RegisterErrorModal = ({ onClose, errorMessage, message, actions , IdmenuTo
             ))}
           </div>
         )}
-      </div>
+      </div>}
     </div>,
     document.body
   );

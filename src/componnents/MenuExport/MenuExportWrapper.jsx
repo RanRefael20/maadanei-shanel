@@ -1,23 +1,18 @@
 // MenuExportWrapper.jsx
-import React, { useEffect, useState } from "react";
+import React from "react";
 import MenuExport from "./MenuExport";
 import useAuthSync from "../../hooks/useAuthSync"; // ודא שהנתיב נכון
+import LoadingSpinner from "../LoadingSpinner";
 
-const MenuExportWrapper = ({ selectedItems, onClose, onMinimize, onBackToEdit }) => {
-    const { user: userData, loading } = useAuthSync(); // ← שואב את כל הפרטים
-
-
-
-
+const MenuExportWrapper = ({ selectedItems, onClose, onMinimize, onBackToEdit    }) => {
+  const { user: userData, loading } = useAuthSync(); // שימוש נכון ב-loading מתוך ה-hook
   if (loading) {
     return (
-      <div style={{ textAlign: "center", marginTop: "2rem", fontSize: "1.2rem" }}>
-        ⏳ טוען פרטי משתמש...
-      </div>
+      <LoadingSpinner text="טוען פרטי משתמש..." />
     );
   }
-
   return (
+    
     <MenuExport
       selectedItems={selectedItems}
       onClose={onClose}
