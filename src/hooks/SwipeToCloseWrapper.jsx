@@ -10,20 +10,22 @@ const SwipeToCloseWrapper = ({ onClose, setOverlayOpacity, children }) => {
     setIsDragging(true);
   };
 
-  const handleTouchMove = (e) => {
-    if (!isDragging) return;
-    const currentY = e.touches[0].clientY;
-    const diff = currentY - startY.current;
+ const handleTouchMove = (e) => {
+  if (!isDragging) return;
 
-if (diff > 0) {
-  setTranslateY(diff);
+  const currentY = e.touches[0].clientY;
+  const diff = currentY - startY.current;
 
-  // עדכון שקיפות של המודל עצמו
-  const newOpacity = Math.max(1 - diff / (window.innerHeight / 1.2), 0.3);
-  setOverlayOpacity(newOpacity); // עדכון של ה־overlay מבחוץ
-}
+  // נבדוק אם נמצאים בחלק העליון של המסמך
+  const isAtTop = window.scrollY === 0;
 
-  };
+  if (diff > 0 && isAtTop) {
+    setTranslateY(diff);
+    const newOpacity = Math.max(1 - diff / (window.innerHeight / 1.2), 0.3);
+    setOverlayOpacity(newOpacity);
+  }
+};
+
 
   const handleTouchEnd = () => {
     const halfScreen = window.innerHeight / 2;
