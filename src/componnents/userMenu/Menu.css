@@ -92,36 +92,3 @@
   color: #777;
 }
 
-@media (max-width: 768px) {
-  /* רקע כהה */
-  .menu-overlay {
-    background-color: rgba(0, 0, 0, 0.6); /* אפשר להשאיר גם 0.5 */
-  }
-
-  /* תפריט צד מותאם מובייל */
-  .user-menu {
-    width: 90%;
-    max-width: 100%;
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
-  }
-
-  .user-menu-item {
-    font-size: 1rem;
-    padding: 1rem 0;
-  }
-
-  .user-menu-header {
-    font-size: 1.2rem;
-    margin-bottom: 1.2rem;
-  }
-
-  .close-icon {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .points-note {
-    font-size: 0.85rem;
-  }
-}
