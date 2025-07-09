@@ -2,14 +2,12 @@ import React, { useState, useEffect , useRef  } from "react";
 import { createPortal } from "react-dom";
 import "../styles/BudgetChat_modal_results.css";
 import FullMenuSelector from "./FullMenuSelector";
-import SwipeToCloseWrapper from "../hooks/SwipeToCloseWrapper";
 import MenuExportWrapper from "../componnents/MenuExport/MenuExportWrapper";
 import DraftSavedModal from "../SavedMenus/success/DraftSavedModal";
 
 import { FaWindowClose, FaWindowMinimize } from "react-icons/fa";
 
 const ResultsModal = ({
-  
 handleAddItemWithVolume,
   handleVolumeMode,
   setShowMyOrders,
@@ -32,11 +30,13 @@ remainingVolume,
 setRemainingVolume,
 remainingDessertVolume,
 setRemainingDessertVolume, 
-   
+          setItemQuantities,
+          itemQuantities,
   
 }) => {
   
     if (!isOpen) return null;
+
 
   const [showFullMenu, setShowFullMenu] = useState(false);
   const [categoryCounts, setCategoryCounts] = useState({});
@@ -62,43 +62,45 @@ setRemainingDessertVolume,
 
 useEffect(() => {
   const allItems = results[0]?.items || [];
-  const newCounts = allItems.reduce((acc, item) => {
+
+  // חישוב כמות לפי קטגוריות
+  const newCounts = {};
+  const newQuantities = {};
+
+  allItems.forEach((item) => {
+    // ספירת קטגוריות
     if (item.category) {
-      acc[item.category] = (acc[item.category] || 0) + 1;
+      newCounts[item.category] = (newCounts[item.category] || 0) + 1;
     }
-    return acc;
-  }, {});
+
+    // ספירת כמויות לפי שם + מידה (אם יש)
+    const key = `${item.name}-${item.label || ""}`;
+    newQuantities[key] = (newQuantities[key] || 0) + 1;
+  });
+
   setCategoryCounts(newCounts);
+  setItemQuantities(newQuantities);
 }, [results]);
 
 
-  const itemQuantities = {};
-if (results[0]?.items) {
-  results[0].items.forEach((item) => {
-    itemQuantities[item.name] = (itemQuantities[item.name] || 0) + 1;
-  });
-}
-
-  const handleDeleteItem = (menuIndex, itemIndex) => {
-    const updatedResults = results.map((menu, i) => {
-      if (i !== menuIndex) return menu;
-      const updatedItems = menu.items.filter((_, idx) => idx !== itemIndex);
-      const updatedTotal = updatedItems.reduce((sum, item) => sum + item.price, 0);
-      return {
-        ...menu,
-        items: updatedItems,
-        total: updatedTotal,
-      };
-    });
-    setResults(updatedResults);
-  };
 
   const handleAddItem = (item) => {
     const updatedResults = [...results];
     const currentMenu = updatedResults[0];
-    currentMenu.items.unshift(item);
+   currentMenu.items.unshift({
+  ...item,
+  label: item.label || "",
+  sizeKey: item.sizeKey || "",
+  category: item.category || "", // חובה!
+});
+
     currentMenu.total += item.price;
     setResults(updatedResults);
+      const uniqueKey = `${item.name.trim()}-${item.label || ""}`;
+  setItemQuantities((prev) => ({
+    ...prev,
+    [uniqueKey]: (prev[uniqueKey] || 0) + 1,
+  }));
   };
 
 const handleRemoveItem = (itemToRemove) => {
@@ -106,29 +108,42 @@ const handleRemoveItem = (itemToRemove) => {
   const currentMenu = updatedResults[0];
 
   const indexToRemove = currentMenu.items.findIndex(
-    (item) => item.name === itemToRemove.name && item.category === itemToRemove.category
+    (item) =>
+      item.name === itemToRemove.name &&
+      item.category === itemToRemove.category &&
+      item.sizeKey === itemToRemove.sizeKey
   );
 
   if (indexToRemove !== -1) {
-    // 🟡 שלב 1: עדכון ווליום לפני המחיקה
     const isDessert = itemToRemove.category === "קינוחים";
-    const volumeToRestore = itemToRemove.volume;
+    const volumeToRestore = Number(itemToRemove.volume) || 0;
 
-    // 🟢 שלב 2: מחיקה ועדכון סכום
     currentMenu.items.splice(indexToRemove, 1);
     currentMenu.total -= itemToRemove.price;
-
-    // 🟢 שלב 3: עדכון סטייט
     setResults(updatedResults);
 
-    // 🔁 שלב 4: עדכון יתרת נפח
-    if (isDessert) {
-      setRemainingDessertVolume((prev) => prev + volumeToRestore);
-    } else {
-      setRemainingVolume((prev) => prev + volumeToRestore);
+    if (itemToRemove.category !== "יינות") {
+      if (isDessert) {
+        setRemainingDessertVolume((prev) => Number(prev) + volumeToRestore);
+      } else {
+        setRemainingVolume((prev) => Number(prev) + volumeToRestore);
+      }
     }
+    const key = `${itemToRemove.name}-${itemToRemove.label || ""}`;
+setItemQuantities((prev) => {
+  const updated = { ...prev };
+  if (updated[key]) {
+    updated[key]--;
+    if (updated[key] <= 0) delete updated[key];
+  }
+  return updated;
+});
+
+    
   }
 };
+
+
 
 
 
@@ -138,8 +153,8 @@ const handleRemoveItem = (itemToRemove) => {
   return createPortal(  
     <div className="results-modal-overlay"   style={{ backgroundColor: `rgba(0, 0, 0, ${overlayOpacity})` }}
 >
-<SwipeToCloseWrapper onClose={onClose} setOverlayOpacity={setOverlayOpacity}>
-      <div className={`modal-header ${isCollapsed ? "collapsed" : ""}`}>
+{/* <SwipeToCloseWrapper onClose={onClose} setOverlayOpacity={setOverlayOpacity}>
+ */}      <div className={`modal-header ${isCollapsed ? "collapsed" : ""}`}>
         
       <div className="closeAndMininize" >
                <button className="close-results-button" onClick={()=>{setBudget("") 
@@ -289,7 +304,7 @@ const handleRemoveItem = (itemToRemove) => {
       <ul>
         {items.map((item, idx) => (
           <li key={idx} className="menu-item">
-            <button className="delete-item-button" onClick={() => handleDeleteItem(i, menu.items.indexOf(item))} title="מחק פריט">🗑️מחק</button>
+<button className="delete-item-button" onClick={() => handleRemoveItem(item)}>🗑️מחק</button>
             <span>{item.name} - {item.price} ₪</span>
           </li>
         ))}
@@ -325,8 +340,8 @@ const handleRemoveItem = (itemToRemove) => {
           document.body
         )}
         </div>
-              </SwipeToCloseWrapper> {/* ← כאן מסתיים העטיפה */}
-
+{/*               </.SwipeToCloseWrapper> {/* ← כאן מסתיים העטיפה */}
+ 
       
 
       {showFullMenu && (
@@ -334,6 +349,7 @@ const handleRemoveItem = (itemToRemove) => {
           onClose={() => setShowFullMenu(false)}
          onAddItem={ handleAddItemWithVolume ? handleAddItemWithVolume : handleAddItem}
           onRemoveItem={handleRemoveItem}
+          setItemQuantities={setItemQuantities}
           itemQuantities={itemQuantities}
           remainingVolume={remainingVolume}
 setRemainingVolume = {setRemainingVolume}
@@ -360,7 +376,7 @@ budget={budget}
 setShowMyOrders={setShowMyOrders}
 selectedItems={results[0]?.items || []}  onClose={onClose}
   onBackToEdit={() => setShowMenuExport(false)}/>
- 
+
       )}
     </div>,
         

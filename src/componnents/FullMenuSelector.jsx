@@ -4,7 +4,7 @@ import "../styles/FullMenuSelector.css";
 import VolumeFriendlyItems from "./VolumeFriendlyItems";
 
 
-const FullMenuSelector = ({ onClose, onAddItem, onRemoveItem,  itemQuantities = {} , 
+const FullMenuSelector = ({ onClose, onAddItem, onRemoveItem,  itemQuantities = {} , setItemQuantities,
 remainingVolume,
 remainingDessertVolume,
 budget,
@@ -12,7 +12,8 @@ results,
 people,
 setResults,
 setRemainingDessertVolume,
-setRemainingVolume
+setRemainingVolume,
+
 
  }) => {
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -23,6 +24,7 @@ const [showDeletedMsg, setShowDeletedMsg] = useState(false);
   const modalRef = useRef(null);
   const pos = useRef({ x: 0, y: 0, dx: 0, dy: 0 });
 const [selectedItem, setSelectedItem] = useState(null);
+const [searchTerm, setSearchTerm] = useState("");
 
 
   // התחלת גרירה
@@ -84,13 +86,28 @@ const getSuggestedItems = () => {
         ref={modalRef}
         onMouseDown={handleMouseDown}
       >
-        <div className="modal-header-fullmenu">
-          <h3>הוספת פריטים להזמנה</h3>
-          <div className="modal-controls">
-            <button onClick={() => setIsMinimized(!isMinimized)}>➖</button>
-            <button onClick={onClose}>✖</button>
-          </div>
-        </div>
+   <div className="modal-header-fullmenu">
+  <h3>הוספת פריטים להזמנה</h3>
+  <input
+    type="text"
+    placeholder="חפש פריט..."
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+    className="search-input"
+    style={{
+      marginInlineStart: "10px",
+      padding: "6px 8px",
+      borderRadius: "6px",
+      border: "1px solid #ccc",
+      fontSize: "14px",
+      width:"120px"
+    }}
+  />
+  <div className="modal-controls">
+    <button onClick={onClose}>✖</button>
+  </div>
+</div>
+
 
         {!isMinimized && (
           
@@ -98,18 +115,34 @@ const getSuggestedItems = () => {
           
           <div className="modal-content">
 {remainingVolume<8 && remainingVolume>1 &&(
-    <button onClick={() => setShowSuggestions(!showSuggestions)} className="suggestions-button">
-{!showSuggestions ? `📋 איזה עוד דברים אני יכול להוסיף ב - ${remainingVolume} נקודות ?`
-:`סגור` }
-                
-              </button>
+<div style={{
+  position: "sticky",
+  top: "80px",
+  zIndex: 100,
+  padding: "1rem 0",
+  marginBottom: "1rem",
+}}>
+  <button
+    onClick={() => setShowSuggestions(!showSuggestions)}
+    className="suggestions-button"
+  >
+    {!showSuggestions
+      ? `📋 איזה עוד דברים אני יכול להוסיף ב - נקודות שנשאר לי ?`
+      : `סגור`}
+  </button>
+</div>
+
               )}
 
   {showSuggestions && (
     <VolumeFriendlyItems
-     suggestions={getSuggestedItems()}
+     suggestions={Object.entries(fullMenu).flatMap(([category, items]) =>
+  items.map((item) => ({ ...item, category }))
+)}
+setItemQuantities={setItemQuantities}
       itemQuantities={itemQuantities}
       remainingVolume={remainingVolume}
+      remainingDessertVolume={remainingDessertVolume}
       onRemoveItem={onRemoveItem}
       onAddItem={onAddItem}
       setShowSuggestions={setShowSuggestions}
@@ -120,14 +153,19 @@ const getSuggestedItems = () => {
             {Object.entries(fullMenu).map(([category, items]) => (
               <div key={category} className="menu-category">
 <h3>
-  {budget < 1 && people !=="" && people>1
+  {budget < 1 && people !== "" && people > 1 && category !== "יינות"
     ? (category === "קינוחים"
         ? `${category} - יתרת נקודות: ${remainingDessertVolume}`
         : `${category} - יתרת נקודות: ${remainingVolume}`)
     : category}
 </h3>
 
-                {items.map((item) => {
+
+                {items
+  .filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+  .map((item) => {
                   const itemWithCategory = { ...item, category };
                   return (
                     <div key={item.name} className="item-select">
@@ -152,14 +190,15 @@ const getSuggestedItems = () => {
 >
   ➖
 </button>
+<span className="item-count">
+  {Object.entries(itemQuantities).filter(([key]) =>
+    key.startsWith(item.name)
+  ).reduce((acc, [, count]) => acc + count, 0)}
+</span>
 
-{(() => {
-  const totalCount = Object.keys(itemQuantities).reduce((sum, key) => {
-    return key.startsWith(item.name) ? sum + itemQuantities[key] : sum;
-  }, 0);
-  return <span className="item-count">{totalCount}</span>;
-})()}               
+             
              <button onClick={() => {setSelectedItem(itemWithCategory)
+             
 setSelectedForRemoval(null)
              }}>➕</button>
                         </div>
@@ -172,31 +211,51 @@ setSelectedForRemoval(null)
                       {selectedItem && (
           <div className="size-selection-popup">
     <h4>בחר מידה עבור {selectedItem.name}</h4>
-{Object.entries(selectedItem.sizes).map(([sizeKey, sizeData]) => (
+{selectedItem?.sizes ? (
+  Object.entries(selectedItem.sizes).map(([sizeKey, sizeData]) => (
+    <button
+      key={sizeKey}
+onClick={(e) => {
+  e.stopPropagation();
+  const newItem = {
+    name: selectedItem.name,
+    category: selectedItem.category,
+    sizes: selectedItem.sizes, // שומר את כל המבנה
+    sizeKey,
+    label: sizeData.label,
+    price: sizeData.price,
+    volume: sizeData.volume,
+  };
+  onAddItem(newItem);
+}}
+
+    >
+    <span>
+  {sizeData.label} - ({sizeData.price}₪){" "}
+  <small style={{ fontSize: "12px", color: "#666", marginRight: "8px" }}>
+     {sizeData.volume} נק'
+  </small>
+</span>
+    </button>
+  ))
+) : (
   <button
-    key={sizeKey}
     onClick={(e) => {
-      e.stopPropagation(); // מונע bubbling כפול
-
+      e.stopPropagation();
       const newItem = {
-        name: `${selectedItem.name} - ${sizeData.label}`,
-        price: sizeData.price,
-        volume: sizeData.volume,
+        name: selectedItem.name,
+        price: selectedItem.price,
         category: selectedItem.category,
+        volume: 0, // ✅ לא משפיע על ווליום
       };
-
-      // ✅ קריאה רק פעם אחת
       onAddItem(newItem);
       setSelectedItem(null);
     }}
   >
-    {sizeData.label} - ({sizeData.price} ₪)
-    {budget < 1 && people !=="" && people>1 &&(
-<small style={{ marginRight: "25px" }}>{sizeData.volume} נק'</small>
-    )}
-     
+    {selectedItem.name} - {selectedItem.price}₪
   </button>
-))}
+)}
+
 
     <button onClick={() => setSelectedItem(null)}>ביטול</button>
   </div>
@@ -229,17 +288,29 @@ setSelectedForRemoval(null)
             <button
   onClick={() => {
   const updatedMenu = { ...results[0] };
-
+  
   // מציאת האינדקס הראשון שתואם את הפריט
   const indexToRemove = updatedMenu.items.findIndex(
     (item) => item.name === option.name && item.price === option.price
   );
+const removedItem = updatedMenu.items[indexToRemove];
 
   if (indexToRemove !== -1) {
-    updatedMenu.items.splice(indexToRemove, 1); // מחק רק אחד
+    
+    
+    if(option.category ==="קינוחים"){
+setRemainingDessertVolume((prev) => Number(prev) + Number(removedItem.volume));
+    }else{
+    setRemainingVolume((prev) => Number(prev) + Number(removedItem.volume));
+    }
+    
+    
+        updatedMenu.items.splice(indexToRemove, 1); // מחק רק אחד
     updatedMenu.total -= option.price;
     setResults([updatedMenu]);
   }
+
+  
 
   // עדכון התצוגה של כפתור המחיקה
   const updatedOptions = selectedForRemoval.options.filter((_, index) => index !== i);

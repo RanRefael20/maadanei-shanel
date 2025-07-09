@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import ReactDOM from "react-dom";
 import Modal from "react-modal";
 import "../styles/BudgetChat.css";
 import ResultsModal from "./ResultsModal"; // או הנתיב הנכון אצלך
@@ -27,6 +27,103 @@ const CATEGORY_KEYS = [
 ];
 
 const menuItems= {
+    "בייגל בייגל": [
+    { name: "בייגל טונה", sizes: {
+        M: { label: "12 יח'", price: 189, volume: 7 },
+        L: { label: "20 יח'", price: 315, volume: 12 }
+      } },
+    { name: "בייגל שמנת סלמון", sizes: {
+        M: { label: "12 יח'", price: 230, volume: 7 },
+        L: { label: "20 יח'", price: 385, volume: 12 }
+      } },
+    { name: "בייגל סלט ביצים , בצל ירוק וחסה לאליק", sizes: {
+        M: { label: "12 יח'", price: 189, volume: 7 },
+        L: { label: "20 יח'", price: 315, volume: 12 }
+      } },
+    { name: "בייגל פסטו , גבינת פטה ואנטי-פסטי", sizes: {
+        M: { label: "12 יח'", price: 189, volume: 7 },
+        L: { label: "20 יח'", price: 315, volume: 12 }
+      } }
+  ],
+    "מגשי פרימיום": [
+    { name: "מגש גבינות מפנק ", sizes: {
+        M: { label: "מדיום", price: 285, volume: 5 },
+        L: { label: "לארג'", price: 385, volume: 10 }
+      } },
+    { name: "מגש דגים מעושנים", sizes: {
+        M: { label: "מדיום", price: 285, volume: 5 },
+        L: { label: "לארג'", price: 385, volume: 10 }
+      } },
+    { name: "מגש בורקיטס במילוי ממרח פסטו , קוביה בולגרית , וחסה לאליק", sizes: {
+        M: { label: "20 יח'", price: 255, volume: 7 },
+        L: { label: "30 יח'", price: 385, volume: 14 }
+      } },
+    { name: "מגש טארטלים במילוי שמנת וסלמון",sizes: {
+        M: { label: "20 יח'", price: 190, volume: 6 },
+        L: { label: "30 יח'", price: 285, volume: 12 }
+      } },
+    { name: "מגש פריקסה מפנק", sizes: {
+        M: { label: "20 יח'", price: 320, volume: 8 },
+        L: { label: "27 יח'", price: 435, volume: 14 }
+      } },
+    { name: "מגש פיתות סביח אישיות", sizes: {
+        M: { label: "15 יח'", price: 215, volume: 6 },
+        L: { label: "25 יח'", price: 360, volume: 12 }
+      } },
+    { name: "מגש חצאי טורטיות במילוי סלט טונה / ביצים", sizes: {
+        L: { label: "20 יח'", price: 315, volume: 10 }
+      } }
+  ],
+    "קישים ומאפים": [
+    { name: "קיש גבינות ובטטה", sizes: {
+        L: { label: "קוטר 29", price: 165, volume: 6 }
+      } },
+    { name: "קיש גבינות וברוקולי ", sizes: {
+        L: { label: "קוטר 29", price: 165, volume: 6 }
+      } },
+    { name: "קיש גבינות ופטריות   ", sizes: {
+        L: { label: "קוטר 29", price: 165, volume: 6 }
+      }},
+    { name: "קיש גבינות וטירס   ", sizes: {
+        L: { label: "קוטר 29", price: 165, volume: 6 }
+      } },
+    { name: "קיש גבינות ובצלים   ", sizes: {
+        L: { label: "קוטר 29", price: 165, volume: 6 }
+      } },
+    { name: "מגש לחמי הבית בלווי מטבלים  ", sizes: {
+        L: { label: "L", price: 235, volume: 7 }
+      } },
+    { name: "מגש לחם שום", sizes: {
+        M: { label: "10 יח'", price: 80, volume: 4 },
+        L: { label: "20 יח'", price: 165, volume: 8 }
+      } }
+  ],
+    "פסטות": [
+    { name: "פסטה שמנת פטריות ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "פסטה רוזה ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "פסטה עגבניות ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "פסטה פסטו שמנת ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "מגש לזניה  ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+    { name: "מגש תפוח אדמה מוקרם ", sizes: {
+        M: { label: "3 ליטר", price: 110, volume: 3 },
+        L: { label: "4.5 ליטר", price: 165, volume: 5 }
+      } },
+  ],
 
   "סלטים": [
     { name: "סלט חלומי", 
@@ -76,76 +173,30 @@ const menuItems= {
         L: { label: "L", price: 185, volume: 5 }
       } },
   ],
-  "בייגל בייגל": [
-    { name: "בייגל טונה", sizes: {
-        M: { label: "12 יח'", price: 189, volume: 7 },
-        L: { label: "20 יח'", price: 315, volume: 12 }
+
+  "דגים": [
+    { name: "פילה סלמון ברוטב מתקתק " , sizes: {
+        L: { label: "שלם", price: 335, volume: 10 }
       } },
-    { name: "בייגל שמנת סלמון", sizes: {
-        M: { label: "12 יח'", price: 230, volume: 7 },
-        L: { label: "20 יח'", price: 385, volume: 12 }
+    { name: "פילה סלמון ברוטב פסטו עם פרורי לחם מעל", sizes: {
+        
+        L: { label: "שלם", price: 335, volume: 10 }
       } },
-    { name: "בייגל סלט ביצים , בצל ירוק וחסה לאליק", sizes: {
-        M: { label: "12 יח'", price: 189, volume: 7 },
-        L: { label: "20 יח'", price: 315, volume: 12 }
+    { name: "פילה מושט ברוטב לימוני", sizes: {
+        
+        L: { label: "10 יח'", price: 335, volume: 10 }
       } },
-    { name: "בייגל פסטו , גבינת פטה ואנטי-פסטי", sizes: {
-        M: { label: "12 יח'", price: 189, volume: 7 },
-        L: { label: "20 יח'", price: 315, volume: 12 }
+    { name: "פילה דניס ברוטב לימוני", sizes: {
+        L: { label: "שאל את המוכר לגבי הכמות", price: 430, volume: 10 }
       } }
   ],
-  "פסטות": [
-    { name: "פסטה שמנת פטריות ", sizes: {
-        M: { label: "3 ליטר", price: 110, volume: 3 },
-        L: { label: "4.5 ליטר", price: 165, volume: 5 }
-      } },
-    { name: "פסטה רוזה ", sizes: {
-        M: { label: "3 ליטר", price: 110, volume: 3 },
-        L: { label: "4.5 ליטר", price: 165, volume: 5 }
-      } },
-    { name: "פסטה עגבניות ", sizes: {
-        M: { label: "3 ליטר", price: 110, volume: 3 },
-        L: { label: "4.5 ליטר", price: 165, volume: 5 }
-      } },
-    { name: "פסטה פסטו שמנת ", sizes: {
-        M: { label: "3 ליטר", price: 110, volume: 3 },
-        L: { label: "4.5 ליטר", price: 165, volume: 5 }
-      } },
-    { name: "מגש לזניה  ", sizes: {
-        M: { label: "3 ליטר", price: 110, volume: 3 },
-        L: { label: "4.5 ליטר", price: 165, volume: 5 }
-      } },
-    { name: "מגש תפוח אדמה מוקרם ", sizes: {
-        M: { label: "3 ליטר", price: 110, volume: 3 },
-        L: { label: "4.5 ליטר", price: 165, volume: 5 }
-      } },
-  ],
-  "קישים ומאפים": [
-    { name: "קיש גבינות ובטטה", sizes: {
-        L: { label: "קוטר 29", price: 165, volume: 6 }
-      } },
-    { name: "קיש גבינות וברוקולי ", sizes: {
-        L: { label: "קוטר 29", price: 165, volume: 6 }
-      } },
-    { name: "קיש גבינות ופטריות   ", sizes: {
-        L: { label: "קוטר 29", price: 165, volume: 6 }
-      }},
-    { name: "קיש גבינות וטירס   ", sizes: {
-        L: { label: "קוטר 29", price: 165, volume: 6 }
-      } },
-    { name: "קיש גבינות ובצלים   ", sizes: {
-        L: { label: "קוטר 29", price: 165, volume: 6 }
-      } },
-    { name: "מגש לחמי הבית בלווי מטבלים  ", sizes: {
-        L: { label: "L", price: 235, volume: 7 }
-      } },
-    { name: "מגש לחם שום | 20 יחידות ", sizes: {
-        M: { label: "10 יח'", price: 80, volume: 4 },
-        L: { label: "20 יח'", price: 165, volume: 8 }
-      } }
-  ],
-  "קינוחים": [
-    { name: "מגש פובלובות | תוספת פרי לבחירה - לציין בהערות", sizes: {
+  "יינות": [
+    { name: "יין שורש אדום / לבן | יקב צרעה", price: 210  },
+    { name:  "יין הרי יהודה אדום / לבן | יקב צרעה", price: 180 },
+    { name: "יין עמוקה לבן", price: 100 }
+  ] , 
+    "קינוחים": [
+    { name: "מגש פובלובות | תוספת פרי לבחירה", sizes: {
         M: { label: "20 יח'", price: 190, volume: 3 },
         L: { label: "30 יח'", price: 285, volume: 5 }
       } },
@@ -183,57 +234,8 @@ const menuItems= {
         M: { label: "10 יח'", price: 150, volume: 3 },
         L: { label: "20 יח'", price: 295, volume: 5 }
       } }
-  ],
-  "מגשי פרימיום": [
-    { name: "מגש גבינות מפנק ", sizes: {
-        M: { label: "מדיום", price: 285, volume: 5 },
-        L: { label: "לארג'", price: 385, volume: 10 }
-      } },
-    { name: "מגש דגים מעושנים", sizes: {
-        M: { label: "מדיום", price: 285, volume: 5 },
-        L: { label: "לארג'", price: 385, volume: 10 }
-      } },
-    { name: "מגש בורקיטס במילוי ממרח פסטו , קוביה בולגרית , וחסה לאליק", sizes: {
-        M: { label: "20 יח'", price: 255, volume: 7 },
-        L: { label: "30 יח'", price: 385, volume: 14 }
-      } },
-    { name: "מגש טארטלים במילוי שמנת וסלמון",sizes: {
-        M: { label: "20 יח'", price: 190, volume: 6 },
-        L: { label: "30 יח'", price: 285, volume: 12 }
-      } },
-    { name: "מגש פריקסה מפנק", sizes: {
-        M: { label: "20 יח'", price: 320, volume: 8 },
-        L: { label: "27 יח'", price: 435, volume: 14 }
-      } },
-    { name: "מגש פיתות סביח אישיות", sizes: {
-        M: { label: "15 יח'", price: 215, volume: 6 },
-        L: { label: "25 יח'", price: 360, volume: 12 }
-      } },
-    { name: "מגש חצאי טורטיות במילוי סלט טונה / ביצים", sizes: {
-        L: { label: "20 יח'", price: 315, volume: 10 }
-      } }
-  ],
-  "דגים": [
-    { name: "פילה סלמון ברוטב מתקתק " , sizes: {
-        L: { label: "שלם", price: 335, volume: 10 }
-      } },
-    { name: "פילה סלמון ברוטב פסטו עם פרורי לחם מעל", sizes: {
-        
-        L: { label: "שלם", price: 335, volume: 10 }
-      } },
-    { name: "פילה מושט ברוטב לימוני", sizes: {
-        
-        L: { label: "10 יח'", price: 335, volume: 10 }
-      } },
-    { name: "פילה דניס ברוטב לימוני", sizes: {
-        L: { label: "שאל את המוכר לגבי הכמות", price: 430, volume: 10 }
-      } }
-  ],
-  "יינות": [
-    { name: "יין שורש אדום / לבן | יקב צרעה", price: 210 },
-    { name:  "יין הרי יהודה אדום / לבן | יקב צרעה", price: 180 },
-    { name: "יין עמוקה לבן", price: 100 }
   ]
+
 };
 
 
@@ -371,23 +373,22 @@ items.push({ name: dessert.name, price: dessert.price , category: dessert.catego
 
 
 
-const BudgetChat = ({  isOpen,  setIsOpen , results, setResults }) => {
+const BudgetChat = ({  isOpen,  setIsOpen , results, setResults , budget , people  ,   setPeople, setBudget}) => {
 
-
+const [itemQuantities, setItemQuantities] = useState({});
   const { user , loading , setLoading } = useAuthSync();//ani po 
     const [showDraftSaved, setShowDraftSaved] = useState(false); // מודל הצלחה לשמירת תפריט 
-  const [budget, setBudget] = useState("");
-  const [people, setPeople] = useState("");
   const [dessertCount, setDessertCount] = useState("");
   const [includeWine, setIncludeWine] = useState(false);
   const [showResultsModal, setShowResultsModal] = useState(() => localStorage.getItem("showResultsModal") === "true");
   const [showFullMenu, setShowFullMenu] = useState(false);
   const [focusedWindow, setFocusedWindow] = useState("results");
-
-
-const [remainingVolume, setRemainingVolume] = useState(0);
-const [remainingDessertVolume, setRemainingDessertVolume] = useState(0);
-
+const [remainingVolume, setRemainingVolume] = useState(()=>{
+  return Number(localStorage.getItem("remainingVolume")) || "";
+})
+const [remainingDessertVolume, setRemainingDessertVolume] = useState(()=>{
+  return Number(localStorage.getItem("remainingDessertVolume")) || "";
+})
  const [errorMessage, setErrorMessage] = useState("");
   const [showError, setShowError] = useState(false);
   const [showBudgetInput, setShowBudgetInput] = useState(false);
@@ -450,44 +451,78 @@ setIsOpen(false);//סגירה של באדגאט
 
 
 const handleAddItemWithVolume = (item) => {
-  
-  if( parseInt(budget)>590){    
-      const updatedResults = [...results];
+  const updatedResults = [...results];
   const currentMenu = updatedResults[0];
-   currentMenu.items.unshift(item);
+  const { volume = 0, category } = item;
+
+  // ✅ תוספת מיוחדת: אם התקציב מעל 590 – אין מגבלת ווליום
+  if (parseInt(budget) > 590) {
+    currentMenu.items.unshift({
+  ...item,
+  label: item.label || "",
+  sizeKey: item.sizeKey || "",
+  category: item.category || "", // חובה!
+});
+
     currentMenu.total += item.price;
     setResults(updatedResults);
     return;
   }
-  const updatedResults = [...results];
-  const currentMenu = updatedResults[0];
-  const { volume, category } = item;
+
+  // ✅ יין – לא מחשבים ווליום בכלל
+  if (category === "יינות") {
+    currentMenu.items.unshift({
+  ...item,
+  label: item.label || "",
+  sizeKey: item.sizeKey || "",
+  category: item.category || "", // חובה!
+});
+
+    currentMenu.total += item.price;
+    setResults(updatedResults);
+    return;
+  }
+
   const isDessert = category === "קינוחים";
 
   if (isDessert) {
     if (remainingDessertVolume < volume) {
       if (!dessertVolumeExceededOnce) {
-        setErrorMessage("חרגת מהנפח המותר לקינוחים עבור מספר הסועדים. תוכל עדיין להוסיף, אך זה מעבר להמלצה.");
+        setErrorMessage("חרגת מהנפח המותר לקינוחים...");
         setShowError(true);
         setDessertVolumeExceededOnce(true);
       }
     }
-    setRemainingDessertVolume(prev => prev - volume);
+    setRemainingDessertVolume((prev) => prev - volume);
   } else {
     if (remainingVolume < volume) {
       if (!mainVolumeExceededOnce) {
-        setErrorMessage("חרגת מהנפח המומלץ לפריטים לפי מספר הסועדים. תוכל עדיין להוסיף, אך מומלץ להישאר בתחום.");
+        setErrorMessage("חרגת מהנפח המומלץ לפריטים...");
         setShowError(true);
         setMainVolumeExceededOnce(true);
       }
     }
-    setRemainingVolume(prev => prev - volume);
+    setRemainingVolume((prev) => prev - volume);
   }
-  currentMenu.items.unshift(item);
-    currentMenu.total += item.price;
-    setResults(updatedResults);
+
+  currentMenu.items.unshift({
+  ...item,
+  label: item.label || "",
+  sizeKey: item.sizeKey || "",
+  category: item.category || "", // חובה!
+});
+
+  currentMenu.total += item.price;
+  setResults(updatedResults);
+
+  const key = `${item.name}-${item.label || ""}`;
+setItemQuantities((prev) => ({
+  ...prev,
+  [key]: (prev[key] || 0) + 1,
+}));
 
 };
+
 
 
 
@@ -531,7 +566,14 @@ setHideButtonPeople(false)
   localStorage.setItem("showResultsModal", showResultsModal ? "true" : "false");
 }, [showResultsModal]);
 
+   
+useEffect(() => {
+  localStorage.setItem("remainingVolume", remainingVolume); // budget הוא מחרוזת או מספר, לא צריך JSON
+}, [remainingVolume]);
 
+useEffect(() => {
+  localStorage.setItem("remainingDessertVolume", remainingDessertVolume); // budget הוא מחרוזת או מספר, לא צריך JSON
+}, [remainingDessertVolume]);
 
 
   return (
@@ -639,8 +681,9 @@ setHideButtonPeople(false)
  
       {showResultsModal && (
         <ResultsModal
-        
-          isOpen={showResultsModal}
+        setItemQuantities={setItemQuantities}
+itemQuantities={itemQuantities}
+        isOpen={showResultsModal}
           onClose={() => setShowResultsModal(false)}
           results={results}
           setResults={setResults}
@@ -686,13 +729,15 @@ setRemainingDessertVolume={setRemainingDessertVolume}
       {showFullMenu && (
 <FullMenuSelector
   onClose={() => setShowFullMenu(false)}
-
+        setItemQuantities={setItemQuantities}
+itemQuantities={itemQuantities}
 />
 
       )}
 
-      {loading && (
-  <LoadingSpinner text="...טוען" />
+{loading && ReactDOM.createPortal(
+  <LoadingSpinner />,
+  document.getElementById('root') // או document.body
 )}
     </>
   );

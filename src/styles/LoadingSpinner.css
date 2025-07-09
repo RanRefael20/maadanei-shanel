@@ -5,7 +5,7 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.7);
-  z-index: 999999;
+  z-index: 9999; /* ✅ מוסיף שכבת עליונה */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,6 +20,7 @@
   height: 80px;
   animation: spin 1s linear infinite;
   margin-bottom: 16px;
+
 }
 
 

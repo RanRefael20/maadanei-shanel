@@ -18,21 +18,10 @@ import AuthManager from "../login/AuthManager";
 import MyOrdersModal from "../componnents/MyOrdersModal";
 
 
-
-
-
-
-
-
-
 const NavBar = () => {
   const { user, setUser , loading , setLoading } = useAuthSync();
-
-
   const scrolling = useScroll();
-
   // טיוטות תפריטים
-
 const [showBudgetChat, setShowBudgetChat] = useState(() => {
   const saved = localStorage.getItem("budgetChatOpen");
   return saved === "true"; // אם כן – תפתח אוטומטית
@@ -44,7 +33,6 @@ const [showSettingsPanel, setShowSettingsPanel] = useState(() => localStorage.ge
 const [activeModal, setActiveModal] = useState(() => localStorage.getItem("activeModal") || null);
 const [showDraftSaved, setShowDraftSaved] = useState(false);
 const [draftName, setDraftName] = useState("");
-const [people, setPeople] = useState(0);
 const [dessertCount, setDessertCount] = useState(0);
 const [includeWine, setIncludeWine] = useState(false);
 const [showResults, setShowResults] = useState(false); 
@@ -54,6 +42,10 @@ const [results, setResults] = useState(() => {
   const saved = localStorage.getItem("results");
   return saved ? JSON.parse(saved) : [];
 });
+
+const [people, setPeople] = useState(()=> {
+  return localStorage.getItem("people") || "";
+})
 const [budget, setBudget] = useState(() => {
   return localStorage.getItem("budget") || "0";
 
@@ -81,6 +73,10 @@ useEffect(() => {
 useEffect(() => {
   localStorage.setItem("budget", budget); // budget הוא מחרוזת או מספר, לא צריך JSON
 }, [budget]);
+
+useEffect(() => {
+  localStorage.setItem("people", people); // budget הוא מחרוזת או מספר, לא צריך JSON
+}, [people]);
 
   
 useEffect(() => {
@@ -169,16 +165,17 @@ onLoginSuccess={() => {
   setDraftName={setDraftName}
   results  = {results}
   setResults = {setResults}
+  people={people}
+  budget={budget}
+  setPeople={setPeople}
+  setBudget={setBudget}
   />
 
 
   
 
 
-
       {showModal && <ContactModal onClose={() => setShowModal(false)} />}
-
-        
       <SavedMenus
         key={user?._id} // ✅ כך SavedMenus תתאפס ותטען מחדש כשמשתמש משתנה
         isOpen={showSavedMenus}
@@ -202,7 +199,6 @@ onLoginSuccess={() => {
         setLoading={setLoading}
     openBudgetChat={() => setShowBudgetChat(true)} // ✅ זה הפונקציה ש־SavedMenus צריך!
   SwitchToRegister={switchToRegisterViaModal} // ✅ זה מה שהיה חסר!
-
       />
 
 
@@ -223,7 +219,6 @@ onLoginSuccess={() => {
         loading={false}
          showDraftSaved={showDraftSaved}
   setShowDraftSaved={setShowDraftSaved}
-  
         />
 
 

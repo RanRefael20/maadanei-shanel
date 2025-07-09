@@ -12,8 +12,17 @@ import RegisterErrorModal from "../login/Eror/RegisterErrorModal";
 
 
 
-
-const CreditModal = ({ totalAmount, selectedItems = [], onClose, userPoints = 0 , userInformationToOrder  }) => {
+const CreditModal = ({ totalAmount, selectedItems = [], onClose, userPoints = 0 , userInformationToOrder   }) => {
+  const resetAfterPayment = () => {
+  // איפוס מה־localStorage
+  localStorage.removeItem("results");
+  localStorage.removeItem("budget");
+  localStorage.removeItem("people");
+  
+  localStorage.removeItem("showResultsModal");
+  localStorage.removeItem("budgetChatOpen");
+  // איפוס סטייטים
+};
   const { user } = useAuthSync();
 
   const [formData, setFormData] = useState({
@@ -140,13 +149,13 @@ window.open(paymentUrl, "_blank")
       const { whatsappUrl } = await whatsappRes.json();
      // window.open(whatsappUrl, "_blank"); // פותח את וואטסאפ
   const accumulated = finalAmount * 0.3;
-const baseMessage = `✅ תשלום בוצע בהצלחה\nשולם בפועל: ₪${finalAmount.toFixed(2)}`;
-
-const successText = user
+  const baseMessage = `✅ תשלום בוצע בהצלחה\nשולם בפועל: ₪${finalAmount.toFixed(2)}`;
+  resetAfterPayment();
+  const successText = user
   ? `${baseMessage}\nצברת: ₪${accumulated.toFixed(2)}`
   : `${baseMessage}\n${userInformationToOrder.username || user?.username || formData.holder} ,  אם היית רשום אצלנו באתר היית יכול לצבור  ₪${accumulated.toFixed(2)} שישמשו אותך לקנייה באה  ✨`;
-setSuccessMessage(successText)
-setPaymentSuccess(true);
+  setSuccessMessage(successText)
+  setPaymentSuccess(true);
 
     } catch (err) {
       console.error("❌ שגיאה בתשלום:", err);

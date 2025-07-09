@@ -285,7 +285,7 @@
   .fixed-footer {
     position: sticky;
     bottom: 0;
-    background: white;
+    
     padding: 10px;
     z-index: 100;
     border-top: 1px solid #ddd;
