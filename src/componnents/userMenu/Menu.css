@@ -68,3 +68,55 @@
 .user-menu-item.logout:hover {
   background-color: #f8e0e0;
 }
+
+
+/* תפריט בנייד פתיחה על כל המסך */
+@media screen and (max-width: 768px) {
+  .menu-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4);
+  z-index: 9998;
+}
+
+  .user-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #fff;
+    z-index: 9999;
+    border-radius: 0;
+    box-shadow: none;
+    padding-top: 60px;
+    transform: translateX(100%);
+    transition: transform 0.4s ease-in-out;
+  }
+
+  .user-menu.open {
+    transform: translateX(0%);
+  }
+
+  .user-menu-item {
+    font-size: 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .user-menu-header {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    background: #f9f9f9;
+  }
+
+  .close-icon {
+    font-size: 26px;
+    color: #FFD95A;
+    margin-left: -70px;
+  }
+}

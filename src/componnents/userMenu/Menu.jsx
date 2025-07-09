@@ -13,7 +13,15 @@ import { FaUserCircle } from "react-icons/fa";
   const [expireDate, setExpireDate] = useState(null);
 
       
-  
+  const isMobile = window.innerWidth <= 768;
+useEffect(() => {
+  const handleResize = () => {
+    if (window.innerWidth > 768) setShowUserMenu(false);
+  };
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
+
 
 useEffect(() => {
   if (user?.lastOrderAt) {
@@ -26,9 +34,11 @@ useEffect(() => {
     /* לחיצה עם תפריט משתמש */
       useEffect(() => {
       const handleClickOutside = (event) => {
-        if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
-          setShowUserMenu(false);
-        }
+if (showUserMenu && userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+  setShowUserMenu(false);
+}
+
+
       };
       document.addEventListener("mousedown", handleClickOutside);
       return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -56,10 +66,23 @@ useEffect(() => {
           onMouseEnter={() => setShowUserMenu(true)}
           onClick={() => setShowUserMenu(true)}
         >
-          <FaUserCircle size={28} className="user-icon" />
+{showUserMenu ? (
+  <button className="close-icon" onClick={() => setShowUserMenu(false)}>✖️</button>
+) : (
+  <FaUserCircle size={28} className="user-icon" />
+)}
+
+{isMobile && showUserMenu && (
+  <div
+    className="menu-overlay"
+    onClick={() => setShowUserMenu(false)}
+  />
+)}
 
           {showUserMenu && (
-            <div className="user-menu">
+            
+           <div className={`user-menu ${isMobile && showUserMenu ? "open" : ""}`}>
+
 <div className="user-menu-header">
   {user?.username ? (
     <>
