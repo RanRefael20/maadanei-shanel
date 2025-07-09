@@ -46,17 +46,17 @@
   transition: transform 0.8s ease-in-out;
 }
 
-/* מצב גרירה ידני – ללא אנימציה */
+.user-menu.closing {
+  transform: translateX(100%);
+    transition: transform 1s ease-in-out;
 
-/* כפתור ✖ סגירה */
-.close-icon {
-  align-self: flex-start;
-  font-size: 1.2rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-bottom: 1rem;
 }
+
+/* במצב גרירה אין transition */
+.user-menu.dragging {
+  transition: none !important;
+}
+
 
 /* פריט בתפריט */
 .user-menu-item {
@@ -90,5 +90,43 @@
 .points-note {
   font-size: 0.75rem;
   color: #777;
+}
+
+.hamburger-icon {
+  position: fixed;
+  top: 20px;
+  right: 70px;
+  z-index: 200;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.bar {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: #333;
+  border-radius: 2px;
+  transition: all 0.4s ease;
+  position: absolute;
+}
+
+.top-bar {
+  top: 8px;
+}
+
+.bottom-bar {
+  bottom: 8px;
+}
+
+.top-bar.open {
+  transform: rotate(45deg);
+  top: 13px;
+}
+
+.bottom-bar.open {
+  transform: rotate(-45deg);
+  bottom: 13px;
 }
 

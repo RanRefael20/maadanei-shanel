@@ -81,13 +81,19 @@ useEffect(() => {
   }, [showUserMenu, isMobile]);
 
   // סגירה חלקה
-  const handleCloseMenu = () => {
-    setIsClosing(true);
+const handleCloseMenu = () => {
+  if (showUserMenu) {
+    setIsClosing(true); // מוסיף מחלקת closing לסגירה עם אנימציה
     setTimeout(() => {
       setShowUserMenu(false);
       setIsClosing(false);
-    }, 400); // משך האנימציה = כמו ב־CSS
-  };
+    }, 1100); // אותו זמן כמו האנימציה ב-CSS
+  } else {
+    setShowUserMenu(true); // פתיחה מיידית
+  }
+};
+
+
 
   const handleLogout = () => {
     if (!user?.username) return;
@@ -106,7 +112,7 @@ useEffect(() => {
         <div
           className="menu-overlay"
           onClick={() => {
-            if (!isMobile) handleCloseMenu();
+             handleCloseMenu();
           }}
         />
       )}
@@ -114,61 +120,73 @@ useEffect(() => {
       <div
         className="user-menu-wrapper"
         ref={userMenuRef}
-        onMouseEnter={() => {
+       /*  onMouseEnter={() => {
            setShowUserMenu(true);
-        }}
+        }} */
         onClick={() => {
            setShowUserMenu(true);
         }}
         style={{ display: "flex", justifyContent: "flex-end", cursor: "pointer" }}
       >
-<FaUserCircle
-  size={28}
-  className="user-icon"
-onClick={() => {
- 
 
-  // יצירת אובייקט מדומה כמו touch
+            <div
+          className="hamburger-icon"
+          onClick={() => {
+
+            
+             if (showUserMenu) {
+    setIsClosing(true); // מוסיף מחלקת closing לסגירה עם אנימציה
+    setTimeout(() => {
+      setShowUserMenu(false);
+      setIsClosing(false);
+    }, 1100); // אותו זמן כמו האנימציה ב-CSS
+  } else {
   const fakeTouchEvent = {
     touches: [{ clientX: 0 }],
     changedTouches: [{ clientX: 100 }]
   };
 
   handleTouchStart(fakeTouchEvent);
-  setTimeout(() => handleTouchEnd(fakeTouchEvent), 100);
+  setTimeout(() => handleTouchEnd(fakeTouchEvent), 100);  }
+  // יצירת אובייקט מדומה כמו touch
+
 }}
 
-  onMouseEnter={() => {
+/*   onMouseEnter={() => {
       const fakeTouchEvent = {
     touches: [{ clientX: 0 }],
     changedTouches: [{ clientX: 100 }]
   };
   handleTouchStart(fakeTouchEvent);
   setTimeout(() => handleTouchEnd(fakeTouchEvent), 100);
-  }}
-/>
+  }} */
+        >
+          <span className={`bar top-bar ${showUserMenu ? "open" : ""}`} />
+          <span className={`bar bottom-bar ${showUserMenu ? "open" : ""}`} />
+        </div>
+
+
+
 
       </div>
 
       {showUserMenu && (
-        <div
-          className={`user-menu ${showUserMenu ? "open" : ""} ${
-            isDragging ? "dragging" : ""
-          }`}
-          style={
-            isDragging
-              ? {
-                  transform: `translateX(${
-                    100 - (dragOffset / (window.innerWidth * 0.7)) * 100
-                  }%)`,
-                }
-              : {}
-          }
-        >
-          <button className="close-icon" onClick={handleCloseMenu}>
-            ✖️
-          </button>
+       <div
+  className={`user-menu ${showUserMenu ? "open" : ""} ${isClosing ? "closing" : ""} ${
+    isDragging ? "dragging" : ""
+  }`}
+  style={
+    isDragging
+      ? {
+          transform: `translateX(${
+            100 - (dragOffset / (window.innerWidth * 0.7)) * 100
+          }%)`,
+        }
+      : {}
+  }
+>
 
+     
           <div className="user-menu-header">
             {user?.username ? (
               <>שלום, {user.username}</>
