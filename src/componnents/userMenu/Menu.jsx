@@ -34,6 +34,43 @@ const Menu = ({
   }, [user]);
 
 
+  useEffect(() => {
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  const handleTouchStart = (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+  };
+
+  const handleTouchEnd = () => {
+    const distance = touchEndX - touchStartX;
+
+    // גרירה שמאלה – פותח
+    if (distance < -70 && !showUserMenu) {
+      setShowUserMenu(true);
+    }
+
+    // גרירה ימינה – סוגר
+    if (distance > 70 && showUserMenu) {
+      setShowUserMenu(false);
+    }
+  };
+
+  window.addEventListener("touchstart", handleTouchStart);
+  window.addEventListener("touchmove", handleTouchMove);
+  window.addEventListener("touchend", handleTouchEnd);
+
+  return () => {
+    window.removeEventListener("touchstart", handleTouchStart);
+    window.removeEventListener("touchmove", handleTouchMove);
+    window.removeEventListener("touchend", handleTouchEnd);
+  };
+}, [showUserMenu]);
+
 
 
 
