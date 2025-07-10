@@ -11,14 +11,14 @@ import LoginSuccessModal from "../../login/success/LoginSuccessModal";
 
 
 
-const DraftSavedModal = ({ onClose , results   }) => {
+const DraftSavedModal = ({ onClose , results  , setShowSavedMenus  }) => {
   const [draftName, setDraftName] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState(""); // ✅ חדש
 
-const { user } = useAuthSync();
+const { user  } = useAuthSync();
 
 
     /* שמירת טפריט */
@@ -31,14 +31,18 @@ if (!user?._id) {
 }
 
 const payload = {
-  name: draftName, // ✅ חשוב מאוד
-items: (results[0]?.items || []).map(item => ({
-  name: String(item.name),
-  price: Number(item.price),
-category: String(item.category)
-})),
+  name: draftName, // ✅ שם התפריט
+  items: (results[0]?.items || []).map(item => ({
+    name: String(item.name),
+    price: Number(item.price),
+    category: String(item.category || ""),
+    label: String(item.label || ""),        // ⬅️ הוספת label (כמו M / L)
+    sizeKey: String(item.sizeKey || ""),    // ⬅️ הוספת sizeKey אם רלוונטי
+    volume: Number(item.volume || 0)        // ⬅️ אם יש נפח — מומלץ לשמור
+  })),
   total: results[0]?.total || 0,
 };
+
 
 
   if (!payload.items.length) {
@@ -142,6 +146,7 @@ setErrorMessage(String(err));
      
     {showSuccess && (
   <LoginSuccessModal
+  setShowSavedMenus={setShowSavedMenus}
     username="🙂"
     message={`💾 ! התפריט ${draftName} נשמר בהצלחה `}
    autoClose={false} // ⛔️ לא יסגר אוטומטית

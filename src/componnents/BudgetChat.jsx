@@ -251,37 +251,31 @@ function shuffle(array) {
   return array;
 }
 
-function generateMenus(budget, dessertCount, includeWine  ) {
-const minBudget = budget - 200;
-const maxBudget = budget + 180;
+function generateMenus(budget, dessertCount, includeWine) {
+  const minBudget = budget - 200;
+  const maxBudget = budget + 180;
 
-
-    const createItemsWithSizes = (items, category) => {
+  const createItemsWithSizes = (items, category) => {
     return items.flatMap(item => {
       if (!item.sizes) return [];
       return Object.entries(item.sizes).map(([sizeKey, sizeData]) => ({
-        name: `${item.name} - ${sizeData.label}`,
+        name: item.name,
         price: sizeData.price,
         volume: sizeData.volume,
         category,
+        label: sizeData.label || "",
+        sizeKey
       }));
     });
   };
 
-  const allowedUnder = 200;
-  const allowedOver = 180;
-  const minTotal = budget - allowedUnder;
-  const maxTotal = budget + allowedOver;
-
   const categories = [...CATEGORY_KEYS];
   if (includeWine) categories.push("יינות");
 
-const baseItems = categories.flatMap(cat =>
-  createItemsWithSizes(menuItems[cat] || [], cat)
-);
-const dessertItems = createItemsWithSizes(menuItems["קינוחים"] || [], "קינוחים");
-
-
+  const baseItems = categories.flatMap(cat =>
+    createItemsWithSizes(menuItems[cat] || [], cat)
+  );
+  const dessertItems = createItemsWithSizes(menuItems["קינוחים"] || [], "קינוחים");
 
   let bestCombo = [];
   let bestTotal = 0;
@@ -295,66 +289,64 @@ const dessertItems = createItemsWithSizes(menuItems["קינוחים"] || [], "ק
     const shuffledDesserts = shuffle([...dessertItems]);
 
     let wineAdded = 0;
-const requiredWines = 1; // או 2 או 0 – מה שתרצה כברירת מחדל
-const wineItems = shuffle((menuItems["יינות"] || []).map(item => ({ ...item, category: "יינות" })));
+    const requiredWines = 1;
+    const wineItems = shuffle((menuItems["יינות"] || []).map(item => ({
+      name: item.name,
+      price: item.price,
+      category: "יינות",
+      label: "",
+      sizeKey: "",
+      volume: 0
+    })));
 
-// הוספת בקבוקי יין לפני כל דבר אחר
-if (includeWine) {
-  for (let i = 0; i < wineItems.length && wineAdded < requiredWines; i++) {
-    const wine = wineItems[i];
-    if (total + wine.price <= maxTotal) {
-      items.push({ name: wine.name, price: wine.price, category: wine.category });
-      total += wine.price;
-      wineAdded++;
+    if (includeWine) {
+      for (let i = 0; i < wineItems.length && wineAdded < requiredWines; i++) {
+        const wine = wineItems[i];
+        if (total + wine.price <= maxBudget) {
+          items.push(wine);
+          total += wine.price;
+          wineAdded++;
+        }
+      }
+      if (wineAdded < requiredWines) continue;
     }
-  }
 
-  // אם לא הצלחנו להוסיף את כמות היינות הנדרשת – דלג על הניסיון הנוכחי
-  if (wineAdded < requiredWines) continue;
-}
-
-
-    // לולאת קינוחים – רק עד הכמות שהוגדרה
     if (!isNaN(dessertCount) && dessertCount > 0) {
       for (let i = 0; i < shuffledDesserts.length && dessertAdded < dessertCount; i++) {
         const dessert = shuffledDesserts[i];
-        if (total + dessert.price <= maxTotal) {
-items.push({ name: dessert.name, price: dessert.price , category: dessert.category });
+        if (total + dessert.price <= maxBudget) {
+          items.push(dessert);
           total += dessert.price;
           dessertAdded++;
         }
       }
     }
 
-    // לולאת פריטים רגילים (ללא קינוחים)
-    while (total < maxTotal) {
+    while (total < maxBudget) {
       let itemAdded = false;
 
       for (let item of shuffled) {
-        if (total >= minTotal) break;
+        if (total >= minBudget) break;
+        if (item.category === "קינוחים") continue;
 
-        if (item.category === "קינוחים") continue; // לא מוסיפים עוד קינוחים
-
-        if (total + item.price <= maxTotal) {
-        items.push({ name: item.name, price: item.price , category: item.category });
-
+        if (total + item.price <= maxBudget) {
+          items.push(item);
           total += item.price;
           itemAdded = true;
-
-          if (total >= minTotal) break;
+          if (total >= minBudget) break;
         }
       }
 
       if (!itemAdded) break;
     }
 
-    if (total >= minTotal && total <= maxTotal) {
+    if (total >= minBudget && total <= maxBudget) {
       bestCombo = items;
       bestTotal = total;
       break;
     }
 
-    if (total > bestTotal && total <= maxTotal) {
+    if (total > bestTotal && total <= maxBudget) {
       bestCombo = items;
       bestTotal = total;
     }
@@ -373,9 +365,12 @@ items.push({ name: dessert.name, price: dessert.price , category: dessert.catego
 
 
 
-const BudgetChat = ({  isOpen,  setIsOpen , results, setResults , budget , people  ,   setPeople, setBudget}) => {
+const BudgetChat = ({  isOpen,  setIsOpen , results, setResults , budget , people  ,   setPeople, setBudget,
+  setItemQuantities,
+  itemQuantities
 
-const [itemQuantities, setItemQuantities] = useState({});
+}) => {
+
   const { user , loading , setLoading } = useAuthSync();//ani po 
     const [showDraftSaved, setShowDraftSaved] = useState(false); // מודל הצלחה לשמירת תפריט 
   const [dessertCount, setDessertCount] = useState("");
@@ -527,39 +522,52 @@ setItemQuantities((prev) => ({
 
 
 
-  const handleGenerate = () => {
-    setDessertVolumeExceededOnce(false);
-setMainVolumeExceededOnce(false);
+const handleGenerate = () => {
+  setDessertVolumeExceededOnce(false);
+  setMainVolumeExceededOnce(false);
+  setShowBudgetInput(true);
+  setHideButtonPeople(true);
 
-    setShowBudgetInput(true);
-    setHideButtonPeople(true)
-    
-    const b = parseInt(budget);
-    
-    const d = parseInt(dessertCount);
-    if (isNaN(b) || b < 599 ) {
-      setErrorMessage(" מינימום תקציב 600₪. התפריט יבנה נטו על פי תקציב, ללא התחשבות בכמות האנשים. באפשרותך לבחור מספר קינוחים שתרצה שיהיו כלולים בתקציב(לא חובה). בנוסף תוכל לבחור אם להכניס יין. 💃 הזמנה נעימה "  )
-      setShowError(true)
-      return;
-    }
-setHideButtonPeople(false)
-    
-    // סגור את התוצאה הקודמת לפני פתיחה מחודשת
-   setLoading(true);
-     
-    setShowResultsModal(false);
-    setResults([]);
+  const b = parseInt(budget);
+  const d = parseInt(dessertCount);
 
-    setTimeout(() => {
-      const menus = generateMenus(b,  d, includeWine);
-      setResults(menus);
-      setShowResultsModal(true);
-      setShowBudgetInput(false);
-      
-      setFocusedWindow("results");
-       setLoading(false);
-    }, 500);
-  };
+  if (isNaN(b) || b < 599) {
+    setErrorMessage(
+      "מינימום תקציב 600₪. התפריט יבנה נטו על פי תקציב, ללא התחשבות בכמות האנשים. " +
+      "באפשרותך לבחור מספר קינוחים שתרצה שיהיו כלולים בתקציב (לא חובה). בנוסף תוכל לבחור אם להכניס יין. 💃 הזמנה נעימה"
+    );
+    setShowError(true);
+    return;
+  }
+
+  setHideButtonPeople(false);
+  setLoading(true);
+  setShowResultsModal(false);
+  setResults([]);
+
+  setTimeout(() => {
+    const rawMenus = generateMenus(b, d, includeWine);
+
+    const normalizedMenus = rawMenus.map(menu => ({
+      ...menu,
+      items: (menu.items || []).map(item => ({
+        name: item.name,
+        price: Number(item.price),
+        category: item.category || "",
+        label: item.label || "",
+        sizeKey: item.sizeKey || "",
+        volume: Number(item.volume || 0)
+      })),
+      total: menu.total || (menu.items || []).reduce((sum, i) => sum + i.price, 0)
+    }));
+
+    setResults(normalizedMenus);
+    setShowResultsModal(true);
+    setShowBudgetInput(false);
+    setFocusedWindow("results");
+    setLoading(false);
+  }, 500);
+};
 
 
   useEffect(() => {

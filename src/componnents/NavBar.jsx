@@ -2,6 +2,7 @@
 
 import  { useState, useEffect, useRef } from "react";
 import NavBarCenter from "./NavBarCenter";
+import { fullMenu } from "../data/fullMenu";
 import { Link } from "react-router-dom";
 import logo from "../logo/LL.png";
 import useScroll from "../hooks/useScroll";
@@ -37,6 +38,8 @@ const [dessertCount, setDessertCount] = useState(0);
 const [includeWine, setIncludeWine] = useState(false);
 const [showResults, setShowResults] = useState(false); 
 const [showModal, setShowModal] = useState(false); 
+const [itemQuantities, setItemQuantities] = useState({});
+
 
 const [results, setResults] = useState(() => {
   const saved = localStorage.getItem("results");
@@ -130,6 +133,7 @@ user={user}
 loading ={loading}
 setLoading={setLoading}
 setUser={setUser}
+
 />
 
 {showMyOrders && <MyOrdersModal onClose={() => setShowMyOrders(false)}
@@ -169,6 +173,8 @@ onLoginSuccess={() => {
   budget={budget}
   setPeople={setPeople}
   setBudget={setBudget}
+  itemQuantities={itemQuantities}
+setItemQuantities={setItemQuantities}
   />
 
 
@@ -176,34 +182,54 @@ onLoginSuccess={() => {
 
 
       {showModal && <ContactModal onClose={() => setShowModal(false)} />}
-      <SavedMenus
-        key={user?._id} // ✅ כך SavedMenus תתאפס ותטען מחדש כשמשתמש משתנה
-        isOpen={showSavedMenus}
-        onClose={() => setShowSavedMenus(false)}
-        onLoadMenu={(loadedMenu) => {
-          setResults([{
-  name: loadedMenu.name || "תפריט אישי",
-  items: loadedMenu.items || [],
-  total: loadedMenu.total || loadedMenu.items?.reduce((sum, i) => sum + i.price, 0) || 0
-}]);
+   <SavedMenus
+  key={user?._id}
+  isOpen={showSavedMenus}
+  onClose={() => setShowSavedMenus(false)}
+  onLoadMenu={(loadedMenu) => {
+    const enrichedItems = (loadedMenu.items || []).map((item) => {
+      const fullItem = (fullMenu[item.category] || []).find(i => i.name === item.name);
+      return {
+        ...item,
+        sizes: fullItem?.sizes || {} // שחזור ה־sizes מהתפריט המלא
+      };
+    });
 
-          setBudget(0);
-          setPeople(0);
-          setDessertCount(0);
-          setIncludeWine(false);
-          setShowSavedMenus(false);
-          setShowResults(true);
-        }}
-        user={user}
-        loading={loading}
-        setLoading={setLoading}
-    openBudgetChat={() => setShowBudgetChat(true)} // ✅ זה הפונקציה ש־SavedMenus צריך!
-  SwitchToRegister={switchToRegisterViaModal} // ✅ זה מה שהיה חסר!
-      />
+    const newQuantities = {};
+    enrichedItems.forEach((item) => {
+      const key = `${item.name} - ${item.label}`;
+      newQuantities[key] = (newQuantities[key] || 0) + 1;
+    });
+
+    setItemQuantities(newQuantities);
+    setResults([{
+      name: loadedMenu.name || "תפריט אישי",
+      items: enrichedItems,
+      total: loadedMenu.total || enrichedItems.reduce((sum, i) => sum + i.price, 0)
+    }]);
+
+    setBudget(0);
+    setPeople(0);
+    setDessertCount(0);
+    setIncludeWine(false);
+    setShowSavedMenus(false);
+    setShowResults(true);
+  }}
+  user={user}
+  loading={loading}
+  setLoading={setLoading}
+  openBudgetChat={() => setShowBudgetChat(true)}
+  SwitchToRegister={switchToRegisterViaModal}
+  itemQuantities={itemQuantities}
+  setItemQuantities={setItemQuantities}
+/>
 
 
 
       <ResultsModal
+      setShowSavedMenus={setShowSavedMenus}
+                          itemQuantities={itemQuantities}
+setItemQuantities={setItemQuantities}
         isOpen={showResults}
         onClose={() => setShowResults(false)}
         results={results}

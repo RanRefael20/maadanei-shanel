@@ -3,7 +3,7 @@ import  { useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./LoginSuccessModal.css";
 
-const LoginSuccessModal = ({ username, onClose, message , autoClose = true    }) => {
+const LoginSuccessModal = ({ username, onClose, message , autoClose = true   , setShowSavedMenus , }) => {
   useEffect(() => {
     if (!autoClose) return; // ❌ אל תפעיל טיימר אם מבוטל
 
@@ -19,7 +19,13 @@ const LoginSuccessModal = ({ username, onClose, message , autoClose = true    })
     )}
     <p>{message || `שלום ${username}, התחברת בהצלחה! 🎉`}</p>
          {!autoClose && (
-     <button className="extra-button">
+     <button className="extra-button"
+     onClick={()=>{  
+      setShowSavedMenus(true)
+      onClose();
+     }
+     }
+     >
             התפריטים שלי
           </button>
       )}

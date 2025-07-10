@@ -3,6 +3,8 @@ import LoginModal from "./LoginModal";
 import RegisterModal from "./register/RegisterModal";
 import ForgotPassword from "../login/ForgotPassword"; // אם התיקייה שלך היא login
 import useAuthSync from "../hooks/useAuthSync"; // ✅
+import UsersModal from "../Admin/UsersModal"; // או הנתיב שלך בפועל
+
 
 
 const AuthManager = ({  activeModal,  setActiveModal, onLoginSuccess , setShowMyOrders    }) => {
@@ -71,6 +73,12 @@ setShowMyOrders={setShowMyOrders}
 
 
 
+{activeModal === "users" && (
+  <UsersModal
+    onClose={() => setActiveModal(null)}
+    setActiveModal={setActiveModal}
+  />
+)}
 
 
 

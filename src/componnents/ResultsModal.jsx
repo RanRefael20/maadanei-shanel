@@ -32,6 +32,7 @@ remainingDessertVolume,
 setRemainingDessertVolume, 
           setItemQuantities,
           itemQuantities,
+          setShowSavedMenus
   
 }) => {
   
@@ -305,7 +306,8 @@ setItemQuantities((prev) => {
         {items.map((item, idx) => (
           <li key={idx} className="menu-item">
 <button className="delete-item-button" onClick={() => handleRemoveItem(item)}>🗑️מחק</button>
-            <span>{item.name} - {item.price} ₪</span>
+            <span>{item.name} -<strong>{item.label}</strong>  -  {item.price} ₪</span>
+            <small style={{ marginRight: "25px" }}>{item.volume} נק'</small>
           </li>
         ))}
       </ul>
@@ -364,6 +366,7 @@ budget={budget}
 
    {showDraftSaved && (
   <DraftSavedModal
+  setShowSavedMenus={setShowSavedMenus}
     onClose={() => setShowDraftSaved(false)}
     results={results}
   />

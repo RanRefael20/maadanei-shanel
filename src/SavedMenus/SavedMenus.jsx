@@ -7,7 +7,9 @@ import RegisterErrorModal from "../login/Eror/RegisterErrorModal";
 
 
 
-const SavedMenus = ({ isOpen, onClose, onLoadMenu ,openBudgetChat , user ,  loading,  setLoading  , SwitchToRegister}) => {
+const SavedMenus = ({ isOpen, onClose, onLoadMenu ,openBudgetChat , user ,  loading,  setLoading  , SwitchToRegister,
+
+}) => {
   const [savedMenus, setSavedMenus] = useState([]);
   const [menusCount, setMenusCount] = useState(0);//מספר שמורים
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -16,6 +18,8 @@ const [IdmenuToDelete, setIdMenuToDelete] = useState(null); // מחזיק את I
 
 const [searchTerm, setSearchTerm] = useState("");
 const [searchDate, setSearchDate] = useState("");
+const [hasFetched, setHasFetched] = useState(false);
+
 const filteredMenus = savedMenus.filter((menu) => {
   const nameMatch = menu.name.includes(searchTerm);
   const dateMatch = searchDate
@@ -25,22 +29,25 @@ const filteredMenus = savedMenus.filter((menu) => {
 });
 
 
-const prevUserRef = useRef(null);
 
 useEffect(() => {
-  const shouldFetch = isOpen && !loading && user && user._id && prevUserRef.current !== user._id;
-  if (shouldFetch) {
-    prevUserRef.current = user._id; // שמור את המשתמש האחרון
+  if (!isOpen || loading || hasFetched) return;
+
+  if (user && user._id) {
+    setHasFetched(true);
     fetchMenus();
     fetchSavedMenusCount().then(setMenusCount);
-  }
-
-  if (isOpen && !loading && !user) {
+  } else {
     setSavedMenus([]);
     setMenusCount(0);
   }
-}, [isOpen, user, loading]);
+}, [isOpen, user, loading, hasFetched]);
 
+useEffect(() => {
+  if (!isOpen) {
+    setHasFetched(false); // איפוס כשסוגרים
+  }
+}, [isOpen]);
 
 
 
@@ -111,6 +118,7 @@ const fetchSavedMenusCount = async () => {
 
 
 const handleLoad = async (menuId) => {
+   setLoading(true)
   try {
     const res = await fetch(`${baseURL}/api/savedmenus/single/${menuId}`, {
       headers: {
@@ -122,12 +130,17 @@ const handleLoad = async (menuId) => {
     const data = await res.json();
 
     if (!res.ok) {
+         setLoading(false)
       throw new Error(data.message || "שגיאה בטעינת הטיוטה");
+
     }
 
     onLoadMenu(data);
+       setLoading(false)
+
     onClose();
   } catch (err) {
+    setLoading(false)
     setErrorMessage(err.message || "שגיאה בטעינת הטיוטה");
     setShowErrorModal(true);
   }
@@ -233,7 +246,9 @@ return createPortal(
                       <div className="menu-date">📅 נוצר ב־ {new Date(menu.createdAt).toLocaleDateString("he-IL")}</div>
                     </div>
                     <div className="menu-actions">
-                      <button onClick={() => handleLoad(menu._id)} className="load-button">פתח תפריט / עריכה</button>
+                      <button onClick={() => {
+                        
+                        handleLoad(menu._id)}} className="load-button">פתח תפריט / עריכה</button>
                       <button className="delete-button"  onClick={(e) => {
     e.stopPropagation(); // ✅ מונע את הפצת האירוע למעלה לעבר menu-card
     setIdMenuToDelete(menu._id);
@@ -279,6 +294,7 @@ return createPortal(
   />
 )}
 
+{loading &&(  <LoadingSpinner text="... טוען" />)}
 
   </div>,
   

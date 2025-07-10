@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { baseURL } from "../config";
 
+
 const useAuthSync = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);

@@ -84,6 +84,7 @@ window.open(paymentUrl, "_blank")
       const token = localStorage.getItem("token");
   
       const orderData = {
+        
         username: userInformationToOrder.username || user?.username || formData.holder,
         email: userInformationToOrder.email || user?.email || "noemail@guest.com",
         phone: userInformationToOrder.phone || user?.phone || "ללא מספר",
@@ -95,7 +96,6 @@ window.open(paymentUrl, "_blank")
         when: userInformationToOrder.when
         
       };
-      console.log("when before send:", userInformationToOrder.when);
   
       // ✍️ שמירה בדאטהבייס
       const createRes = await fetch(`${baseURL}/api/orders/create`, {

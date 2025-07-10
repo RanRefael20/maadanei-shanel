@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../componnents/userMenu/Menu.css";
 import LoadingSpinner from "../LoadingSpinner";
-import { FaUserCircle } from "react-icons/fa";
+
 
 const Menu = ({
   setShowBudgetChat,
@@ -13,6 +13,7 @@ const Menu = ({
   setLoading,
   setUser,
   setShowMyOrders,
+  
 }) => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -21,6 +22,8 @@ const Menu = ({
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
   const [enableSwipe, setEnableSwipe] = useState(false);
+
+const isAdmin = user?.email === "nashelcheese@gmail.com";
 
   const startXRef = useRef(0);
   const isMobile = window.innerWidth <= 768;
@@ -199,10 +202,23 @@ const handleCloseMenu = () => {
               </button>
             )}
           </div>
+<button
+  className="user-menu-item"
+  onClick={() => setShowMyOrders(true)}
+>
+  {!user
+    ? "ההזמנות שלי"
+    : isAdmin
+    ? "כל ההזמנות"
+    : "ההזמנות שלי"}
+</button>
 
-          <button className="user-menu-item" onClick={() => setShowMyOrders(true)}>
-            ההזמנות שלי
-          </button>
+      {isAdmin&&( 
+    <button className="user-menu-item" onClick={() => setActiveModal("users")}>
+      משתמשים
+    </button>
+     )} 
+
           <button className="user-menu-item" onClick={() => setShowBudgetChat(true)}>
             צור תפריט אישי
           </button>
