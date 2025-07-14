@@ -103,7 +103,7 @@ setIsProcessing(true);
     }
 
     if (actionType === "update") {
-      // ולידציה
+      // ולידציה``````
       const { username, phone, email } = selectedUser;
       if (!username || !phone || !email) {
         throw new Error("יש למלא את כל השדות הנדרשים");

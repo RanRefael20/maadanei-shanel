@@ -1,20 +1,20 @@
 export const fullMenu = {
     "בייגל בייגל": [
     { name: "בייגל טונה", sizes: {
-        M: { label: "12 יח'", price: 189, volume: 7 },
-        L: { label: "20 יח'", price: 315, volume: 12 }
+        M: { label: "12 יח'", price: 189, volume: 5 },
+        L: { label: "20 יח'", price: 315, volume: 10 }
       } },
     { name: "בייגל שמנת סלמון", sizes: {
-        M: { label: "12 יח'", price: 230, volume: 7 },
-        L: { label: "20 יח'", price: 385, volume: 12 }
+        M: { label: "12 יח'", price: 230, volume: 5 },
+        L: { label: "20 יח'", price: 385, volume: 10 }
       } },
     { name: "בייגל סלט ביצים , בצל ירוק וחסה לאליק", sizes: {
-        M: { label: "12 יח'", price: 189, volume: 7 },
-        L: { label: "20 יח'", price: 315, volume: 12 }
+        M: { label: "12 יח'", price: 189, volume: 5 },
+        L: { label: "20 יח'", price: 315, volume: 10 }
       } },
     { name: "בייגל פסטו , גבינת פטה ואנטי-פסטי", sizes: {
-        M: { label: "12 יח'", price: 189, volume: 7 },
-        L: { label: "20 יח'", price: 315, volume: 12 }
+        M: { label: "12 יח'", price: 189, volume: 5 },
+        L: { label: "20 יח'", price: 315, volume: 10 }
       } }
   ],
     "מגשי פרימיום": [
@@ -28,11 +28,11 @@ export const fullMenu = {
       } },
     { name: "מגש בורקיטס במילוי ממרח פסטו , קוביה בולגרית , וחסה לאליק", sizes: {
         M: { label: "20 יח'", price: 255, volume: 7 },
-        L: { label: "30 יח'", price: 385, volume: 14 }
+        L: { label: "30 יח'", price: 385, volume: 12 }
       } },
     { name: "מגש טארטלים במילוי שמנת וסלמון",sizes: {
         M: { label: "20 יח'", price: 190, volume: 6 },
-        L: { label: "30 יח'", price: 285, volume: 12 }
+        L: { label: "30 יח'", price: 285, volume: 10 }
       } },
     { name: "מגש פריקסה מפנק", sizes: {
         M: { label: "20 יח'", price: 320, volume: 8 },
@@ -63,7 +63,7 @@ export const fullMenu = {
         L: { label: "קוטר 29", price: 165, volume: 6 }
       } },
     { name: "מגש לחמי הבית בלווי מטבלים  ", sizes: {
-        L: { label: "L", price: 235, volume: 7 }
+        L: { label: "לארג'", price: 235, volume: 7 }
       } },
     { name: "מגש לחם שום", sizes: {
         M: { label: "10 יח'", price: 80, volume: 4 },
@@ -133,16 +133,16 @@ export const fullMenu = {
         L: { label: "4.5 ליטר", price: 165, volume: 5 }
       } },
     { name: "מגש ירקות אנטי-פסטי בתנור",   sizes: {
-        M: { label: "M", price: 120, volume: 3 },
-        L: { label: "L", price: 185, volume: 5 }
+        M: { label: "מדיום", price: 120, volume: 3 },
+        L: { label: "לארג'", price: 185, volume: 5 }
       } },
     { name: "כוסות אישיות עם מקלות ירקות ",   sizes: {
         M: { label: "20 יח'", price: 130, volume: 3 },
         L: { label: "30 יח'", price: 185, volume: 5 }
       } },
     { name: "פלטת ירקות",  sizes: {
-        M: { label: "M", price: 130, volume: 3 },
-        L: { label: "L", price: 185, volume: 5 }
+        M: { label: "מדיום", price: 130, volume: 3 },
+        L: { label: "לארג'", price: 185, volume: 5 }
       } },
   ],
 
@@ -173,7 +173,7 @@ export const fullMenu = {
         L: { label: "30 יח'", price: 285, volume: 5 }
       } },
     { name: "מגש פירות העונה", sizes: {
-        M: { label: "M", price: 180, volume: 3 },
+        M: { label: "מדיום", price: 180, volume: 3 },
         L: { label: "לארג'", price: 270, volume: 5 }
       } },
     { name: "מגש פחזניות", sizes: {

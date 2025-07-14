@@ -147,6 +147,7 @@ setItemQuantities((prev) => {
 
 
 
+const totalItemsCount = results[0]?.items?.length || 0;
 
 
 
@@ -239,7 +240,8 @@ setItemQuantities((prev) => {
              {people !=="" && handleVolumeMode &&(
                  <div className="explanation"><h4>📊 הגדרנו עבורך את כמות המנות המומלצת</h4>
 <p>
-  בהתאם למספר הסועדים שהזנת, חישבנו עבורך את כמות הפריטים המומלצת.<br />
+  בהתאם למספר הסועדים שהזנת, ערכנו עבורך את כמות המנות שאתה צריך, חישבנו עבורך את כמות הפריטים המומלצת, <br /> כדי לעזור לך להכיר את גודל המנות שלנו - שלא תצטרך להזמין על "עיוור". <br></br>
+  כך תקבל בדיוק את הכמות שאתה צריך.
   תוכל בכל שלב לשנות את מספר הסועדים וללחוץ על <strong>טען מחדש 🔁</strong> כדי לעדכן את החישוב.
 </p>
 
@@ -281,9 +283,7 @@ setItemQuantities((prev) => {
             </div>
         
         
-            <div className="header-summary-row">
-              <span className="menu-total-header">סה״כ: {results[0]?.total || 0}₪</span>
-            </div>
+
           
         
 
@@ -307,7 +307,9 @@ setItemQuantities((prev) => {
           <li key={idx} className="menu-item">
 <button className="delete-item-button" onClick={() => handleRemoveItem(item)}>🗑️מחק</button>
             <span>{item.name} -<strong>{item.label}</strong>  -  {item.price} ₪</span>
+            {people !==""  &&(
             <small style={{ marginRight: "25px" }}>{item.volume} נק'</small>
+            )}
           </li>
         ))}
       </ul>
@@ -317,10 +319,20 @@ setItemQuantities((prev) => {
 
             </div>
           ))}
-          <div className="fixed-footer">
-            <button className="menu-action-button" onClick={() => { setShowMenuExport(true);}}>✅ סיום</button>
 
-          </div>
+          {totalItemsCount>0&&(
+<div className="fixed-footer" onClick={()=>
+  setShowMenuExport(true)
+}>
+    <span className="item-count-circle">{totalItemsCount}</span>
+    <span style={{ marginInlineStart: "8px" }}>הצגת פריטים</span>
+    <div className="footer-left">
+    <span className="total-price"> {results[0]?.total || 0} ₪</span>
+  </div>
+</div>
+          )}
+
+
 
 
  

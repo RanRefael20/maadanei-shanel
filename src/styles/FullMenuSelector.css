@@ -233,19 +233,236 @@ color: #f6c216;
   text-align: center;
 }
 
+/* ✅ אפקט גשם מקצועי - סגנון Wolt, מינימליסטי, ירוק כהה */
+.size-button {
+    pointer-events: auto; /* לא מגיב בכלל */
+
+  position: relative;
+  overflow: hidden;
+  min-height: 48px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: #000;
+  font-weight: 500;
+  border: 2px solid #00b853;
+  padding-left: 50px; /* ✅ מפנה מקום לבועה */
+
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.size-button-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+
+
+
+.size-button.has-bubble {
+  padding-left: 58px; /* מרווח נוסף אם הבועה מופיעה */
+  position: relative;
+}
+
+.size-button:hover {
+  background-color: #e8fff0;
+}
+
+.size-button.animating::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background-color: #02d41ec7; /* ירוק */
+  z-index: 0;
+  animation: fillGreen 1.2s forwards;
+  border-radius: inherit;
+}
+.size-button .original-label {
+  position: relative;
+  z-index: 2;
+}
+
+
+.inline-counter {
+  position: absolute;
+  left: 2px;
+    margin-top: 10px;
+
+  transform: translateY(-58% );
+  background-color: black;
+  color: white;
+  border-radius: 10px  3px;
+  padding: 3px 12px;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+  font-size: 16px;
+  height: 20px;
+  pointer-events: auto; /* כן מגיב */
+  cursor: pointer;
+    box-shadow: 0 0 0 40px transparent; /* ✅ יוצרת רווח בלתי נראה */
+}
+
+.inline-counter::after {
+  content: "";
+  position: absolute;
+  right: -30px;
+  top: 0;
+  width: 120px;
+  height: 100%;
+  background: transparent;
+}
+
+
+.inline-counter button {
+  background: transparent !important; /* ✅ שקוף לגמרי */
+  border: none;
+  color: white !important;
+  font-size: 30px;
+  cursor: pointer;
+  padding: 0 4px;
+margin-top: 7px;
+}
+
+.item-count-inline {
+  font-weight: bold;
+  font-size: 15px;
+  min-width: 12px;
+}
+
+
+@keyframes fillGreen {
+  0% {
+    height: 0%;
+  }
+  100% {
+    height: 100%;
+  }
+}
+
+/* ✅ טיפות גשם: מהירות, מינימליסטיות, מתפזרות כמו גשם אמיתי */
+.drop {
+  position: fixed;
+  width: 4px;
+  height: 10px;
+  background-color: #00b853;
+  border-radius: 80% 70% 60% 50% 40% 30% 20% 10%;
+  opacity: 0;
+  z-index: 9999;
+  animation: rainDrop 1.5s ease-in forwards;
+}
+
+.drop-child {
+  position: fixed;
+  width: 4px;
+  height: 6px;
+  background-color: #02d41ec7;
+  border-radius: 50% 40% 30% 20% 10%;
+  opacity: 0;
+  z-index: 9998;
+  animation: splashOut 3s ease-out forwards;
+}
+
+@keyframes rainDrop {
+  0% {
+    transform: translate(0, -30px) scale(1);
+    opacity: 1;
+  }
+  70% {
+    transform: translate(var(--x), var(--y));
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--x), calc(var(--y) + 30px));
+    opacity: 0;
+  }
+}
+
+@keyframes splashOut {
+  0% {
+    transform: translate(0, 0) scale(0.8);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(var(--child-x), var(--child-y)) scale(0.6);
+    opacity: 0;
+  }
+}
+
+.size-button.reset .original-label {
+  visibility: visible;
+  animation: fadeIn 0.4s ease forwards;
+  color: inherit;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+
+
 
   
 @media (max-width: 600px) {
-  body.modal-open {
-    overflow: auto !important; /* ✅ ביטול נעילה במובייל */
-  }
-
-  .fullscreen-overlay {
-   
-    pointer-events: none !important; /* שומר על שקיפות לחיצות */
-  }
-
   .floating-modal {
- pointer-events: auto !important;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 94% !important;
+    height: auto !important;
+    max-height: 85vh !important;
+    margin: 0 !important;
+    border-radius: 20px;
+    padding-bottom: 20px;
+  }
+
+  .row .close-button{
+color: #ffffff;
+margin-right: 605px;
+  }
+  .modal-header-fullmenu {
+    padding: 12px 16px !important;
+    font-size: 16px;
+  }
+    .modal-header-fullmenu .row {
+  display: flex;
+  flex-direction: row;
+  }
+      .modal-header-fullmenu .row .search-input{
+width: 80px !important;
+  }
+
+  .modal-content {
+    padding: 1rem !important;
+  }
+
+  .size-selection-popup {
+    width: 95% !important;
+    max-width: none !important;
+  }
+
+  .item-select {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .quantity-controls {
+    margin-top: 8px;
+  }
+
+  .suggestions-button {
+    font-size: 15px !important;
+    padding: 10px 14px !important;
+  }
+
+  .deleted-msg {
+    font-size: 0.95rem;
+    padding: 5px 8px;
   }
 }

@@ -16,6 +16,14 @@ setRemainingVolume,
 
 
  }) => {
+const [floatingLabel, setFloatingLabel] = useState(null); // {text, x, y}
+const [showDrops, setShowDrops] = useState(false);
+const [activeSize, setActiveSize] = useState(null); // כבר קיים
+const [activeSizeKey, setActiveSizeKey] = useState(null); // בשביל להשוות בדיוק שם+מידה
+const [maxPrice, setMaxPrice] = useState("");
+const [maxVolume, setMaxVolume] = useState("");
+
+
     const [showSuggestions, setShowSuggestions] = useState(false);
 const [selectedForRemoval, setSelectedForRemoval] = useState(null);
 const [showDeletedMsg, setShowDeletedMsg] = useState(false);
@@ -25,7 +33,51 @@ const [showDeletedMsg, setShowDeletedMsg] = useState(false);
   const pos = useRef({ x: 0, y: 0, dx: 0, dy: 0 });
 const [selectedItem, setSelectedItem] = useState(null);
 const [searchTerm, setSearchTerm] = useState("");
+const [hasMadeSelection, setHasMadeSelection] = useState(false);
+const [showDropChildren, setShowDropChildren] = useState(false); // טיפות שמתפצלות
 
+
+const handleSizeClick = (e, sizeKey, sizeData) => {
+    console.log("🟢 handleSizeClick עובד!", sizeKey, sizeData); // ✅ שים את זה בראש הפונקציה
+
+  const buttonRect = e.currentTarget.getBoundingClientRect();
+  const centerX = buttonRect.left + buttonRect.width / 2;
+  const centerY = buttonRect.top + buttonRect.height / 2;
+
+  const item = {
+    name: selectedItem.name,
+    category: selectedItem.category,
+    sizeKey,
+    label: sizeData.label,
+    price: sizeData.price,
+    volume: sizeData.volume,
+    sizes: selectedItem.sizes, // אופציונלי – לשמירה
+  };
+
+  const itemKey = `${item.name}-${item.label}`;
+
+
+
+  // עדכון אנימציה
+  setActiveSize(sizeKey);
+  setActiveSizeKey(itemKey);
+
+  // ✅ הוספת פריט (דרך onAddItem שקורא ל־handleAddItemWithVolume)
+  onAddItem(item);
+  setHasMadeSelection(true);
+
+  // ✅ אנימציית טיפות
+  setFloatingLabel({ x: centerX, y: centerY });
+  setTimeout(() => setShowDrops(true), 1000);
+  setTimeout(() => setShowDropChildren(true), 200);
+  setTimeout(() => {
+    setFloatingLabel(null);
+    setShowDrops(false);
+    setShowDropChildren(false);
+  }, 3000);
+
+  setTimeout(() => setActiveSize(null), 1200);
+};
 
   // התחלת גרירה
   const handleMouseDown = (e) => {
@@ -87,7 +139,13 @@ const getSuggestedItems = () => {
         onMouseDown={handleMouseDown}
       >
    <div className="modal-header-fullmenu">
+    <div className="col">
+      <div className="row">
   <h3>הוספת פריטים להזמנה</h3>
+      <button className="close-button" onClick={onClose}>✖</button>
+      </div>
+
+  <div className="row">
   <input
     type="text"
     placeholder="חפש פריט..."
@@ -103,8 +161,27 @@ const getSuggestedItems = () => {
       width:"120px"
     }}
   />
+
+    <input
+    type="number"
+    placeholder="מחיר מקסימלי"
+    value={maxPrice}
+    onChange={(e) => setMaxPrice(e.target.value)}
+    className="search-input"
+    style={{ marginInlineStart: "10px", padding: "6px 8px", borderRadius: "6px", border: "1px solid #ccc", fontSize: "14px", width: "120px" }}
+  />
+
+  <input
+    type="number"
+    placeholder="נקודות מקס'"
+    value={maxVolume}
+    onChange={(e) => setMaxVolume(e.target.value)}
+    className="search-input"
+    style={{ marginInlineStart: "10px", padding: "6px 8px", borderRadius: "6px", border: "1px solid #ccc", fontSize: "14px", width: "120px" }}
+  />
+  </div>
+  </div>
   <div className="modal-controls">
-    <button onClick={onClose}>✖</button>
   </div>
 </div>
 
@@ -128,7 +205,7 @@ const getSuggestedItems = () => {
   >
     {!showSuggestions
       ? `📋 איזה עוד דברים אני יכול להוסיף ב - נקודות שנשאר לי ?`
-      : `סגור`}
+      : `חזור`}
   </button>
 </div>
 
@@ -146,34 +223,57 @@ setItemQuantities={setItemQuantities}
       onRemoveItem={onRemoveItem}
       onAddItem={onAddItem}
       setShowSuggestions={setShowSuggestions}
+      searchTerm={searchTerm} 
+                maxPrice ={maxPrice}
+  maxVolume ={maxVolume}
     />
   )}
-        
+{!showSuggestions &&
+<>
+ {Object.entries(fullMenu)
+  .map(([category, items]) => {
+const isCategoryMatch = category.toLowerCase().includes(searchTerm.toLowerCase());
 
-            {Object.entries(fullMenu).map(([category, items]) => (
-              <div key={category} className="menu-category">
-<h3>
-  {budget < 1 && people !== "" && people > 1 && category !== "יינות"
-    ? (category === "קינוחים"
-        ? `${category} - יתרת נקודות: ${remainingDessertVolume}`
-        : `${category} - יתרת נקודות: ${remainingVolume}`)
-    : category}
-</h3>
+const matchedItems = items.filter((item) => {
+  const nameMatch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
 
+  if (maxPrice === "" && maxVolume === "") return nameMatch;
 
-                {items
-  .filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-  .map((item) => {
-                  const itemWithCategory = { ...item, category };
-                  return (
-                    <div key={item.name} className="item-select">
-                      <span>
-                        {item.name}
-                      </span>
-                      <div className="quantity-controls">
-                      <button
+  const sizes = item.sizes || {};
+
+  const hasMatchingSize = Object.values(sizes).some((size) => {
+    const isPriceOk = maxPrice === "" || size.price <= parseFloat(maxPrice);
+    const isVolumeOk = maxVolume === "" || size.volume <= parseFloat(maxVolume);
+    return isPriceOk && isVolumeOk;
+  });
+
+  return nameMatch && hasMatchingSize;
+});
+   
+    
+
+    if (!isCategoryMatch && matchedItems.length === 0) {
+      return null; // לא מציג קטגוריה שלא רלוונטית
+    }
+
+    return (
+      <div key={category} className="menu-category">
+        <h3>
+          {budget < 1 && people !== "" && people > 1 && category !== "יינות"
+            ? category === "קינוחים"
+              ? `${category} - יתרת נקודות: ${remainingDessertVolume}`
+              : `${category} - יתרת נקודות: ${remainingVolume}`
+            : category}
+        </h3>
+
+ {matchedItems.map((item) => {
+          const itemWithCategory = { ...item, category };
+
+          return (
+            <div key={item.name} className="item-select">
+              <span>{item.name}</span>
+              <div className="quantity-controls">
+  <button
   onClick={() => {
     setSelectedItem(null)
     const matchingItems = results[0]?.items?.filter(
@@ -190,54 +290,72 @@ setItemQuantities={setItemQuantities}
 >
   ➖
 </button>
-<span className="item-count">
+  <span className="item-count">
   {Object.entries(itemQuantities).filter(([key]) =>
+
     key.startsWith(item.name)
   ).reduce((acc, [, count]) => acc + count, 0)}
 </span>
 
-             
-             <button onClick={() => {setSelectedItem(itemWithCategory)
-             
+                   <button onClick={() => {setSelectedItem(itemWithCategory)
+
 setSelectedForRemoval(null)
              }}>➕</button>
-                        </div>
-                    </div>
-                  );
-                })}
 
-                
-                
+
+              </div>
+            </div>
+
+          );
+        })}
                       {selectedItem && (
           <div className="size-selection-popup">
     <h4>בחר מידה עבור {selectedItem.name}</h4>
-{selectedItem?.sizes ? (
-  Object.entries(selectedItem.sizes).map(([sizeKey, sizeData]) => (
-    <button
-      key={sizeKey}
-onClick={(e) => {
-  e.stopPropagation();
-  const newItem = {
-    name: selectedItem.name,
-    category: selectedItem.category,
-    sizes: selectedItem.sizes, // שומר את כל המבנה
-    sizeKey,
-    label: sizeData.label,
-    price: sizeData.price,
-    volume: sizeData.volume,
-  };
-  onAddItem(newItem);
-}}
+    
 
-    >
-    <span>
-  {sizeData.label} - ({sizeData.price}₪){" "}
-  <small style={{ fontSize: "12px", color: "#666", marginRight: "8px" }}>
-     {sizeData.volume} נק'
-  </small>
-</span>
-    </button>
-  ))
+  
+{selectedItem?.sizes ? (
+  Object.entries(selectedItem.sizes).map(([sizeKey, sizeData]) => {
+  const itemKey = `${selectedItem.name}-${sizeData.label}`;
+  const quantity = itemQuantities[itemKey] || 0;
+
+    return (
+<div className="size-button-wrapper" key={`${selectedItem.name}-${sizeKey}`}>
+  
+    <button
+    className={`size-button ${activeSize === sizeKey ? "animating" : ""} ${
+      activeSizeKey === `${selectedItem.name}-${sizeKey}` ? "has-bubble" : ""
+    }`}
+    onClick={(e) => {e.stopPropagation()
+                handleSizeClick(e, sizeKey, sizeData);
+
+    }}
+  >
+    <span className="original-label">
+      {sizeData.label} - ({sizeData.price}₪)
+      {people !== "" && (
+        <small style={{ fontSize: "12px", color: "#666", marginRight: "8px" }}>
+          {sizeData.volume} נק'
+        </small>
+      )}
+    </span>
+  </button>
+
+  <div className="inline-counter" onClick={(e) => e.stopPropagation()}>
+    {quantity === 0 ? (
+ 0
+    ) : (
+      <>
+ 
+        <span className="item-count-inline">{quantity}</span>
+      </>
+    )}
+  </div>
+</div>
+
+    );
+  })
+
 ) : (
   <button
     onClick={(e) => {
@@ -250,6 +368,8 @@ onClick={(e) => {
       };
       onAddItem(newItem);
       setSelectedItem(null);
+        setHasMadeSelection(true);
+
     }}
   >
     {selectedItem.name} - {selectedItem.price}₪
@@ -257,17 +377,73 @@ onClick={(e) => {
 )}
 
 
-    <button onClick={() => setSelectedItem(null)}>ביטול</button>
+    <button onClick={() => {setSelectedItem(null)
+      setHasMadeSelection(false)
+    }}>{hasMadeSelection ? "סגור" : "ביטול"}</button>
   </div>
 )}
 
-              </div>
-            ))}
-            
+
+
+      </div>
+    );
+  })}
+
+              </>
+            }
           </div>
           
         )}
       </div>
+
+
+
+{showDrops &&
+Array.from({ length: 5 }).map((_, i) => {
+  const x = Math.random() * 100 - 10 + "px"; // טווח רחב על ציר X
+  const y = Math.random() * 10 + "px";       // מהירות ירידה רנדומלית
+
+    const dropX = floatingLabel?.x- 50 || 0;
+    const dropY = floatingLabel?.y - 25 || 0;
+    const finalX = `calc(${x}+60px)`;
+    const finalY = `calc(${y} )`;
+
+    return (
+      <React.Fragment key={i}>
+        <div
+          className="drop"
+          style={{
+            left: `${dropX}px`,
+            top: `${dropY}px`,
+            "--x": x,
+            "--y": y,
+          }}
+        />
+
+        {showDropChildren &&
+          Array.from({ length: 5 }).map((_, j) => {
+            const childX = Math.random() * 120  + "px";
+            const childY = Math.random() * 1  + "px";
+            return (
+              <div
+                key={`child-${i}-${j}`}
+                className="drop-child"
+                style={{
+                  left: `calc(${dropX}px + ${x})`,
+                  top: `calc(${dropY}px + ${y} + 20px)`,
+                  "--child-x": childX,
+                  "--child-y": childY,
+                }}
+              />
+            );
+          })}
+      </React.Fragment>
+    );
+  })}
+
+
+
+
       
 {selectedForRemoval && (
   <div className="size-selection-popup">

@@ -87,4 +87,23 @@ margin: auto;
   background-color: #ffffff;
     color: #1f2937;
 }
+.draft-saved-buttons {
+  display: flex;
+  justify-content: center; /* מרכז את הכפתורים */
+  align-items: center;
+  gap: 10px; /* רווח בין הכפתורים */
+  margin-top: 1rem; /* אופציונלי – רווח מהאלמנטים שמעל */
+}
 
+@media (max-width: 600px) {
+.draft-saved-modal {
+  background-color: #000000ce;
+margin-top: -20px;
+  margin-left: 1px;
+}
+.draft-saved-buttons {
+  gap: 20px; /* רווח בין הכפתורים */
+  margin-top: 0.5rem; /* אופציונלי – רווח מהאלמנטים שמעל */
+}
+
+}

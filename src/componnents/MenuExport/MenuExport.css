@@ -113,3 +113,57 @@
     transform: translateY(0);
   }
 }
+
+
+@media (max-width: 600px) {
+  .menu-export-window {
+    width: 100%;
+    max-height: 95vh;
+    border-radius: 0;
+    font-size: 1em;
+  }
+
+  .menu-export-header {
+    font-size: 1em;
+    padding: 10px 16px;
+  }
+
+  .menu-export-body {
+    padding: 16px;
+    font-size: 0.95em;
+    max-height: 65vh;
+  }
+
+  .menu-export-list li {
+    font-size: 1em;
+  }
+
+  .menu-export-buttons button {
+    font-size: 1em;
+    padding: 12px;
+  }
+
+  /* הבהרת צבעים: טקסט בהיר על כהה / כהה על בהיר */
+  .menu-export-window {
+    background-color: white;
+    color: black;
+  }
+
+  .menu-export-header {
+    background-color: #4C3D3D;
+    color: #FFD95A;
+  }
+
+  .menu-export-controls button {
+    color: #FFD95A;
+  }
+
+  .menu-export-buttons button {
+    background-color: #4C3D3D;
+    color: #FFD95A;
+  }
+
+  .menu-export-buttons button:hover {
+    background-color: #3a2c2c;
+  }
+}

@@ -1,24 +1,25 @@
 /* ✅ VolumeFriendlyItems.css */
 
+
+
 .sticky-header {
-  position: sticky;
-  top: 0;
+  border-radius: 10px;
+  position: fixed;
+  top: 150px;
+  margin-right: 75px;
   background-color: #ffffff;
   z-index: 10;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
+  padding-bottom: 2px;
   border-bottom: 1px solid #eee;
 }
 
 
 .suggested-items-container {
-  background-color: #ffffff;
   border-radius: 18px;
   padding: 1.2rem 1.5rem;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   margin-top: 20px;
-  max-height: 50vh;
-  overflow-y: auto;
+  max-height: 140vh;
   font-family: "Rubik", sans-serif;
   direction: rtl;
   transition: all 0.3s ease-in-out;
@@ -26,11 +27,18 @@
 }
 
 .suggested-items-title {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
-  margin-bottom: 1.2rem;
+  padding: 4px;
   color: #00b894;
   text-align: center;
+}
+
+.sticky-header .menu-action-button {
+  width: 50%;
+margin-right: 125px;
+margin-top: -10px;
+animation: normal;
 }
 
 .color-red {
@@ -71,6 +79,17 @@
   padding-right: 8px;
 }
 
+.item-name small{
+  font-size:12px ;
+  color: #ffffff;
+  margin-right: 8px;
+}
+
+.suggested-item:hover small {
+  color: #000000; /* צבע חדש בעת מעבר עכבר */
+}
+
+
 .quantity-controls {
   display: flex;
   align-items: center;
@@ -105,6 +124,34 @@
 
 .remove-button {
   color: #d63031;
+}
+
+@media (max-width: 600px) {
+.sticky-header {
+  top: 130px;
+  margin-right: 60px;
+  width: 72%;
+}
+
+
+.suggested-items-title {
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 2px;
+  color: #00b894;
+  text-align: center;
+  margin-left: 10px;
+}
+
+
+.sticky-header .menu-action-button {
+  width: 35%;
+margin-right: 105px;
+animation: normal;
+font-size: 8px;
+}
+
+
 }
 
 

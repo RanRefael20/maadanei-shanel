@@ -13,65 +13,82 @@ const VolumeFriendlyItems = ({
   remainingDessertVolume,
   onAddItem,
   onRemoveItem,
-  setShowSuggestions
+  setShowSuggestions,
+    searchTerm = "" ,// ✅ ברירת מחדל ריקה
+      maxPrice = "", // ✅ חדש
+  maxVolume = "", // ✅ חדש
+
 }) => {
 
   const mixer = Number(remainingVolume) + Number(remainingDessertVolume);
 
   const [useMerged, setUseMerged] = useState(false);
+const normalizedSearch = searchTerm.trim().toLowerCase();
+
 const filteredSuggestions = useMemo(() => {
   const expanded = [];
 
   for (const item of suggestions) {
+    const matchesSearch =
+      item.name.toLowerCase().includes(normalizedSearch) ||
+      item.category.toLowerCase().includes(normalizedSearch);
+
+    if (!matchesSearch && normalizedSearch.length > 0) continue;
+
     if (item.sizes) {
       for (const [sizeKey, sizeDetails] of Object.entries(item.sizes)) {
         const volume = Number(sizeDetails.volume);
         if (isNaN(volume)) continue;
 
-        const allowByVolume = useMerged
-          ? volume <= mixer
-          : item.category === "קינוחים"
-            ? volume <= Number(remainingDessertVolume)
-            : volume <= Number(remainingVolume);
+  const allowByVolume = useMerged
+  ? volume <= mixer
+  : item.category === "קינוחים"
+    ? volume <= Number(remainingDessertVolume)
+    : volume <= Number(remainingVolume);
 
-        // ✅ נכניס רק מידות שמתאימות לווליום
-        if (allowByVolume) {
-          expanded.push({
-            ...item,
-            sizeKey,
-            price: sizeDetails.price,
-            volume: sizeDetails.volume,
-            label: sizeDetails.label,
-            name: item.name.trim()
- // חשוב: יוצר שם שונה ל-M/L
-          });
-        }
+const allowByPrice = maxPrice === "" || sizeDetails.price <= parseFloat(maxPrice);
+const allowByMaxVolume = maxVolume === "" || volume <= parseFloat(maxVolume);
+
+if (allowByVolume && allowByPrice && allowByMaxVolume) {
+  expanded.push({
+    ...item,
+    sizeKey,
+    price: sizeDetails.price,
+    volume: sizeDetails.volume,
+    label: sizeDetails.label,
+    name: item.name.trim(),
+  });
+}
+
       }
     } else {
-      // במקרה ואין מידות בכלל, נבדוק את הווליום הישיר
       const volume = Number(item.volume);
       if (isNaN(volume)) continue;
 
-      const allowByVolume = useMerged
-        ? volume <= mixer
-        : item.category === "קינוחים"
-          ? volume <= Number(remainingDessertVolume)
-          : volume <= Number(remainingVolume);
+const allowByVolume = useMerged
+  ? volume <= mixer
+  : item.category === "קינוחים"
+    ? volume <= Number(remainingDessertVolume)
+    : volume <= Number(remainingVolume);
 
-      if (allowByVolume) {
-        expanded.push(item);
-      }
+const allowByPrice = maxPrice === "" || item.price <= parseFloat(maxPrice);
+const allowByMaxVolume = maxVolume === "" || volume <= parseFloat(maxVolume);
+
+if (allowByVolume && allowByPrice && allowByMaxVolume) {
+  expanded.push(item);
+}
 
     }
   }
 
-
   return expanded;
-}, [suggestions, useMerged, remainingVolume, remainingDessertVolume]);
+}, [suggestions, useMerged, remainingVolume, remainingDessertVolume, searchTerm]);
+
 
 
   // ✅ מקבץ את הפריטים המסוננים לפי קטגוריה
 const groupedByCategory = useMemo(() => {
+  
   return filteredSuggestions.reduce((acc, item) => {
     if (!acc[item.category]) {
       acc[item.category] = [];
@@ -125,7 +142,7 @@ return (
       </>
     ) : (
       Object.entries(groupedByCategory).map(([category, items]) => (
-        <div key={category}>
+        <div key={category} >
           <h3 className="color-red">{category}</h3>
           <ul className="suggested-items-list">
             {items.map((item, index) => {
@@ -133,8 +150,11 @@ return (
               return (
                 <li key={index} className="suggested-item">
                   <span className="item-name">
-                    {item.displayName}
-                    <small style={{ fontSize: "12px", color: "#666", marginRight: "8px" }}>
+                  
+                    {item.displayName}  
+                   - <strong>{item.label}</strong> -
+            
+                    <small >
                       {item.volume} נק'
                     </small>
                   </span>
@@ -159,7 +179,13 @@ return (
       className="color-red"
       style={{ marginTop: "1rem", fontWeight: "500", textAlign: "center" }}
     >
-      🧠 עד כאן פריטים שתואמים לנקודות – תוכל להוסיף עוד למטה 👇
+       עד כאן פריטים שתואמים לנקודות –  
+     
+          <button
+          onClick={() => setShowSuggestions(false)}
+        >
+          לחץ כאן לחזרה לתפריט המלא
+        </button>
     </div>
   </div>
 );

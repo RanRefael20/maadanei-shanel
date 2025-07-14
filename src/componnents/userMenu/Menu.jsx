@@ -166,6 +166,7 @@ const handleCloseMenu = () => {
         >
           <span className={`bar top-bar ${showUserMenu ? "open" : ""}`} />
           <span className={`bar bottom-bar ${showUserMenu ? "open" : ""}`} />
+          <div className="TitleMenu">תפריט</div>
         </div>
 
 

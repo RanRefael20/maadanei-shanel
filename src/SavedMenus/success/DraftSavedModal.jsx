@@ -135,7 +135,7 @@ setErrorMessage(String(err));
 <button className="confirm-button" onClick={handleSave}>
             שמור טיוטה
           </button>
-          <button className="close-button" onClick={onClose}>
+          <button className="confirm-button" onClick={onClose}>
             ביטול
           </button>
          </div>

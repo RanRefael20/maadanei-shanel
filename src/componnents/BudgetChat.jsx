@@ -29,20 +29,20 @@ const CATEGORY_KEYS = [
 const menuItems= {
     "בייגל בייגל": [
     { name: "בייגל טונה", sizes: {
-        M: { label: "12 יח'", price: 189, volume: 7 },
-        L: { label: "20 יח'", price: 315, volume: 12 }
+        M: { label: "12 יח'", price: 189, volume: 5 },
+        L: { label: "20 יח'", price: 315, volume: 10 }
       } },
     { name: "בייגל שמנת סלמון", sizes: {
-        M: { label: "12 יח'", price: 230, volume: 7 },
-        L: { label: "20 יח'", price: 385, volume: 12 }
+        M: { label: "12 יח'", price: 230, volume: 5 },
+        L: { label: "20 יח'", price: 385, volume: 10 }
       } },
     { name: "בייגל סלט ביצים , בצל ירוק וחסה לאליק", sizes: {
-        M: { label: "12 יח'", price: 189, volume: 7 },
-        L: { label: "20 יח'", price: 315, volume: 12 }
+        M: { label: "12 יח'", price: 189, volume: 5 },
+        L: { label: "20 יח'", price: 315, volume: 10 }
       } },
     { name: "בייגל פסטו , גבינת פטה ואנטי-פסטי", sizes: {
-        M: { label: "12 יח'", price: 189, volume: 7 },
-        L: { label: "20 יח'", price: 315, volume: 12 }
+        M: { label: "12 יח'", price: 189, volume: 5 },
+        L: { label: "20 יח'", price: 315, volume: 10 }
       } }
   ],
     "מגשי פרימיום": [
@@ -56,11 +56,11 @@ const menuItems= {
       } },
     { name: "מגש בורקיטס במילוי ממרח פסטו , קוביה בולגרית , וחסה לאליק", sizes: {
         M: { label: "20 יח'", price: 255, volume: 7 },
-        L: { label: "30 יח'", price: 385, volume: 14 }
+        L: { label: "30 יח'", price: 385, volume: 12 }
       } },
     { name: "מגש טארטלים במילוי שמנת וסלמון",sizes: {
         M: { label: "20 יח'", price: 190, volume: 6 },
-        L: { label: "30 יח'", price: 285, volume: 12 }
+        L: { label: "30 יח'", price: 285, volume: 10 }
       } },
     { name: "מגש פריקסה מפנק", sizes: {
         M: { label: "20 יח'", price: 320, volume: 8 },
@@ -91,7 +91,7 @@ const menuItems= {
         L: { label: "קוטר 29", price: 165, volume: 6 }
       } },
     { name: "מגש לחמי הבית בלווי מטבלים  ", sizes: {
-        L: { label: "L", price: 235, volume: 7 }
+        L: { label: "לארג'", price: 235, volume: 7 }
       } },
     { name: "מגש לחם שום", sizes: {
         M: { label: "10 יח'", price: 80, volume: 4 },
@@ -161,16 +161,16 @@ const menuItems= {
         L: { label: "4.5 ליטר", price: 165, volume: 5 }
       } },
     { name: "מגש ירקות אנטי-פסטי בתנור",   sizes: {
-        M: { label: "M", price: 120, volume: 3 },
-        L: { label: "L", price: 185, volume: 5 }
+        M: { label: "מדיום", price: 120, volume: 3 },
+        L: { label: "לארג'", price: 185, volume: 5 }
       } },
     { name: "כוסות אישיות עם מקלות ירקות ",   sizes: {
         M: { label: "20 יח'", price: 130, volume: 3 },
         L: { label: "30 יח'", price: 185, volume: 5 }
       } },
     { name: "פלטת ירקות",  sizes: {
-        M: { label: "M", price: 130, volume: 3 },
-        L: { label: "L", price: 185, volume: 5 }
+        M: { label: "מדיום", price: 130, volume: 3 },
+        L: { label: "לארג'", price: 185, volume: 5 }
       } },
   ],
 
@@ -201,7 +201,7 @@ const menuItems= {
         L: { label: "30 יח'", price: 285, volume: 5 }
       } },
     { name: "מגש פירות העונה", sizes: {
-        M: { label: "M", price: 180, volume: 3 },
+        M: { label: "מדיום", price: 180, volume: 3 },
         L: { label: "לארג'", price: 270, volume: 5 }
       } },
     { name: "מגש פחזניות", sizes: {
@@ -425,8 +425,9 @@ setMainVolumeExceededOnce(false);
     setHideButtonBudget(false)
     setShowPeopleInput(false)
 
-  const mainVolume = (p * 2) + 1;
-  const dessertVol = p * 0.5;
+  const mainVolume = (p * 2) + 5;
+  const dessertVol = p % 2 === 0 ? (p * 0.5)+1 : (p * 0.5)+1.5;
+
 
  setRemainingVolume(mainVolume);
   setRemainingDessertVolume(dessertVol);
@@ -449,6 +450,7 @@ const handleAddItemWithVolume = (item) => {
   const updatedResults = [...results];
   const currentMenu = updatedResults[0];
   const { volume = 0, category } = item;
+    console.log("📦 התקבל פריט:", item);
 
   // ✅ תוספת מיוחדת: אם התקציב מעל 590 – אין מגבלת ווליום
   if (parseInt(budget) > 590) {
@@ -483,7 +485,7 @@ const handleAddItemWithVolume = (item) => {
   if (isDessert) {
     if (remainingDessertVolume < volume) {
       if (!dessertVolumeExceededOnce) {
-        setErrorMessage("חרגת מהנפח המותר לקינוחים...");
+        setErrorMessage("🤸! הגעת לכמות המומלצת לקינוחים");
         setShowError(true);
         setDessertVolumeExceededOnce(true);
       }
@@ -492,7 +494,7 @@ const handleAddItemWithVolume = (item) => {
   } else {
     if (remainingVolume < volume) {
       if (!mainVolumeExceededOnce) {
-        setErrorMessage("חרגת מהנפח המומלץ לפריטים...");
+        setErrorMessage("🤸!הגעת לכמות המומלצת");
         setShowError(true);
         setMainVolumeExceededOnce(true);
       }
@@ -591,9 +593,21 @@ useEffect(() => {
 
 
       <Modal
+
        isOpen={isOpen}
-  onRequestClose={() => setIsOpen(false)}
-  contentLabel="AI Menu Modal"
+  onRequestClose={()=>{
+       setIsOpen(false)
+              setShowBudgetInput(false)
+                    setHideButtonPeople(false)
+                        setHideButtonBudget(false)
+                      setShowPeopleInput(false)
+                      setPeople("")
+                      setBudget("")
+                      setDessertCount("")
+                      setIncludeWine("")
+                      localStorage.setItem("budgetChatOpen", "false");
+                      
+  }}  contentLabel="AI Menu Modal"
   ariaHideApp={false}
   style={{
           content: {

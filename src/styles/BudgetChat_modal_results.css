@@ -37,6 +37,8 @@
   box-sizing: border-box;
 }
 
+
+
 /* ✅ עטיפת הסבר ושני כפתורים בשורה אחת */
 .explanation-row {
   display: flex;
@@ -203,7 +205,7 @@
 
 .menu-action-button {
   background-color: #00bcd4;
-  color: white;
+  color: rgb(0, 0, 0);
   border: none;
   padding: 8px 14px;
   border-radius: 15px;
@@ -218,9 +220,46 @@
   background-color: #009eb2;
 }
 
+.fixed-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ padding: 8px 14px;
+  border-radius: 15px;
+    background-color: #00bcd4;
+  position: fixed;
+  bottom: 0;
+  z-index: 999;
+   cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 1rem;
+  font-weight: bold;
+   margin-bottom: 12px;
+}
 
+.fixed-footer:hover {
+  background-color: #018697;
+}
 
+.item-count-circle {
+  display: inline-block;
+  background-color: #000;
+  color: #00bcd4;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
 
+.footer-left .total-price {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-right: 70px;
+}
 
 
 
@@ -249,6 +288,10 @@
     padding-inline: 12px;
     overflow-x: auto;
     flex-wrap: nowrap;
+  }
+
+  .input-field{
+    margin-left: 200px;
   }
 
   .explanation-row {
@@ -283,13 +326,17 @@
   }
 
   .fixed-footer {
-    position: sticky;
+    position: fixed;
     bottom: 0;
-    
     padding: 10px;
+       margin-bottom: 12px;
+
     z-index: 100;
-    border-top: 1px solid #ddd;
   }
+  .footer-left .total-price {
+
+  margin-right: 110px;
+}
 
   .results-menu-card {
     padding: 12px;
@@ -369,6 +416,7 @@
     justify-content: flex-start;
   }
 
+
   .explanation {
     font-size: 13px;
     padding: 6px;
@@ -399,6 +447,33 @@
 }
 
 
+@media (max-width: 390px) {
+  .input-row  {
+   
+    padding: 6px 8px;
+    width: 350px;
+    align-items: center;
+  }
+.input-row label {
+  display: flex;
+  flex-direction: row; /* ✅ אחד ליד השני */
+  justify-content: space-between; /* מרווח יפה בין הטקסט לשדה */
+  align-items: center;
+  background-color: #e2e8f0;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  direction: rtl; /* ✅ חובה להצמדה לימין */
+  width: 90%;
+  box-shadow: inset 0 0 0 1px #cbd5e1;
+  gap: 8px;
+}
+
+
+ 
+}
+
+
 @media (max-width: 430px) {
   .input-row  {
    
@@ -416,17 +491,11 @@
   border-radius: 8px;
   font-size: 14px;
   direction: rtl; /* ✅ חובה להצמדה לימין */
-  width: 100%;
+  width: 95%;
   box-shadow: inset 0 0 0 1px #cbd5e1;
   gap: 8px;
 }
 
-
-
-
-
-
- 
  
 }
 
