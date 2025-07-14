@@ -18,12 +18,14 @@ export default function Section() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
+useEffect(() => {
+  if (!isMobile) {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % backgroundImages.length);
     }, 7000);
     return () => clearInterval(interval);
-  }, []);
+  }
+}, [isMobile]); // שים לב שזה תלוי ב־isMobile
 
   useEffect(() => {
     const updateArrowAndOverlay = () => {
@@ -56,22 +58,38 @@ export default function Section() {
       
       <section className="hero-sections" ref={sectionRef}>
         
-        {/* ✅ רקע וידאו במקום תמונות */}
-        <video
-          className="background-video"
-          src="../public/photos/section.mp4" // עדכן את הנתיב לפי הצורך
-          autoPlay
-          loop
-          muted
-          playsInline
-        />
+     {!isMobile && backgroundImages.map((image, index) => (
+  <div
+    key={index}
+    className={`background-layer background-layer-${index}`}
+    style={{
+      backgroundImage: `url(${image.url})`,
+      backgroundPosition: image.position,
+      height: image.height,
+      opacity: currentIndex === index ? 1 : 0,
+    }}
+  ></div>
+))}
+
+{isMobile && (
+  <video
+    className="background-video"
+    src="/photos/section.mp4"
+    autoPlay
+    loop
+    muted
+    playsInline
+  />
+)}
+
 
         {/* שכבת השחרה מעל הווידאו */}
-        <div
-          className="overlay"
-          style={{ backgroundColor: `rgba(0, 0, 0, 0.35)` }}
-        ></div>
+     
 
+  <div
+          className="overlay"
+          style={{ backgroundColor: `rgba(0, 0, 0, 0.44)` , height:`100%` }}
+        ></div>
         <h1 className="hero-title"></h1>
         <p className="hero-subtitle"></p>
 
@@ -79,9 +97,9 @@ export default function Section() {
         <div
           className="arrow-double"
           ref={arrowRef}
-          style={{ top: `${arrowTop - 105}px`, cursor: "pointer" }}
+          style={{ top: `${arrowTop - 130}px`, cursor: "pointer" }}
           onClick={() => {
-            const offset = isMobile ? 0 : 0;
+            const offset = isMobile ? 0: 0;
             scrollToNextSection(offset);
           }}
         >
