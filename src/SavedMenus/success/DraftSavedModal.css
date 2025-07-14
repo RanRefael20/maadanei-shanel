@@ -97,9 +97,10 @@ margin: auto;
 
 @media (max-width: 600px) {
 .draft-saved-modal {
-  background-color: #000000ce;
+  background-color: #ffffffce;
 margin-top: -20px;
   margin-left: 1px;
+  width: 85%;
 }
 .draft-saved-buttons {
   gap: 20px; /* רווח בין הכפתורים */

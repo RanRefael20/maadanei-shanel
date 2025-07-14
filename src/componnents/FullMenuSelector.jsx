@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, {  useEffect, useRef , useState } from "react";
 import { fullMenu } from "../data/fullMenu";
 import "../styles/FullMenuSelector.css";
 import VolumeFriendlyItems from "./VolumeFriendlyItems";
@@ -43,6 +43,7 @@ const handleSizeClick = (e, sizeKey, sizeData) => {
   const buttonRect = e.currentTarget.getBoundingClientRect();
   const centerX = buttonRect.left + buttonRect.width / 2;
   const centerY = buttonRect.top + buttonRect.height / 2;
+
 
   const item = {
     name: selectedItem.name,
@@ -308,8 +309,23 @@ setSelectedForRemoval(null)
 
           );
         })}
+
+
+
+
+      </div>
+    );
+  })}
+
+              </>
+            }
+          </div>
+          
+        )}
+      </div>
                       {selectedItem && (
-          <div className="size-selection-popup">
+          <div className="size-selection-popup"
+  >
     <h4>בחר מידה עבור {selectedItem.name}</h4>
     
 
@@ -382,20 +398,6 @@ setSelectedForRemoval(null)
     }}>{hasMadeSelection ? "סגור" : "ביטול"}</button>
   </div>
 )}
-
-
-
-      </div>
-    );
-  })}
-
-              </>
-            }
-          </div>
-          
-        )}
-      </div>
-
 
 
 {showDrops &&

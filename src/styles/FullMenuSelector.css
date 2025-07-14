@@ -22,6 +22,7 @@ pointer-events: none; /* ✅ מאפשר לחיצות דרכו */
 
 
 .floating-modal {
+  
     font-family: "Rubik", sans-serif;
   font-weight: bold;
   pointer-events: auto;
@@ -132,10 +133,8 @@ color: #f6c216;
 }
 
 .size-selection-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: absolute;
+
   background: #fff;
   border-radius: 20px;
   padding: 22px;
@@ -409,6 +408,7 @@ margin-top: 7px;
 
   
 @media (max-width: 600px) {
+  
   .floating-modal {
     position: fixed !important;
     top: 50% !important;
@@ -442,10 +442,7 @@ width: 80px !important;
     padding: 1rem !important;
   }
 
-  .size-selection-popup {
-    width: 95% !important;
-    max-width: none !important;
-  }
+
 
   .item-select {
     flex-direction: column;
@@ -465,4 +462,11 @@ width: 80px !important;
     font-size: 0.95rem;
     padding: 5px 8px;
   }
+
+  .size-selection-popup{
+margin-top: 200px;
+margin-left: 70px;
+  }
+
+
 }
