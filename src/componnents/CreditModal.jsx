@@ -12,7 +12,11 @@ import RegisterErrorModal from "../login/Eror/RegisterErrorModal";
 
 
 
-const CreditModal = ({ totalAmount, selectedItems = [], onClose, userPoints = 0 , userInformationToOrder   }) => {
+const CreditModal = ({ totalAmount, selectedItems = [], onClose, userPoints = 0 , userInformationToOrder,
+  activeModal,
+  setActiveModal,
+
+   }) => {
   const resetAfterPayment = () => {
   // איפוס מה־localStorage
   localStorage.removeItem("results");
@@ -274,6 +278,8 @@ window.open(paymentUrl, "_blank")
         )}
 {paymentSuccess&&(
  <PaymentSuccessModal
+ activeModal={ activeModal}
+  setActiveModal={setActiveModal}
 onClose={()=> setPaymentSuccess(false)}
 successMessage={successMessage}
  />

@@ -56,20 +56,21 @@ export default function Section() {
       
       <section className="hero-sections" ref={sectionRef}>
         
-        {backgroundImages.map((image, index) => (
-          <div
-            key={index}
-            className={`background-layer background-layer-${index}`}
-            style={{
-              backgroundImage: `url(${image.url})`,
-              backgroundPosition: image.position,
-              height: image.height,
-              opacity: currentIndex === index ? 1 : 0,
-            }}
-          ></div>
-        ))}
+        {/* ✅ רקע וידאו במקום תמונות */}
+        <video
+          className="background-video"
+          src="../public/photos/section.mp4" // עדכן את הנתיב לפי הצורך
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
 
-        <div className="overlay" style={{ backgroundColor: `rgba(0, 0, 0, ${overlayOpacity})` }}></div>
+        {/* שכבת השחרה מעל הווידאו */}
+        <div
+          className="overlay"
+          style={{ backgroundColor: `rgba(0, 0, 0, 0.35)` }}
+        ></div>
 
         <h1 className="hero-title"></h1>
         <p className="hero-subtitle"></p>
@@ -80,7 +81,7 @@ export default function Section() {
           ref={arrowRef}
           style={{ top: `${arrowTop - 105}px`, cursor: "pointer" }}
           onClick={() => {
-            const offset = isMobile ? -50 : -77;
+            const offset = isMobile ? 0 : 0;
             scrollToNextSection(offset);
           }}
         >

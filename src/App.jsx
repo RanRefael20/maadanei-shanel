@@ -31,7 +31,6 @@ export default function DairyRestaurantWebsite() {
             minHeight: "100vh",
             backgroundColor: "#FFF7D4",
             color: "#333",
-            marginTop: "50px",
               overflowX:"hidden",
               
               
@@ -46,8 +45,8 @@ export default function DairyRestaurantWebsite() {
       <Route path="/desserts" element={<DessertsPage />} />
     </Routes>
           {/* Header */}
-          <NavBar />
-
+{/*           <NavBar />
+ */}
           {/* Section */}
           <Section />
 

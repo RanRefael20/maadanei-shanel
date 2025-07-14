@@ -199,7 +199,7 @@ const handleCloseMenu = () => {
                 className="user-menu-item"
                 onClick={() => setActiveModal("login")}
               >
-                התחברות
+                התחברות / הרשמה
               </button>
             )}
           </div>
