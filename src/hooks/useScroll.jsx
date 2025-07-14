@@ -1,7 +1,7 @@
 // useScroll.js
 import { useState, useEffect } from "react";
 
-const useScroll = (offset = 150) => {
+const useScroll = (offset = 890) => {
   const [scrolling, setScrolling] = useState(false);
 
   useEffect(() => {

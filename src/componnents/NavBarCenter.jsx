@@ -17,19 +17,19 @@ const NavBarCenter = ({ openContactModal }) => {
             scrolling ? "hide-logo" : "show-logo"
           }`}
         >
-          <div className="logo-text">
+    {/*       <div className="logo-text">
             <div className="main-logo-text">LE PLATEAU</div>
             <div className="divider-container">
               <div className="line" />
               <span className="subtitle-logo">BY SHANEL</span>
               <div className="line" />
             </div>
-          </div>
+          </div> */}
         </h1>
       </Link>
-   <div className="navlink-wrapper">
+{/*    <div className="navlink-wrapper">
         <NavLink openContactModal={openContactModal} />
-      </div>
+      </div> */}
 
     </div>
 

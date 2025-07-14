@@ -7,10 +7,9 @@
     align-items: center;
     padding: 30px;/* הקטנת הריווח הפנימי */
     height: 80px; /* הגדרת גובה כולל */
-    position: fixed; /* שומר על ה- NavBar בראש המסך */
     width: 100%; /* גורם לו לכסות את כל הרוחב */
     top: 0; /* מוודא שהוא תמיד מוצמד לחלק העליון */
-    z-index: 90; /* מבטיח שהוא יהיה מעל כל האלמנטים האחרים */
+    z-index: 0; /* מבטיח שהוא יהיה מעל כל האלמנטים האחרים */
     transition: all 0.3s ease-in-out;
   }
   .navbar.shrink {
@@ -25,32 +24,25 @@
   }
   
   .logo {
-    height: 200px;
-    position: relative;
-    top: 65px;
-    right: 20px;
-    transition: 
+    height: 120px;
+  margin: auto;
+ /*    transition: 
       height 0.3s ease,
       top 0.3s ease,
       right 0.3s ease,
       transform 0.3s ease;
-    animation: spin 12s linear infinite;
+    animation: spin 12s linear infinite; */
   }
 
 
 
-  .revome-title {
+  .remove-title {
 display: none;
 }
 
 
   .navbar-right {
-    position: relative;
-    display: flex;
-    flex-direction: column; /* מסדר את האלמנטים אחד מתחת לשני */
-    align-items: center; /* ממרכז את הכפתור והמספר טלפון */
-   left: -10px;
-    margin-top: -15px;
+    margin-right: 70px;
 }
 
   .whatsapp-button {

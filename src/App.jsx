@@ -45,11 +45,11 @@ export default function DairyRestaurantWebsite() {
       <Route path="/desserts" element={<DessertsPage />} />
     </Routes>
           {/* Header */}
-{/*           <NavBar />
- */}
+         
+
           {/* Section */}
           <Section />
-
+ <NavBar />
          
 
           {/* ImageLinks */}

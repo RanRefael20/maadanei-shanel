@@ -132,46 +132,34 @@ const handleCloseMenu = () => {
         style={{ display: "flex", justifyContent: "flex-end", cursor: "pointer" }}
       >
 
-            <div
-          className="hamburger-icon"
-          onClick={() => {
-
-            
-             if (showUserMenu) {
-    setIsClosing(true); // מוסיף מחלקת closing לסגירה עם אנימציה
-    setTimeout(() => {
-      setShowUserMenu(false);
-      setIsClosing(false);
-    }, 1100); // אותו זמן כמו האנימציה ב-CSS
-  } else {
-  const fakeTouchEvent = {
-    touches: [{ clientX: 0 }],
-    changedTouches: [{ clientX: 100 }]
-  };
-
-  handleTouchStart(fakeTouchEvent);
-  setTimeout(() => handleTouchEnd(fakeTouchEvent), 100);  }
-  // יצירת אובייקט מדומה כמו touch
-
-}}
-
-/*   onMouseEnter={() => {
+ <div
+  className="hamburger-icon"
+  onClick={() => {
+    if (showUserMenu) {
+      setIsClosing(true);
+      setTimeout(() => {
+        setShowUserMenu(false);
+        setIsClosing(false);
+      }, 1100);
+    } else {
       const fakeTouchEvent = {
-    touches: [{ clientX: 0 }],
-    changedTouches: [{ clientX: 100 }]
-  };
-  handleTouchStart(fakeTouchEvent);
-  setTimeout(() => handleTouchEnd(fakeTouchEvent), 100);
-  }} */
-        >
-          <span className={`bar top-bar ${showUserMenu ? "open" : ""}`} />
-          <span className={`bar bottom-bar ${showUserMenu ? "open" : ""}`} />
-          <div className="TitleMenu">תפריט</div>
-        </div>
+        touches: [{ clientX: 0 }],
+        changedTouches: [{ clientX: 100 }]
+      };
+      handleTouchStart(fakeTouchEvent);
+      setTimeout(() => handleTouchEnd(fakeTouchEvent), 100);
+    }
+  }}
+>
+  {/* ✅ קונטיינר שמחזיק את שני הפסים אחד מעל השני */}
+  <div className="bar-container">
+    <span className={`bar top-bar ${showUserMenu ? "open" : ""}`} />
+    <span className={`bar bottom-bar ${showUserMenu ? "open" : ""}`} />
+  </div>
 
-
-
-
+  {/* כיתוב "תפריט" מימין לפסים */}
+  <div className="TitleMenu">תפריט</div>
+</div>
       </div>
 
       {showUserMenu && (

@@ -109,17 +109,18 @@ useEffect(() => {
 
 
   return (
-    <header className={`navbar ${scrolling ? " shrink" : ""}`}>
-      <div className={`navbar-logo ${scrolling ? " hidden" : ""}`}>
-        <Link to="/">
-          <img src={logo} alt="Dairy Delights Logo" className={`logo ${scrolling ? "revome-title" : ""}`} />
-        </Link>
+    <header className=/* {`navbar ${scrolling ? " shrink" : ""}`} */ 'navbar'>
+      <div /* className={`navbar-logo ${scrolling ? " hidden" : ""}`} */>
+   
       </div>
 
-      <NavBarCenter openContactModal={() => setShowModal(true)} />
+{/*       <NavBarCenter openContactModal={() => setShowModal(true)} />
+ */}     <Link to="/">
+          <img src={logo} alt="Dairy Delights Logo" className="logo" /* className={`logo ${scrolling ? "revome-title" : ""}`}  *//>
+        </Link>
 
-
-      <div className="navbar-right">
+      <div   className={scrolling? "remove-title" : "navbar-right"}
+>
 
 
 <Menu
@@ -135,6 +136,7 @@ setLoading={setLoading}
 setUser={setUser}
 
 />
+ </div>
 
 {showMyOrders && <MyOrdersModal onClose={() => setShowMyOrders(false)}
 openBudgetChat ={() => setShowBudgetChat(true)}
@@ -153,7 +155,7 @@ onLoginSuccess={() => {
 
 />
 
-      </div>
+     
 
 
 
