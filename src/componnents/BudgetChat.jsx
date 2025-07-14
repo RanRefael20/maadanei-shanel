@@ -289,8 +289,10 @@ function generateMenus(budget, dessertCount, includeWine) {
     const shuffledDesserts = shuffle([...dessertItems]);
 
     let wineAdded = 0;
-    const requiredWines = 1;
-    const wineItems = shuffle((menuItems["יינות"] || []).map(item => ({
+const requiredWines = includeWine
+  ? (budget < 3000 ? 1 : 2 + Math.floor((budget - 3000) % 1500))
+  : 0;
+      const wineItems = shuffle((menuItems["יינות"] || []).map(item => ({
       name: item.name,
       price: item.price,
       category: "יינות",
@@ -299,17 +301,19 @@ function generateMenus(budget, dessertCount, includeWine) {
       volume: 0
     })));
 
-    if (includeWine) {
-      for (let i = 0; i < wineItems.length && wineAdded < requiredWines; i++) {
-        const wine = wineItems[i];
-        if (total + wine.price <= maxBudget) {
-          items.push(wine);
-          total += wine.price;
-          wineAdded++;
-        }
-      }
-      if (wineAdded < requiredWines) continue;
+if (includeWine) {
+  for (let i = 0; i < wineItems.length && wineAdded < requiredWines; i++) {
+    const wine = wineItems[i];
+    if (total + wine.price <= maxBudget) {
+      items.push(wine);
+      total += wine.price;
+      wineAdded++;
     }
+  }
+
+  // לא דורשים wineAdded === requiredWines — נמשיך גם אם נכנסו פחות
+}
+
 
     if (!isNaN(dessertCount) && dessertCount > 0) {
       for (let i = 0; i < shuffledDesserts.length && dessertAdded < dessertCount; i++) {
@@ -639,7 +643,7 @@ useEffect(() => {
                       setDessertCount("")
                       setIncludeWine("")
                       localStorage.setItem("budgetChatOpen", "false");
-                  }}>סגור</button>
+                  }}>❌</button>
 
         <div className="budget-input-section">
           <h2 className="budget-title">באפשרותך לבנות תפריט לפי תקציב או לפי כמות סועדים</h2>

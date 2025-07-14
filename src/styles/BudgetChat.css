@@ -54,7 +54,7 @@
 }
 
 .generate-button,
-.close-button,
+
 .chat-button {
   font-size: 1rem;
   padding: 12px 24px;
@@ -77,16 +77,16 @@
   transform: scale(1.02);
 }
 
-.close-button {
-  background-color: transparent;
-  color: #ffcc80;
-  font-weight: bold;
-  border: none;
-  margin-bottom: 1rem;
-  align-self: flex-end;
+.ReactModal__Content .close-button {
+  position: absolute;
+  top: 30px;
+  left: 500px;
+  color: white;
 }
 
-.close-button:hover {
-  color: #fff;
-  text-decoration: underline;
+@media (max-width: 600px) {
+  .ReactModal__Content .close-button {
+    top: 12px; /* ✅ תופס פינה עליונה במקום לדחוף אותו למטה */
+    left: 12px;
 }
+ }

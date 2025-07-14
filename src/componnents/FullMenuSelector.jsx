@@ -165,21 +165,22 @@ const getSuggestedItems = () => {
 
     <input
     type="number"
-    placeholder="מחיר מקסימלי"
+    placeholder="לפי מחיר"
     value={maxPrice}
     onChange={(e) => setMaxPrice(e.target.value)}
     className="search-input"
     style={{ marginInlineStart: "10px", padding: "6px 8px", borderRadius: "6px", border: "1px solid #ccc", fontSize: "14px", width: "120px" }}
   />
-
+{people >0 &&(
   <input
     type="number"
-    placeholder="נקודות מקס'"
+    placeholder="לפי נקודות"
     value={maxVolume}
     onChange={(e) => setMaxVolume(e.target.value)}
     className="search-input"
     style={{ marginInlineStart: "10px", padding: "6px 8px", borderRadius: "6px", border: "1px solid #ccc", fontSize: "14px", width: "120px" }}
   />
+  )}
   </div>
   </div>
   <div className="modal-controls">
@@ -200,6 +201,8 @@ const getSuggestedItems = () => {
   padding: "1rem 0",
   marginBottom: "1rem",
 }}>
+
+{people>0 &&(
 <button
   onClick={() => setShowSuggestions(!showSuggestions)}
   className={showSuggestions ? "suggestions-button-back" : "suggestions-button"}
@@ -208,6 +211,7 @@ const getSuggestedItems = () => {
     ? `📋 איזה עוד דברים אני יכול להוסיף ב - נקודות שנשאר לי ?`
     : `חזור`}
 </button>
+)}
 
 </div>
 

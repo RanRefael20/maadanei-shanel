@@ -189,6 +189,10 @@ color: #f6c216;
   background-color: #ddd;
 }
 
+  .row .close-button{
+color: #ffffff;
+margin-right: 730px;
+  }
 /* מחיקת פריט */
 
 
@@ -475,8 +479,8 @@ margin-left: 70px;
   }
 
   .suggestions-button-back{
-  margin-top: 5px;
-
+  margin-top: 20px;
+background-color: #ffffff;
 }
 
  .suggestions-button{

@@ -320,17 +320,27 @@ const totalItemsCount = results[0]?.items?.length || 0;
             </div>
           ))}
 
-          {totalItemsCount>0&&(
-<div className="fixed-footer" onClick={()=>
-  setShowMenuExport(true)
-}>
+{totalItemsCount > 0 && (
+  <div
+    className="fixed-footer"
+    onClick={() => {
+      if (showFullMenu) {
+        setShowFullMenu(false); // סגור את FullMenu אם פתוח
+      } else {
+        setShowMenuExport(true); // פתח תצוגת פריטים
+      }
+    }}
+  >
     <span className="item-count-circle">{totalItemsCount}</span>
-    <span style={{ marginInlineStart: "8px" }}>הצגת פריטים</span>
+    <span style={{ marginInlineStart: "8px" }}>
+      {showFullMenu ? "הצגת פריטים" : "המשך"}
+    </span>
     <div className="footer-left">
-    <span className="total-price"> {results[0]?.total || 0} ₪</span>
+      <span className="total-price">{results[0]?.total || 0} ₪</span>
+    </div>
   </div>
-</div>
-          )}
+)}
+
 
 
 
