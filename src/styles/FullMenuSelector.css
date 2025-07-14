@@ -365,6 +365,11 @@ margin-top: 7px;
   animation: splashOut 3s ease-out forwards;
 }
 
+
+.suggestions-button-back{
+  margin-top: 25px;
+}
+
 @keyframes rainDrop {
   0% {
     transform: translate(0, -30px) scale(1);
@@ -456,6 +461,7 @@ width: 80px !important;
   .suggestions-button {
     font-size: 15px !important;
     padding: 10px 14px !important;
+    
   }
 
   .deleted-msg {
@@ -467,6 +473,15 @@ width: 80px !important;
 margin-top: 200px;
 margin-left: 70px;
   }
+
+  .suggestions-button-back{
+  margin-top: 5px;
+
+}
+
+ .suggestions-button{
+  margin-top: 20px;
+ }
 
 
 }

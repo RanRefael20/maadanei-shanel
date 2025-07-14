@@ -200,14 +200,15 @@ const getSuggestedItems = () => {
   padding: "1rem 0",
   marginBottom: "1rem",
 }}>
-  <button
-    onClick={() => setShowSuggestions(!showSuggestions)}
-    className="suggestions-button"
-  >
-    {!showSuggestions
-      ? `📋 איזה עוד דברים אני יכול להוסיף ב - נקודות שנשאר לי ?`
-      : `חזור`}
-  </button>
+<button
+  onClick={() => setShowSuggestions(!showSuggestions)}
+  className={showSuggestions ? "suggestions-button-back" : "suggestions-button"}
+>
+  {!showSuggestions
+    ? `📋 איזה עוד דברים אני יכול להוסיף ב - נקודות שנשאר לי ?`
+    : `חזור`}
+</button>
+
 </div>
 
               )}
