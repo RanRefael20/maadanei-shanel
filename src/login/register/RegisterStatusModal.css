@@ -9,6 +9,8 @@
   justify-content: center;
   align-items: center;
   z-index: 999999;
+    animation: fadeSlideUp 0.4s ease-out;
+
 }
 
 .status-modal {
@@ -51,3 +53,90 @@
   font-size: 1rem;
   color: #333;
 }
+
+@media(max-width:450px){
+
+  .status-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(3px);
+  font-family: "Rubik", sans-serif;
+}
+
+.status-modal {
+  background: #ffffff;
+  width: 90%;
+  max-width: 380px;
+  padding: 22px 20px;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  position: relative;
+  text-align: center;
+  direction: rtl;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.status-close-button {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #888;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.status-close-button:hover {
+  transform: scale(1.2);
+}
+
+.status-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  margin-top: 8px;
+}
+
+.status-title.success {
+  color: #2e7d32; /* ירוק */
+}
+
+.status-title.error {
+  color: #c62828; /* אדום */
+}
+
+.status-title.warning {
+  color: #f9a825; /* צהוב */
+}
+
+.status-message {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.5;
+}
+
+   }
+
+   @keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+    
+

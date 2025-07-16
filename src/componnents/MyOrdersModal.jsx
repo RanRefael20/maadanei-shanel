@@ -221,6 +221,7 @@ const handleDeleteOrder = async (orderId) => {
            <strong>🧾 מספר הזמנה  {order.orderNumber}</strong>
 
           <div
+          className="created"
             style={{
               display: "flex",
               flexDirection: "column",

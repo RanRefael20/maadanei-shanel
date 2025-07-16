@@ -7,6 +7,8 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 99;
+    animation: fadeSlideUp 0.4s ease-out;
+
 }
 
 
@@ -17,6 +19,8 @@
   margin-bottom: 1rem;
     background-color: #f4f6fa ;
   color: #1f2e52;
+    animation: fadeSlideUp 0.5s ease-out;
+
 }
 .hamburger-icon {
   position: fixed;
@@ -64,6 +68,8 @@
   flex-direction: column;
   padding: 1rem;
   overflow-y: auto;
+    animation: fadeSlideUp 0.6s ease-out;
+
 }
 
 .hamburger-icon:hover .bar {
@@ -186,3 +192,13 @@ right: 20px;
 }
 }
 
+   @keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

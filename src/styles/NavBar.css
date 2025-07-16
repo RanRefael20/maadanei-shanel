@@ -9,6 +9,8 @@
   background-color: #1f2e52;
   z-index: 99;
   padding: 0 20px;
+    animation: fadeSlideUp 0.7s ease-out;
+
 }
 
 
@@ -28,6 +30,8 @@
     height: 85px;
     margin-right: 20px;
     margin-top: -15px;
+    animation: fadeSlideUp 0.5s ease-out;
+
  /*    transition: 
       height 0.3s ease,
       top 0.3s ease,
@@ -136,7 +140,16 @@ display: none;
 position: fixed;
 }
 
-
+    @keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
   
   /* רספונסיביות */

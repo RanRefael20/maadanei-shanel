@@ -1,3 +1,5 @@
+
+
 .budget-input-section {
   display: flex;
   flex-direction: column;
@@ -8,6 +10,7 @@
   background-color: #ffffff0a;
   border-radius: 20px;
   color: #ffffff;
+  animation: fadeSlideUp 0.4s ease-out;
 }
 
 .budget-title {
@@ -84,9 +87,21 @@
   color: white;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 450px) {
   .ReactModal__Content .close-button {
     top: 12px; /* ✅ תופס פינה עליונה במקום לדחוף אותו למטה */
     left: 12px;
 }
  }
+
+    @keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+ 

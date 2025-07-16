@@ -74,7 +74,7 @@ useEffect(() => {
 {isMobile && (
   <video
     className="background-video"
-    src="/photos/section.mp4"
+    src="/photos/WhatsApp Video 2025-07-14 at 21.58.29.mp4"
     autoPlay
     loop
     muted
