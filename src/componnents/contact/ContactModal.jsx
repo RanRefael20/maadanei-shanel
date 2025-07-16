@@ -2,7 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
-import "../styles/ContactModal.css";
+import "../contact/ContactModal.css";
 
 const ContactModal = ({ onClose }) => {
   return ReactDOM.createPortal(

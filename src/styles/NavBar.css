@@ -1,31 +1,33 @@
 .navbar {
-    background-color: #4C3D3D;
-    
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 30px;/* הקטנת הריווח הפנימי */
-    height: 80px; /* הגדרת גובה כולל */
-    width: 100%; /* גורם לו לכסות את כל הרוחב */
-    top: 0; /* מוודא שהוא תמיד מוצמד לחלק העליון */
-    z-index: 0; /* מבטיח שהוא יהיה מעל כל האלמנטים האחרים */
-    transition: all 0.3s ease-in-out;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100px;
+  background-color: #1f2e52;
+  z-index: 99;
+  padding: 0 20px;
+}
+
+
+.navbar-section {
+  display: flex;
+  align-items: center;
+}
+
   .navbar.shrink {
     height: 60px;
     padding: 10px 20px;
   }
   
-  .navbar-logo {
-    display: flex;
-    align-items: center;
-    margin: 1rem;
-  }
+
   
   .logo {
-    height: 120px;
-  margin: auto;
+    height: 85px;
+    margin-right: 20px;
+    margin-top: -15px;
  /*    transition: 
       height 0.3s ease,
       top 0.3s ease,
@@ -40,11 +42,51 @@
 display: none;
 }
 
-
-  .navbar-right {
-    margin-right: 70px;
+.navbar-center {
+  justify-content: center;
 }
 
+.navbar-right {
+  justify-content: flex-end;
+  flex: 1;
+}
+.navbar-center-wrapper {
+  margin-right: 640px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 280px; /* רווח בין הלוגו לשמאל שלו */
+  flex: 1;
+}
+
+.navbar-left {
+  
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* כפתור טלפון */
+/* כפתור טלפון */
+.phone-button {
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #FFD95A;
+}
+
+/* כפתור START */
+.start-text-button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.start-text-button:hover {
+  text-decoration: underline;
+}
   .whatsapp-button {
     background-color: #1d9348;
     color: #fff;
@@ -100,24 +142,34 @@ position: fixed;
   /* רספונסיביות */
   @media (max-width: 450px) {
     .navbar{
-      height: 40px; /* במקום 45px */
+      height: 60px; /* במקום 45px */
     }
 
-    .navbar.shrink {
-      height: 30px;
-      padding: 10px 20px;
-    }
+.navbar-center-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px; /* רווח בין הלוגו לשמאל שלו */
+  flex: 1;
+}
+
+.start-text-button{
+  margin-left: -10px;
+  font-size: 1rem;
+}
+.navbar-left {
+  margin-left: -10px;
+    gap:0px;
+}
+   
     .logo {
-      height: 75px;
-      top: 0;
-      right: 35px;
+      
+      height: 50px;
+margin-left:30px ;     
+ margin-top: -28px;
     }
 
 
-    .brand-title {
-      font-size: 2rem;
-      margin: 10px; /* מסיר רווחים אנכיים מיותרים */
-    }
 
     .navbar-center {
     
@@ -142,9 +194,7 @@ position: fixed;
     
 }
 
-.shrink-title {
- display: none;
-}
+
 .user-icon {
 /* top: 30px;
   right: 90px; */
@@ -152,71 +202,6 @@ position: fixed;
    margin-top: 70px;
 }
 
-.welcome-message{
- position: relative;
- top: 110px;
- right: 75px;
-}
-  }
-
-  @media (max-width: 390px) {
-    .navbar{
-      height: 50px; /* במקום 45px */
-    }
-
-    .navbar.shrink {
-      height: 30px;
-      padding: 10px 20px;
-    }
-    .logo {
-      height: 75px;
-      right: 35px;
-    }
-
-
-    .brand-title {
-      font-size: 2rem;
-
-    }
-
-  .navbar-center {
-    position: relative;
-    right: 50px;
-    top: 7px;
-    gap: 6px; /* מוסיף רווח קטן ומדויק בין הילדים */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0;
-   
-  }
-
-  .navbar-right {
-    margin-top: -25px;
-    gap: 12px;
-    margin-left: -70px;
-}
-
-.contact{
-  top: 25px;
-font-size: 11px;
-left: -28px;
-}
-
-.contact.scrolling {
-  font-size: 8px;
-  top: 40px;
-  left: -20px;
-}
-
-.shrink-title {
- display: none;
-}
-
-.user-icon {
-top: 30px;
-  right: 60px;
-}
 
   }
 

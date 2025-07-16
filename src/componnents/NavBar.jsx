@@ -6,7 +6,7 @@ import { fullMenu } from "../data/fullMenu";
 import { Link } from "react-router-dom";
 import logo from "../logo/LL.png";
 import useScroll from "../hooks/useScroll";
-import ContactModal from "./ContactModal";
+import ContactModal from "./contact/ContactModal";
 import SettingsPanel from "../Settings/SettingsPanel";
 import SavedMenus from "../SavedMenus/SavedMenus";
 import BudgetChat  from "./BudgetChat";
@@ -17,6 +17,8 @@ import useAuthSync from "../hooks/useAuthSync"; // ✅ ייבוא חסר
 import Menu from "./userMenu/Menu";
 import AuthManager from "../login/AuthManager";
 import MyOrdersModal from "../componnents/MyOrdersModal";
+import ContactMenu from "./contact/ContactMenu";
+
 
 
 const NavBar = () => {
@@ -28,6 +30,7 @@ const [showBudgetChat, setShowBudgetChat] = useState(() => {
   return saved === "true"; // אם כן – תפתח אוטומטית
 });
 
+const [showContact, setShowContact] = useState (false);
 const [showSavedMenus, setShowSavedMenus] = useState(() => localStorage.getItem("showSavedMenus") === "true");
 const [showMyOrders, setShowMyOrders] = useState(() => localStorage.getItem("showMyOrders") === "true");
 const [showSettingsPanel, setShowSettingsPanel] = useState(() => localStorage.getItem("showSettingsPanel") === "true");
@@ -110,18 +113,8 @@ useEffect(() => {
 
   return (
     <header className=/* {`navbar ${scrolling ? " shrink" : ""}`} */ 'navbar'>
-      <div /* className={`navbar-logo ${scrolling ? " hidden" : ""}`} */>
-   
-      </div>
-
-{/*       <NavBarCenter openContactModal={() => setShowModal(true)} />
- */}     <Link to="/">
-          <img src={logo} alt="Dairy Delights Logo" className="logo" /* className={`logo ${scrolling ? "revome-title" : ""}`}  *//>
-        </Link>
-
-      <div   className={scrolling? "remove-title" : "navbar-right"}
->
-
+    
+<div className="navbar-section navbar-right">
 
 <Menu
 setShowBudgetChat={setShowBudgetChat}
@@ -137,6 +130,27 @@ setUser={setUser}
 
 />
  </div>
+
+{/*       <NavBarCenter openContactModal={() => setShowModal(true)} />
+ */} 
+ 
+  {/* מרכז עם לוגו ושמאל הלוגו */}
+  <div className="navbar-center-wrapper">
+    {/* שמאל של הלוגו */}
+    <div className="navbar-section navbar-left">
+   <ContactMenu/>
+      <button className="start-text-button" onClick={() => setShowBudgetChat(true)}>
+        start
+      </button>
+    </div>
+
+    {/* הלוגו עצמו */}
+    <div className="navbar-section navbar-center">
+      <Link to="/">
+        <img src={logo} className="logo" />
+      </Link>
+    </div>
+  </div>
 
 {showMyOrders && <MyOrdersModal onClose={() => setShowMyOrders(false)}
 openBudgetChat ={() => setShowBudgetChat(true)}
@@ -154,6 +168,7 @@ onLoginSuccess={() => {
 }}
 
 />
+  
 
      
 

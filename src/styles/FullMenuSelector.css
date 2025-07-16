@@ -1,20 +1,21 @@
 
-body.modal-open {
-  overflow: hidden;
-}
+
 
 
 .fullscreen-overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
+  z-index: 999;
   width: 100vw;
+  overflow: none;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Rubik", sans-serif;
-pointer-events: none; /* ✅ מאפשר לחיצות דרכו */
+    overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 
@@ -336,37 +337,86 @@ margin-top: 7px;
   min-width: 12px;
 }
 
+.drop-wrapper {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+}
 
-@keyframes fillGreen {
+.item-name-bounce {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  font-size: 20px;
+  font-weight: bold;
+  background: #ffffffa8;
+  padding: 10px 20px;
+  border-radius: 24px;
+  color: #027e39;
+  font-family: 'Rubik', sans-serif;
+  top: calc(var(--top, 50%) - 40px);
+  left: calc(var(--left, 50%) - 80px);
+  animation: bounceName 2s ease-out forwards;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.item-name-bounce small {
+  direction: rtl;
+  margin: auto;
+}
+@keyframes bounceName {
   0% {
-    height: 0%;
+    transform: scale(0.5) translateY(-50px);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) translateY(0);
+    opacity: 1;
   }
   100% {
-    height: 100%;
+    transform: scale(1) translateY(0);
+    opacity: 0;
   }
 }
 
+@keyframes rainDrop {
+  0% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+}
+
+.confetti {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  animation: confettiFall 2.5s ease-out forwards;
+  opacity: 0.9;
+}
+@keyframes confettiFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(120px) rotate(720deg);
+    opacity: 0;
+  }
+}
 /* ✅ טיפות גשם: מהירות, מינימליסטיות, מתפזרות כמו גשם אמיתי */
 .drop {
   position: fixed;
-  width: 4px;
-  height: 10px;
+  width: 6px;
+  height: 14px;
   background-color: #00b853;
-  border-radius: 80% 70% 60% 50% 40% 30% 20% 10%;
+  border-radius: 50%;
   opacity: 0;
-  z-index: 9999;
-  animation: rainDrop 1.5s ease-in forwards;
-}
-
-.drop-child {
-  position: fixed;
-  width: 4px;
-  height: 6px;
-  background-color: #02d41ec7;
-  border-radius: 50% 40% 30% 20% 10%;
-  opacity: 0;
-  z-index: 9998;
-  animation: splashOut 3s ease-out forwards;
+  animation: rainDrop 1.6s ease-in forwards;
 }
 
 
@@ -374,20 +424,7 @@ margin-top: 7px;
   margin-top: 25px;
 }
 
-@keyframes rainDrop {
-  0% {
-    transform: translate(0, -30px) scale(1);
-    opacity: 1;
-  }
-  70% {
-    transform: translate(var(--x), var(--y));
-    opacity: 1;
-  }
-  100% {
-    transform: translate(var(--x), calc(var(--y) + 30px));
-    opacity: 0;
-  }
-}
+
 
 @keyframes splashOut {
   0% {

@@ -1,4 +1,5 @@
 .hero-sections {
+  top: 100px;
     position: relative;
     height: 110vh;
     overflow: hidden;

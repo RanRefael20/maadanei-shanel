@@ -617,7 +617,7 @@ useEffect(() => {
           content: {
             height: window.innerWidth <= 600 ? "50%" : "70%",
             width: "85%",
-            top: "50%",
+            top: "56%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             maxWidth: "800px",

@@ -34,8 +34,12 @@ const [showDeletedMsg, setShowDeletedMsg] = useState(false);
 const [selectedItem, setSelectedItem] = useState(null);
 const [searchTerm, setSearchTerm] = useState("");
 const [hasMadeSelection, setHasMadeSelection] = useState(false);
-const [showDropChildren, setShowDropChildren] = useState(false); // טיפות שמתפצלות
-
+/* const [showDropChildren, setShowDropChildren] = useState(false); // טיפות שמתפצלות
+ */
+const getRandomConfettiColor = () => {
+  const colors = ['#00b853', '#00e0ff', '#ff9800', '#ff2d55', '#ffc107', '#b388ff'];
+  return colors[Math.floor(Math.random() * colors.length)];
+};
 
 const handleSizeClick = (e, sizeKey, sizeData) => {
     console.log("🟢 handleSizeClick עובד!", sizeKey, sizeData); // ✅ שים את זה בראש הפונקציה
@@ -68,13 +72,15 @@ const handleSizeClick = (e, sizeKey, sizeData) => {
   setHasMadeSelection(true);
 
   // ✅ אנימציית טיפות
-  setFloatingLabel({ x: centerX, y: centerY });
-  setTimeout(() => setShowDrops(true), 1000);
-  setTimeout(() => setShowDropChildren(true), 200);
-  setTimeout(() => {
+  setFloatingLabel({ x: centerX, y: centerY,
+    name: item.name,
+    label:item.label
+   });
+  setTimeout(() => setShowDrops(true), 100);
+/*   setTimeout(() => setShowDropChildren(true), 200);
+ */  setTimeout(() => {
     setFloatingLabel(null);
     setShowDrops(false);
-    setShowDropChildren(false);
   }, 3000);
 
   setTimeout(() => setActiveSize(null), 1200);
@@ -349,8 +355,8 @@ setSelectedForRemoval(null)
     }`}
     onClick={(e) => {e.stopPropagation()
                 handleSizeClick(e, sizeKey, sizeData);
-
-    }}
+                setSelectedItem(false)
+              }}
   >
     <span className="original-label">
       {sizeData.label} - ({sizeData.price}₪)
@@ -405,48 +411,50 @@ setSelectedForRemoval(null)
 )}
 
 
-{showDrops &&
-Array.from({ length: 5 }).map((_, i) => {
-  const x = Math.random() * 100 - 10 + "px"; // טווח רחב על ציר X
-  const y = Math.random() * 10 + "px";       // מהירות ירידה רנדומלית
+{showDrops && (
+  <div className="drop-wrapper">
+    <div className="item-name-bounce">{floatingLabel?.name}
+      <br></br>
+      <small>{floatingLabel?.label}</small>
+    </div>
 
-    const dropX = floatingLabel?.x- 50 || 0;
-    const dropY = floatingLabel?.y - 25 || 0;
-    const finalX = `calc(${x}+60px)`;
-    const finalY = `calc(${y} )`;
+    {Array.from({ length: 20 }).map((_, i) => {
+      const x = Math.random() * 100 - 50 + "px";
+      const y = Math.random() * 80 + "px";
+      const rotation = Math.random() * 360 + "deg";
 
-    return (
-      <React.Fragment key={i}>
+      return (
         <div
+          key={`confetti-${i}`}
+          className="confetti"
+          style={{
+            left: `calc(${floatingLabel?.x || 0}px + ${x})`,
+            top: `calc(${floatingLabel?.y || 0}px + ${y})`,
+            transform: `rotate(${rotation})`,
+            backgroundColor: getRandomConfettiColor(),
+          }}
+        />
+      );
+    })}
+
+    {Array.from({ length: 6 }).map((_, i) => {
+      const x = Math.random() * 80 - 40 + "px";
+      const y = Math.random() * 40 + "px";
+      return (
+        <div
+          key={`drop-${i}`}
           className="drop"
           style={{
-            left: `${dropX}px`,
-            top: `${dropY}px`,
+            left: `${floatingLabel?.x + 20}px`,
+            top: `${floatingLabel?.y + 10}px`,
             "--x": x,
             "--y": y,
           }}
         />
-
-        {showDropChildren &&
-          Array.from({ length: 5 }).map((_, j) => {
-            const childX = Math.random() * 120  + "px";
-            const childY = Math.random() * 1  + "px";
-            return (
-              <div
-                key={`child-${i}-${j}`}
-                className="drop-child"
-                style={{
-                  left: `calc(${dropX}px + ${x})`,
-                  top: `calc(${dropY}px + ${y} + 20px)`,
-                  "--child-x": childX,
-                  "--child-y": childY,
-                }}
-              />
-            );
-          })}
-      </React.Fragment>
-    );
-  })}
+      );
+    })}
+  </div>
+)}
 
 
 

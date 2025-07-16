@@ -153,12 +153,12 @@ const handleCloseMenu = () => {
 >
   {/* ✅ קונטיינר שמחזיק את שני הפסים אחד מעל השני */}
   <div className="bar-container">
-    <span className={`bar top-bar ${showUserMenu ? "open" : ""}`} />
-    <span className={`bar bottom-bar ${showUserMenu ? "open" : ""}`} />
+    <span className={`bar top-bar ${showUserMenu ? "open" : "close"}`} />
+    <span className={`bar bottom-bar ${showUserMenu ? "open" : "close"}`} />
   </div>
 
   {/* כיתוב "תפריט" מימין לפסים */}
-  <div className="TitleMenu">תפריט</div>
+  <div className= {!showUserMenu? "TitleMenu-open" :"TitleMenu"}>תפריט</div>
 </div>
       </div>
 
@@ -185,7 +185,14 @@ const handleCloseMenu = () => {
             ) : (
               <button
                 className="user-menu-item"
-                onClick={() => setActiveModal("login")}
+                onClick={() =>{ 
+          setIsClosing(true);
+      setTimeout(() => {
+        setShowUserMenu(false);
+        setIsClosing(false);
+        setActiveModal("login")
+      }, 1100);
+                  }}
               >
                 התחברות / הרשמה
               </button>
@@ -193,7 +200,15 @@ const handleCloseMenu = () => {
           </div>
 <button
   className="user-menu-item"
-  onClick={() => setShowMyOrders(true)}
+  onClick={() =>{
+              setIsClosing(true);
+      setTimeout(() => {
+        setShowUserMenu(false);
+        setIsClosing(false);
+       setShowMyOrders(true)
+      }, 1100);
+     
+     }}
 >
   {!user
     ? "ההזמנות שלי"
@@ -203,18 +218,49 @@ const handleCloseMenu = () => {
 </button>
 
       {isAdmin&&( 
-    <button className="user-menu-item" onClick={() => setActiveModal("users")}>
+    <button className="user-menu-item" onClick={() => {
+                  setIsClosing(true);
+      setTimeout(() => {
+        setShowUserMenu(false);
+        setIsClosing(false);
+        setActiveModal("users")
+      }, 1100);
+      
+      }}>
       משתמשים
     </button>
      )} 
 
-          <button className="user-menu-item" onClick={() => setShowBudgetChat(true)}>
+          <button className="user-menu-item" onClick={() => {
+               setIsClosing(true);
+      setTimeout(() => {
+        setShowUserMenu(false);
+        setIsClosing(false);
+        setShowBudgetChat(true)
+      }, 1100);
+            }}>
             צור תפריט אישי
           </button>
-          <button className="user-menu-item" onClick={() => setShowSavedMenus(true)}>
+          <button className="user-menu-item" onClick={() => {
+                       setIsClosing(true);
+      setTimeout(() => {
+        setShowUserMenu(false);
+        setIsClosing(false);
+       setShowSavedMenus(true)
+      }, 1100);
+            
+            }}>
             תפריטים ששמרת
           </button>
-          <button className="user-menu-item" onClick={() => setShowSettingsPanel(true)}>
+          <button className="user-menu-item" onClick={() => {
+                              setIsClosing(true);
+      setTimeout(() => {
+        setShowUserMenu(false);
+        setIsClosing(false);
+       setShowSettingsPanel(true)
+      }, 1100);
+            
+            }}>
             הגדרות משתמש
           </button>
 

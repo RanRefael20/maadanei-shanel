@@ -99,7 +99,7 @@ useEffect(() => {
           ref={arrowRef}
           style={{ top: `${arrowTop - 130}px`, cursor: "pointer" }}
           onClick={() => {
-            const offset = isMobile ? 0: 0;
+            const offset = isMobile ? 0: -100;
             scrollToNextSection(offset);
           }}
         >

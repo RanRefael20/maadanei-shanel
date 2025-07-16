@@ -21,7 +21,11 @@ const MenuExport = ({ selectedItems, onClose, onBackToEdit     }) => {
     email: "",
     phone: "",
     address: "",
-    when:""
+    when:"",
+    to:"",
+    title:"",
+    notes:"",
+
   });
 
   const [sendData, setSendData] = useState({
@@ -121,6 +125,9 @@ const diffInHours = (selectedDate - now) / (1000 * 60 * 60);
             address: formData.address,
             items: selectedItems,
             total: selectedItems.reduce((sum, item) => sum + item.price, 0),
+            to: formData.to,
+            title: formData.title,
+            notes: formData.notes
           },
         }),
       });
@@ -214,14 +221,44 @@ console.log(data)
               
               }>תשלום באשראי 💳</button>
                 <button onClick={onBackToEdit}>חזרה לעריכת תפריט 🔁</button>
-                <button onClick={() => setShowSendOptions(true)}>התייעץ עם חבר 💬</button>
+                <button onClick={() => setShowSendOptions(true)}>שלח הצעה 📤</button>
               </div>
             </>
           ) : (
             <div className="send-options">
               <h4>היי , לפני שאתה מזמין - כאן תוכל לשלוח את התפריט למי שאתה רוצה ולשמוע מה דעתו על התפריט שהכנת </h4>
               <h3>שליחת פרטי ההזמנה:</h3>
-              <div className="form-group">
+                  <div className="form-group">
+                <label>למי אתה שולח?</label>
+                <input
+                placeholder="שם המקבל"
+                  type="text"
+                  name="to"
+                  value={formData.to}
+                  onChange={handleInputChange}
+                />
+              </div>
+                  <div className="form-group">
+                <label>כותרת פנימית</label>
+                <input
+                placeholder="הצעת מחיר \ טיוטת תפריט"
+                  type="text"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                />
+              </div>
+                  <div className="form-group">
+                <label>הערות נוספות</label>
+                <input
+                placeholder="הערות \ הודעה נוספת"
+                  type="text"
+                  name="notes"
+                  value={formData.notes}
+                  onChange={handleInputChange}
+                />
+              </div>
+        {/*       <div className="form-group">
                 <label>לשליחה בוואטסאפ:</label>
                 <input
                 placeholder="הזן מספר טלפון אליו תרצה לשלוח"
@@ -230,7 +267,7 @@ console.log(data)
                   value={sendData.sendPhone}
                   onChange={handleSendDataChange}
                 />
-              </div>
+              </div> */}
               <div className="form-group">
                 <label>לשליחה במייל:</label>
                 <input
@@ -242,8 +279,8 @@ console.log(data)
                 />
               </div>
               <div className="menu-export-buttons">
-                <button onClick={() => handleSendOrder("whatsapp")}>שליחה ב־WhatsApp 📲</button>
-                <button onClick={() => handleSendOrder("email")}>שליחה למייל 📧</button>
+{/*                 <button onClick={() => handleSendOrder("whatsapp")}>שליחה ב־WhatsApp 📲</button>
+ */}                <button onClick={() => handleSendOrder("email")}>שליחה למייל 📧</button>
                 <button onClick={() => setShowSendOptions(false)}>↩ חזרה</button>
               </div>
             </div>
