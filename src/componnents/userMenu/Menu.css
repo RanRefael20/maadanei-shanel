@@ -175,9 +175,14 @@
 }
 
 @media (max-width: 450px) {
+
   .hamburger-icon {
 top:20px;
 right: 20px;
+}
+
+.user-menu-header {
+ margin-top:2px;
 }
 }
 

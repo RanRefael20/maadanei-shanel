@@ -5,7 +5,7 @@ export default function useIsMobile() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 700);
+      setIsMobile(window.innerWidth <= 750);
     };
 
     checkMobile(); // בדיקה מיידית כשהקומפוננטה עולה

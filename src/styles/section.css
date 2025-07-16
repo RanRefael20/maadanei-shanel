@@ -23,6 +23,16 @@
     z-index: 0;
     opacity: 0;
   }
+
+  .background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
   
     /* ספציפי לתמונה השנייה */
     .background-layer-1 {
@@ -153,11 +163,16 @@
   
 
 
-  @media (max-width: 390px) {
+  @media (max-width: 450px) {
   
     .hero-sections {
+      margin-top: -40px;
       height: 100vh; /* גובה מלא של המסך */
       overflow: hidden; /* למנוע גלילה לא רצויה */
+    }
+
+    .arrow-double {
+margin-top: 20px;
     }
 
     .background-layer-0 {

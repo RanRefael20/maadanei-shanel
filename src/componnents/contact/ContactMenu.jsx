@@ -30,6 +30,7 @@ const ContactMenu = () => {
    <button className="phone-button" onClick={() => setShowOptions(true)}>
         📲
       </button>
+      
       {showOptions && (
         <div className="contact-options">
           <a href="tel:0503225482" className="contact-option">
