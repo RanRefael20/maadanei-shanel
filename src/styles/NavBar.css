@@ -10,7 +10,7 @@
   z-index: 99;
   padding: 0 20px;
     animation: fadeSlideUp 0.7s ease-out;
-
+height: 14%;
 }
 
 
@@ -27,8 +27,8 @@
 
   
   .logo {
-    height: 85px;
-    margin-right: 20px;
+    height: 90px;
+    margin-right: 140px;
     margin-top: -15px;
     animation: fadeSlideUp 0.5s ease-out;
 
@@ -155,7 +155,7 @@ position: fixed;
   /* רספונסיביות */
   @media (max-width: 450px) {
     .navbar{
-      height: 60px; /* במקום 45px */
+      height: 70px; /* במקום 45px */
     }
 
 .navbar-center-wrapper {

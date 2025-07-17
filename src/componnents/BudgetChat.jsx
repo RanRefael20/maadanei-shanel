@@ -615,7 +615,7 @@ useEffect(() => {
   ariaHideApp={false}
   style={{
           content: {
-            height: window.innerWidth <= 450 ? showBudgetInput ?"55%": "35%" : "50%",
+            height: window.innerWidth <= 450 ? showBudgetInput ?"55%": "40%" : "50%",
             width: "85%",
             top: window.innerWidth <= 450 ? "40%" : "56%",
             left: "50%",
