@@ -21,14 +21,11 @@ import ContactMenu from "./contact/ContactMenu";
 
 
 
-const NavBar = () => {
+const NavBar = ({showBudgetChat , setShowBudgetChat }) => {
   const { user, setUser , loading , setLoading } = useAuthSync();
   const scrolling = useScroll();
   // טיוטות תפריטים
-const [showBudgetChat, setShowBudgetChat] = useState(() => {
-  const saved = localStorage.getItem("budgetChatOpen");
-  return saved === "true"; // אם כן – תפתח אוטומטית
-});
+
 
 const [showContact, setShowContact] = useState (false);
 const [showSavedMenus, setShowSavedMenus] = useState(() => localStorage.getItem("showSavedMenus") === "true");

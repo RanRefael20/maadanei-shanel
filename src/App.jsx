@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 ;import DessertsPage from "./componnents/DessertsPage";
 import MenuSection from "./pages/MenuSection";
@@ -7,6 +7,9 @@ import Footer from "./componnents/Footer";
 import Section from "./componnents/Section";
 import SplashAnimation from "./hooks/SplashAnimation"; // ✅ ייבוא ה-Splash
 import ImageLinks from "./componnents/ImageLinks";
+import PromoBanner from "./componnents/promo/PromoBanner";
+import LoyaltyModal from "./componnents/promo/LoyaltyModal"; // ✅ ייבוא המודל
+
 
 import "./App.css";
 
@@ -15,7 +18,17 @@ import "./App.css";
  
 export default function DairyRestaurantWebsite() {
   const [splashDone, setSplashDone] = useState(false); // ✅ שליטה האם להראות את האתר
+    const [showLoyaltyModal, setShowLoyaltyModal] = useState(false); // ✅
+const [showBudgetChat, setShowBudgetChat] = useState(() => {
+  const saved = localStorage.getItem("budgetChatOpen");
+  return saved === "true"; // אם כן – תפתח אוטומטית
+});
+
+useEffect(() => {
   
+//localStorage.clear();
+  localStorage.setItem("budgetChatOpen", showBudgetChat ? "true" : "false");
+}, [showBudgetChat]);
 
   return (
     <>
@@ -49,14 +62,22 @@ export default function DairyRestaurantWebsite() {
 
           {/* Section */}
           <Section />
- <NavBar />
-         
+ <NavBar 
+ showBudgetChat ={showBudgetChat}
+ setShowBudgetChat={setShowBudgetChat}
+ />
+     {showLoyaltyModal && (
+            <LoyaltyModal onClose={() => setShowLoyaltyModal(false)} 
+            setShowBudgetChat={setShowBudgetChat}/>
+          )}
 
-          {/* ImageLinks */}
-          <ImageLinks/>
-          
+ {!showLoyaltyModal && (
+            <>
+              <PromoBanner onClick={() => setShowLoyaltyModal(true)} />
+              <ImageLinks />
+            </>
     
-
+  )}
           {/* Footer */}
           <Footer />
         </div>

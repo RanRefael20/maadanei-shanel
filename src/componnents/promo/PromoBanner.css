@@ -1,0 +1,134 @@
+:root {
+  --promo-bg: #FFF7D4;
+  --promo-text: #1f2e52;
+  --promo-highlight: #ffc107;
+  --promo-accent: #05b7fd;
+  --promo-shadow: 0 12px 28px rgba(31, 46, 82, 0.15);
+  --promo-radius: 16px;
+  --promo-font: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+}
+
+.promo-banner {
+  width: 100%;
+  max-width: 960px;
+  margin: 120px auto 2rem;
+  padding: 24px;
+  background: linear-gradient(to right, var(--promo-bg), #f9f9f9);
+  color: black;
+  border-radius: var(--promo-radius);
+  box-shadow: var(--promo-shadow);
+  font-family: var(--promo-font);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: promoFadeIn 0.6s ease-out;
+  direction: rtl;
+  text-align: right;
+}
+
+.promo-banner:hover {
+  transform: scale(1.02);
+  box-shadow: 0 16px 32px rgba(31, 46, 82, 0.25);
+}
+
+.promo-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 200px;
+}
+
+.promo-line {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  position: relative;
+}
+
+.badge-above-word {
+  position: relative;
+  top: -8px;
+  font-size: 0.75rem;
+  background-color: #ff5722;
+  color: white;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+  animation: pulseBadge 1.5s infinite ease-in-out;
+}
+
+.promo-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin: 0;
+  display: inline-block;
+}
+
+.promo-title .icons {
+  margin-right: 6px;
+}
+
+.promo-subtitle {
+  font-size: 1.1rem;
+  color: black;
+  margin: 0;
+}
+
+.promo-extra {
+  font-size: 1rem;
+  margin: 0;
+  color: #000000;
+}
+
+/* אנימציה */
+@keyframes promoFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseBadge {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+/* מובייל */
+@media (max-width: 450px) {
+  .promo-banner {
+    padding: 20px 14px;
+    width: 90%;
+
+  }
+
+  .promo-content{
+    margin-top: 285px;
+  }
+
+  .promo-title {
+    font-size: 1.4rem;
+  }
+
+  .promo-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .promo-extra {
+    font-size: 0.9rem;
+  }
+
+  .badge-above-word {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    top: -6px;
+  }
+}
