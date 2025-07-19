@@ -29,73 +29,73 @@ const CATEGORY_KEYS = [
 const menuItems= {
     "בייגל בייגל": [
     { name: "בייגל טונה", sizes: {
-        M: { label: "12 יח'", price: 189, volume: 5 },
-        L: { label: "20 יח'", price: 315, volume: 10 }
+        M: { label: "12 יח'", price: 189, volume: 6 },
+        L: { label: "20 יח'", price: 315, volume: 11 }
       } },
     { name: "בייגל שמנת סלמון", sizes: {
-        M: { label: "12 יח'", price: 230, volume: 5 },
-        L: { label: "20 יח'", price: 385, volume: 10 }
+        M: { label: "12 יח'", price: 230, volume: 6 },
+        L: { label: "20 יח'", price: 385, volume: 11 }
       } },
     { name: "בייגל סלט ביצים , בצל ירוק וחסה לאליק", sizes: {
-        M: { label: "12 יח'", price: 189, volume: 5 },
-        L: { label: "20 יח'", price: 315, volume: 10 }
+        M: { label: "12 יח'", price: 189, volume: 6 },
+        L: { label: "20 יח'", price: 315, volume: 11 }
       } },
     { name: "בייגל פסטו , גבינת פטה ואנטי-פסטי", sizes: {
-        M: { label: "12 יח'", price: 189, volume: 5 },
-        L: { label: "20 יח'", price: 315, volume: 10 }
+        M: { label: "12 יח'", price: 189, volume: 6 },
+        L: { label: "20 יח'", price: 315, volume: 11 }
       } }
   ],
     "מגשי פרימיום": [
     { name: "מגש גבינות מפנק ", sizes: {
-        M: { label: "מדיום", price: 285, volume: 5 },
-        L: { label: "לארג'", price: 385, volume: 10 }
+        M: { label: "מדיום", price: 285, volume: 6 },
+        L: { label: "לארג'", price: 385, volume: 11 }
       } },
     { name: "מגש דגים מעושנים", sizes: {
-        M: { label: "מדיום", price: 285, volume: 5 },
-        L: { label: "לארג'", price: 385, volume: 10 }
+        M: { label: "מדיום", price: 285, volume: 6 },
+        L: { label: "לארג'", price: 385, volume: 11 }
       } },
     { name: "מגש בורקיטס במילוי ממרח פסטו , קוביה בולגרית , וחסה לאליק", sizes: {
         M: { label: "20 יח'", price: 255, volume: 7 },
-        L: { label: "30 יח'", price: 385, volume: 12 }
+        L: { label: "30 יח'", price: 385, volume: 13 }
       } },
     { name: "מגש טארטלים במילוי שמנת וסלמון",sizes: {
         M: { label: "20 יח'", price: 190, volume: 6 },
-        L: { label: "30 יח'", price: 285, volume: 10 }
+        L: { label: "30 יח'", price: 285, volume: 11 }
       } },
     { name: "מגש פריקסה מפנק", sizes: {
         M: { label: "20 יח'", price: 320, volume: 8 },
-        L: { label: "27 יח'", price: 435, volume: 14 }
+        L: { label: "27 יח'", price: 435, volume: 15 }
       } },
     { name: "מגש פיתות סביח אישיות", sizes: {
-        M: { label: "15 יח'", price: 215, volume: 6 },
-        L: { label: "25 יח'", price: 360, volume: 12 }
+        M: { label: "15 יח'", price: 215, volume: 7 },
+        L: { label: "25 יח'", price: 360, volume: 13 }
       } },
     { name: "מגש חצאי טורטיות במילוי סלט טונה / ביצים", sizes: {
-        L: { label: "20 יח'", price: 315, volume: 10 }
+        L: { label: "20 יח'", price: 315, volume: 11 }
       } }
   ],
     "קישים ומאפים": [
     { name: "קיש גבינות ובטטה", sizes: {
-        L: { label: "קוטר 29", price: 165, volume: 6 }
+        L: { label: "קוטר 29", price: 165, volume: 8 }
       } },
     { name: "קיש גבינות וברוקולי ", sizes: {
-        L: { label: "קוטר 29", price: 165, volume: 6 }
+        L: { label: "קוטר 29", price: 165, volume: 8 }
       } },
     { name: "קיש גבינות ופטריות   ", sizes: {
-        L: { label: "קוטר 29", price: 165, volume: 6 }
+        L: { label: "קוטר 29", price: 165, volume: 8 }
       }},
     { name: "קיש גבינות וטירס   ", sizes: {
-        L: { label: "קוטר 29", price: 165, volume: 6 }
+        L: { label: "קוטר 29", price: 165, volume: 8 }
       } },
     { name: "קיש גבינות ובצלים   ", sizes: {
-        L: { label: "קוטר 29", price: 165, volume: 6 }
+        L: { label: "קוטר 29", price: 165, volume: 8 }
       } },
     { name: "מגש לחמי הבית בלווי מטבלים  ", sizes: {
-        L: { label: "לארג'", price: 235, volume: 7 }
+        L: { label: "לארג'", price: 235, volume: 8 }
       } },
     { name: "מגש לחם שום", sizes: {
-        M: { label: "10 יח'", price: 80, volume: 4 },
-        L: { label: "20 יח'", price: 165, volume: 8 }
+        M: { label: "10 יח'", price: 80, volume: 6 },
+        L: { label: "20 יח'", price: 165, volume: 10 }
       } }
   ],
     "פסטות": [

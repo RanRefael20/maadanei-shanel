@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../componnents/userMenu/Menu.css";
 import LoadingSpinner from "../LoadingSpinner";
+import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
+
 
 
 const Menu = ({
+  setShowLoyaltyModal,
   setShowBudgetChat,
   setShowSavedMenus,
   setShowSettingsPanel,
@@ -188,6 +191,7 @@ const handleCloseMenu = () => {
                 onClick={() =>{ 
           setIsClosing(true);
       setTimeout(() => {
+        setShowLoyaltyModal(false)
         setShowUserMenu(false);
         setIsClosing(false);
         setActiveModal("login")
@@ -203,6 +207,7 @@ const handleCloseMenu = () => {
   onClick={() =>{
               setIsClosing(true);
       setTimeout(() => {
+        setShowLoyaltyModal(false)
         setShowUserMenu(false);
         setIsClosing(false);
        setShowMyOrders(true)
@@ -221,6 +226,7 @@ const handleCloseMenu = () => {
     <button className="user-menu-item" onClick={() => {
                   setIsClosing(true);
       setTimeout(() => {
+        setShowLoyaltyModal(false)
         setShowUserMenu(false);
         setIsClosing(false);
         setActiveModal("users")
@@ -234,6 +240,7 @@ const handleCloseMenu = () => {
           <button className="user-menu-item" onClick={() => {
                setIsClosing(true);
       setTimeout(() => {
+        setShowLoyaltyModal(false)
         setShowUserMenu(false);
         setIsClosing(false);
         setShowBudgetChat(true)
@@ -244,6 +251,7 @@ const handleCloseMenu = () => {
           <button className="user-menu-item" onClick={() => {
                        setIsClosing(true);
       setTimeout(() => {
+        setShowLoyaltyModal(false)
         setShowUserMenu(false);
         setIsClosing(false);
        setShowSavedMenus(true)
@@ -255,6 +263,7 @@ const handleCloseMenu = () => {
           <button className="user-menu-item" onClick={() => {
                               setIsClosing(true);
       setTimeout(() => {
+        setShowLoyaltyModal(false)
         setShowUserMenu(false);
         setIsClosing(false);
        setShowSettingsPanel(true)
@@ -263,6 +272,8 @@ const handleCloseMenu = () => {
             }}>
             הגדרות משתמש
           </button>
+          
+
 
           {user?.points != null && (
             <button className="user-menu-item">
@@ -284,9 +295,23 @@ const handleCloseMenu = () => {
                 התנתקות
               </button>
             ))}
+<div className="menu-credit">
+  בניית אתרים <span className="credit-name">רן ביטון</span> |{" "}
+  <a
+    href="https://wa.me/972559409120"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="credit-whatsapp"
+  >
+    <span className="whatsapp-icon"><FaWhatsapp size={20} /> </span> 055-940-9120 – וואטסאפ בלבד
+  </a>
+</div>
+
         </div>
       )}
+
     </>
+    
   );
 };
 

@@ -110,6 +110,7 @@ const LoginModal = ({ onClose, onSwitchToRegister, handleLoginSuccess , onForgot
           value={formData.email}
           onChange={handleChange}
         />
+
         <input
           type="password"
           name="password"

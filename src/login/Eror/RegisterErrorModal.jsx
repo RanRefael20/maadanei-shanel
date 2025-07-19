@@ -1,7 +1,10 @@
 import ReactDOM from "react-dom";
 import "./RegisterErrorModal.css";
 
-const RegisterErrorModal = ({ onClose, errorMessage, message, actions, IdmenuToDelete, type, source , setActiveModal  }) => {
+const RegisterErrorModal = ({
+  setShowSuccess,
+setHideMessagePermanently,
+  onClose, errorMessage, message, actions, IdmenuToDelete, type, source , setActiveModal  }) => {
   const token = localStorage.getItem("token");
 
   return ReactDOM.createPortal(
@@ -15,7 +18,7 @@ const RegisterErrorModal = ({ onClose, errorMessage, message, actions, IdmenuToD
     ? "שימו לב"
     : "שגיאה"}
 </h2>
-        <p className="error-message"> 
+        <div className="error-message" dangerouslySetInnerHTML={{ __html: errorMessage || message || "אירעה שגיאה לא ידועה." }} />
 {source==="MyOrders" &&(
    
       <button  className="link-button" 
@@ -27,8 +30,15 @@ const RegisterErrorModal = ({ onClose, errorMessage, message, actions, IdmenuToD
             התחבר
           </button>
 )}
+
+{source==="MenuExport" &&(
+        <button className="menu-action-button" onClick={() => {
+                  setShowSuccess(false);
+                  setHideMessagePermanently(true);
+                }}>סגור</button>
+)}
     
-               {errorMessage || message || "אירעה שגיאה לא ידועה."}</p>
+              <div/>
          
         {IdmenuToDelete !== null && token && actions?.length > 0 && (
           <div className="error-actions">

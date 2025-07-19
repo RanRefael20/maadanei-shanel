@@ -12,6 +12,7 @@
  margin-left: -70px;
 }
 
+
 /* החלפת צבע בעת מעבר העכבר על הכפתור  */
 .login-button:hover {
   background-color: #0059ffe8;   /* תכלת זוהר */
@@ -78,6 +79,7 @@
   margin-top: 10px;
 }
 
+
 .link-button {
   background: none;
   border: none;
@@ -122,6 +124,12 @@
   direction: rtl;
   animation: fadeIn 0.3s ease-in-out;
 }
+
+.login-input::placeholder {
+  color: #7c7c7c; /* צבע אפור עדין */
+  opacity: 1; /* ודא שזה גלוי לגמרי */
+}
+
 
 @keyframes fadeIn {
   from {

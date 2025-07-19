@@ -1,13 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./PromoBanner.css";
+import useAuthSync from "../../hooks/useAuthSync";
 
-
-
-const PromoBanner = ({ username = "אורח" , onClick }) => {
+const PromoBanner = ({ onClick }) => {
   const navigate = useNavigate();
-
-
+  const { user } = useAuthSync();
 
   return (
     <div className="promo-banner" onClick={onClick}>
@@ -15,13 +13,26 @@ const PromoBanner = ({ username = "אורח" , onClick }) => {
         <div className="promo-line">
           <div className="badge-above-word">חדש 🔥</div>
           <h2 className="promo-title">
-            קונים צוברים <span className="icons">🎉💰</span>
+            קונים צוברים{" "}
+            {!user && <span className="for-members-only">- לרשומים בלבד</span>}{" "}
+            <span className="icons">🎉💰</span>
           </h2>
         </div>
+
         <p className="promo-subtitle">
           מזמינים וצוברים מכל הזמנה <strong>30%</strong> – ואפילו לאחר מימוש הנקודות!
         </p>
-        <p className="promo-extra">← המשך</p>
+
+        {user ? (
+          <p className="promo-extra">← המשך</p>
+        ) : (
+          <p className="promo-extra">
+            ←{" "}
+            <span className="register-now">
+              הרשמה חינם
+            </span>
+          </p>
+        )}
       </div>
     </div>
   );

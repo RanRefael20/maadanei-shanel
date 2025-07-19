@@ -1,38 +1,42 @@
 import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
-import "../styles/footer.css"; // חיבור לקובץ העיצוב
+import "../styles/footer.css";
 
 const Footer = () => {
   return (
-    <footer className="footer">
-      <section className="footer-content">
-        <div className="footer-boxes">
-          {[
-            "לחמי כוסמין ושיפון 100%",
-            "מגשי אירוח",
-            "מארזים מפנקים עד הפרט האחרון",
-            "קייטרינג חלבי ייחודי לאירועים",
-          ].map((text, index) => (
-            <div key={index} className="footer-box">
-              {text}
-            </div>
-          ))}
+    <footer className="elevated-footer">
+      <div className="footer-container">
+        <div className="footer-left">
+          <h2 className="footer-brand">מעדני שנאל</h2>
+          <p className="footer-tagline">❤️ אירוח שמרגישים בו את הלב</p>
+          <p className="footer-contact-text">לשאלות והזמנות: <strong>050-322-5482</strong></p>
         </div>
 
-        <h2 className="footer-title brand-title rubik-gemstones-regular">❤️ אירוח שמרגישים בו את הלב </h2>
-        <h3 className="footer-event">
-          ?חוגגים יום הולדת<br /> ?אירועי חברה? עליה לתורה
-        </h3>
-        <h3 className="footer-call">!הזמינו עכשיו</h3>
+        <div className="footer-center">
+          <div className="footer-box-row">
+            {[
+              "לחמי כוסמין ושיפון 100%",
+              "מגשי אירוח יוקרתיים",
+              "מארזים מפנקים",
+              "קייטרינג חלבי לאירועים",
+            ].map((text, index) => (
+              <div key={index} className="footer-box">{text}</div>
+            ))}
+          </div>
+        </div>
 
-        <p className="footer-desc">⬇️ עיין בקטלוג המלא שלנו בוואטסאפ. לחץ מטה</p>
-        <a href="https://wa.me/c/972503225482" target="_blank" rel="noopener noreferrer" className="whatsapp-btn">
-          <FaWhatsapp size={20} className="whatsapp-icon" /> WhatsApp Catalog
-        </a>
-        <p className="footer-contact">
-          📞 להזמנות חייגו / שילחו הודעת וואטסאפ: <strong>050-322-5482</strong>
-        </p>
-      </section>
+        <div className="footer-right">
+          <a
+            href="https://wa.me/c/972503225482"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="whatsapp-fancy"
+          >
+            <FaWhatsapp size={20} className="whatsapp-icon" />
+            קטלוג WhatsApp
+          </a>
+        </div>
+      </div>
     </footer>
   );
 };

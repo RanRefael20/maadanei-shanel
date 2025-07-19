@@ -9,6 +9,8 @@ import SplashAnimation from "./hooks/SplashAnimation"; // ✅ ייבוא ה-Spla
 import ImageLinks from "./componnents/ImageLinks";
 import PromoBanner from "./componnents/promo/PromoBanner";
 import LoyaltyModal from "./componnents/promo/LoyaltyModal"; // ✅ ייבוא המודל
+import useAuthSync from "./hooks/useAuthSync"; // ✅ ייבוא חסר
+
 
 
 import "./App.css";
@@ -17,6 +19,9 @@ import "./App.css";
 
  
 export default function DairyRestaurantWebsite() {
+    const { user } = useAuthSync();
+const [activeModal, setActiveModal] = useState(() => localStorage.getItem("activeModal") || null);
+
   const [splashDone, setSplashDone] = useState(false); // ✅ שליטה האם להראות את האתר
     const [showLoyaltyModal, setShowLoyaltyModal] = useState(false); // ✅
 const [showBudgetChat, setShowBudgetChat] = useState(() => {
@@ -29,6 +34,10 @@ useEffect(() => {
 //localStorage.clear();
   localStorage.setItem("budgetChatOpen", showBudgetChat ? "true" : "false");
 }, [showBudgetChat]);
+
+useEffect(() => {
+  localStorage.setItem("activeModal", activeModal || "");
+}, [activeModal]);
 
   return (
     <>
@@ -63,6 +72,9 @@ useEffect(() => {
           {/* Section */}
           <Section />
  <NavBar 
+ activeModal={activeModal}
+  setActiveModal={setActiveModal}
+ setShowLoyaltyModal={setShowLoyaltyModal}
  showBudgetChat ={showBudgetChat}
  setShowBudgetChat={setShowBudgetChat}
  />
@@ -73,7 +85,14 @@ useEffect(() => {
 
  {!showLoyaltyModal && (
             <>
-              <PromoBanner onClick={() => setShowLoyaltyModal(true)} />
+              <PromoBanner onClick={() =>
+                 {
+                  if(user){
+                    setShowLoyaltyModal(true)
+                  }else{
+setActiveModal("register")
+                  }
+                   }} />
               <ImageLinks />
             </>
     

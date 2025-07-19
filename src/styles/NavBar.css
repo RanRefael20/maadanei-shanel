@@ -10,7 +10,7 @@
   z-index: 99;
   padding: 0 20px;
     animation: fadeSlideUp 0.7s ease-out;
-height: 14%;
+height: 16%;
 }
 
 
@@ -55,7 +55,7 @@ display: none;
   flex: 1;
 }
 .navbar-center-wrapper {
-  margin-right: 640px;
+  margin-right: 450px;
   display: flex;
   align-items: center;
   justify-content: center;

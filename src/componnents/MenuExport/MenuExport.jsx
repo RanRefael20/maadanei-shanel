@@ -6,6 +6,10 @@ import "../../styles/CreditModal.css";
 import useAuthSync from "../../hooks/useAuthSync";
 import LoadingSpinner from "../LoadingSpinner";
 import { baseURL } from "..//./../config"; // או הנתיב המתאים אצלך
+import RegisterErrorModal from "../../login/Eror/RegisterErrorModal";
+
+
+
 
 
 const MenuExport = ({ selectedItems, onClose, onBackToEdit     }) => {
@@ -14,6 +18,9 @@ const MenuExport = ({ selectedItems, onClose, onBackToEdit     }) => {
   const [message, setMessage] = useState("");
   const [showSendOptions, setShowSendOptions] = useState(false);
   const [showCreditModal, setShowCreditModal] = useState(false);
+    const [successMessage, setSuccessMessage] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [hideMessagePermanently, setHideMessagePermanently] = useState(false);
 
 
   const [formData, setFormData] = useState({
@@ -217,7 +224,49 @@ console.log(data)
 
               <div className="menu-export-buttons">
                 <button onClick={() => {
-                  if(validateForm()===true)   setShowCreditModal(true)}
+                  if(user){
+                    if(validateForm()===true)   setShowCreditModal(true)
+                   }else{
+                   if (!hideMessagePermanently){ 
+                    setSuccessMessage(`
+  <div dir="rtl" style="text-align: right; direction: rtl;">
+  <strong style="font-size: 16px;">⚠️ שים לב! אתה רגע לפני ביצוע תשלום – אך לא מחובר למערכת</strong><br />
+  <div style="margin-top: 8px;">
+    כדי ליהנות מהטבת <strong style="color: #2b7de9;">מועדון הלקוחות</strong> – החזר של <strong>30% מההזמנה</strong> בצורת נקודות – עליך להיות מחובר למערכת.
+  </div>
+  <div style="margin-top: 6px; color: red; font-weight: bold;">
+    כרגע אינך מחובר – וחבל שתפסיד את ההטבה!
+  </div>
+
+  <hr style="margin: 10px 0; border: none; border-top: 1px solid #ccc;" />
+
+  <strong style="font-size: 15px;">מה ניתן לעשות?</strong>
+  <ol style="padding-right: 20px; font-size: 14px; margin-top: 4px;">
+    <li>חזור לעריכת התפריט.</li>
+    <li>שמור טיוטה בשם שתוכל לזהות.</li>
+    <li>סגור את חלון התשלום והתחבר/הרשם דרך התפריט העליון.</li>
+    <li>לאחר ההתחברות, עבור ל"תפריטים ששמרת" → בחר את הטיוטה → המשך לתשלום.</li>
+  </ol>
+
+  <hr style="margin: 10px 0; border: none; border-top: 1px solid #ccc;" />
+
+  <div style="font-size: 14px;">
+    כך תוכל להשלים את ההזמנה ולהבטיח <strong style="color: green;">30% החזר</strong> על הרכישה 💚
+  </div>
+
+  <div style="margin-top: 6px; font-style: italic; font-size: 13.5px;">
+    אנחנו תמיד כאן בשבילך – לכל שאלה או עזרה 🙂
+  </div>
+</div>
+
+      `);
+      setShowSuccess(true);
+                   } else{
+                    if(validateForm()===true)   setShowCreditModal(true)
+                   }
+
+                  }
+                  }
               
               }>תשלום באשראי 💳</button>
                 <button onClick={onBackToEdit}>חזרה לעריכת תפריט 🔁</button>
@@ -302,6 +351,18 @@ console.log(data)
       {message && (
         <LoadingSpinner result={message} setMessage={setMessage} />
       )}
+
+      {showSuccess && (
+  <RegisterErrorModal
+    onClose={() => setShowSuccess(false)}
+    errorMessage={successMessage}
+setHideMessagePermanently={setHideMessagePermanently}
+setShowSuccess={setShowSuccess}
+    source="MenuExport"
+    setActiveModal={() => {}}
+
+  />
+)}
 
     </div>,
     document.getElementById("modal-root")

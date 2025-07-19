@@ -23,6 +23,7 @@
   animation: promoFadeIn 0.6s ease-out;
   direction: rtl;
   text-align: right;
+  padding-top: 130px;
 }
 
 .promo-banner:hover {
@@ -111,7 +112,7 @@
   }
 
   .promo-content{
-    margin-top: 285px;
+    margin-top: 555px;
   }
 
   .promo-title {

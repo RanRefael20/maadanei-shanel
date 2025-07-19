@@ -1,11 +1,11 @@
 .loyalty-overlay {
   position: fixed;
-  top: 110px; /* adjust לפי גובה ה־Navbar שלך */
+  top: 100px; /* adjust לפי גובה ה־Navbar שלך */
   bottom: 0;
   left: 0;
   right: 0;
   background: #000; /* רקע כהה */
-  z-index: 9999;
+  z-index: 90;
   overflow-y: auto;
   overflow-x: hidden;
     animation: fadeSlideUp 0.4s ease-out;

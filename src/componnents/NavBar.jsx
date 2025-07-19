@@ -21,7 +21,7 @@ import ContactMenu from "./contact/ContactMenu";
 
 
 
-const NavBar = ({showBudgetChat , setShowBudgetChat }) => {
+const NavBar = ({showBudgetChat , setShowBudgetChat ,setShowLoyaltyModal, setActiveModal , activeModal  }) => {
   const { user, setUser , loading , setLoading } = useAuthSync();
   const scrolling = useScroll();
   // טיוטות תפריטים
@@ -31,7 +31,6 @@ const [showContact, setShowContact] = useState (false);
 const [showSavedMenus, setShowSavedMenus] = useState(() => localStorage.getItem("showSavedMenus") === "true");
 const [showMyOrders, setShowMyOrders] = useState(() => localStorage.getItem("showMyOrders") === "true");
 const [showSettingsPanel, setShowSettingsPanel] = useState(() => localStorage.getItem("showSettingsPanel") === "true");
-const [activeModal, setActiveModal] = useState(() => localStorage.getItem("activeModal") || null);
 const [showDraftSaved, setShowDraftSaved] = useState(false);
 const [draftName, setDraftName] = useState("");
 const [dessertCount, setDessertCount] = useState(0);
@@ -114,6 +113,7 @@ useEffect(() => {
 <div className="navbar-section navbar-right">
 
 <Menu
+setShowLoyaltyModal={setShowLoyaltyModal}
 setShowBudgetChat={setShowBudgetChat}
 setShowSavedMenus={setShowSavedMenus}
 setShowSettingsPanel={setShowSettingsPanel}
@@ -144,7 +144,7 @@ setUser={setUser}
     {/* הלוגו עצמו */}
     <div className="navbar-section navbar-center">
       <Link to="/">
-        <img src={logo} className="logo" />
+        <img src={logo} className="logo" onClick={()=>setShowLoyaltyModal(false)} />
       </Link>
     </div>
   </div>
