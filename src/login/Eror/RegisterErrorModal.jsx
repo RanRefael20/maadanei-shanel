@@ -12,11 +12,14 @@ setHideMessagePermanently,
 {      <div className={`error-modal ${type === "success" ? "modal-success" : "modal-error"}`}>
         <button className="error-close-button" onClick={onClose}>✖</button>
        <h2 className="error-title">
-  {type === "success"
-    ? "הצלחה"
-    : source === "budget"
-    ? "שימו לב"
-    : "שגיאה"}
+{type === "success"
+  ? "הצלחה"
+  : source === "Menu"
+  ? ""
+  : source === "budget" || source === "MenuExport"
+  ? "שימו לב"
+  : "שגיאה"}
+  
 </h2>
         <div className="error-message" dangerouslySetInnerHTML={{ __html: errorMessage || message || "אירעה שגיאה לא ידועה." }} />
 {source==="MyOrders" &&(
@@ -32,10 +35,19 @@ setHideMessagePermanently,
 )}
 
 {source==="MenuExport" &&(
-        <button className="menu-action-button" onClick={() => {
-                  setShowSuccess(false);
+  <>
+  <div className="draft-saved-buttons">
+                       <button className="menu-action-button" onClick={() => {
+                   setShowSuccess(false);
                   setHideMessagePermanently(true);
-                }}>סגור</button>
+                }}>התעלם</button>
+                 <button className="menu-action-button" onClick={() => {
+                  setShowSuccess(false);
+                    setActiveModal ("login")
+
+                }}>התחבר\הרשם</button>
+                </div>
+                </>
 )}
     
               <div/>

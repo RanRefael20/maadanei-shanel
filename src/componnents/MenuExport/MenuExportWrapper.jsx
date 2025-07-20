@@ -4,7 +4,8 @@ import MenuExport from "./MenuExport";
 import useAuthSync from "../../hooks/useAuthSync"; // ודא שהנתיב נכון
 import LoadingSpinner from "../LoadingSpinner";
 
-const MenuExportWrapper = ({ selectedItems, onClose, onMinimize, onBackToEdit    }) => {
+const MenuExportWrapper = ({ selectedItems,  onBackToEdit , setActiveModal,
+ activeModal  }) => {
   const { user: userData, loading } = useAuthSync(); // שימוש נכון ב-loading מתוך ה-hook
   if (loading) {
     return (
@@ -14,9 +15,9 @@ const MenuExportWrapper = ({ selectedItems, onClose, onMinimize, onBackToEdit   
   return (
     
     <MenuExport
+     setActiveModal ={setActiveModal}
+ activeModal={activeModal}
       selectedItems={selectedItems}
-      onClose={onClose}
-      onMinimize={onMinimize}
       onBackToEdit={onBackToEdit}
       userData={userData} // מועבר לתוך MenuExport
     />

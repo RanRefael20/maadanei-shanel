@@ -8,9 +8,11 @@ import DraftSavedModal from "../SavedMenus/success/DraftSavedModal";
 import { FaWindowClose, FaWindowMinimize } from "react-icons/fa";
 
 const ResultsModal = ({
+   setActiveModal ,
+ activeModal,
 handleAddItemWithVolume,
   handleVolumeMode,
-  setShowMyOrders,
+
    isOpen,
   onClose,
   results,
@@ -398,7 +400,8 @@ budget={budget}
 
       {showMenuExport && (
 <MenuExportWrapper
-setShowMyOrders={setShowMyOrders}
+ setActiveModal ={setActiveModal}
+ activeModal={activeModal}
 selectedItems={results[0]?.items || []}  onClose={onClose}
   onBackToEdit={() => setShowMenuExport(false)}/>
 

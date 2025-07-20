@@ -12,7 +12,8 @@ import RegisterErrorModal from "../../login/Eror/RegisterErrorModal";
 
 
 
-const MenuExport = ({ selectedItems, onClose, onBackToEdit     }) => {
+const MenuExport = ({ selectedItems,  onBackToEdit  , setActiveModal ,
+ activeModal  }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const { user } = useAuthSync();
   const [message, setMessage] = useState("");
@@ -241,12 +242,13 @@ console.log(data)
   <hr style="margin: 10px 0; border: none; border-top: 1px solid #ccc;" />
 
   <strong style="font-size: 15px;">מה ניתן לעשות?</strong>
-  <ol style="padding-right: 20px; font-size: 14px; margin-top: 4px;">
-    <li>חזור לעריכת התפריט.</li>
-    <li>שמור טיוטה בשם שתוכל לזהות.</li>
-    <li>סגור את חלון התשלום והתחבר/הרשם דרך התפריט העליון.</li>
-    <li>לאחר ההתחברות, עבור ל"תפריטים ששמרת" → בחר את הטיוטה → המשך לתשלום.</li>
-  </ol>
+<ol style="padding-right: 20px; font-size: 14px; margin-top: 6px; line-height: 1.8;">
+  <li>✨ בתחתית העמוד תמצא כפתור <strong style="color: #2b7de9;">התחברות / הרשמה</strong>.</li>
+  <li>🔐 כבר רשום? <strong>התחבר</strong> בקלות. חדש אצלנו? לחץ על <strong style="color: #2b7de9;">"הרשם"</strong> בתחתית החלון.</li>
+  <li>💫 אחרי ההתחברות, תחזור <strong>בדיוק לאותו מקום</strong> – עם כל הפריטים שכבר בחרת 🎉.</li>
+  <li>💾 שמור את התפריט כטיוטה חכמה – ותחזור אליו מתי שתרצה, בלי תלות בהזמנה.</li>
+</ol>
+
 
   <hr style="margin: 10px 0; border: none; border-top: 1px solid #ccc;" />
 
@@ -359,7 +361,7 @@ console.log(data)
 setHideMessagePermanently={setHideMessagePermanently}
 setShowSuccess={setShowSuccess}
     source="MenuExport"
-    setActiveModal={() => {}}
+    setActiveModal={setActiveModal}
 
   />
 )}
