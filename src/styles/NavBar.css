@@ -83,14 +83,23 @@ display: none;
 .start-text-button {
   background: none;
   border: none;
-  font-size: 18px;
-  color: #fff;
+  font-size: 1.1rem;
+  color: #ffffffb0;
   cursor: pointer;
+    transition: 0.3s;
+      animation: bounceLink 0.4s ease-in-out;
 }
+
+
 
 .start-text-button:hover {
   text-decoration: underline;
+  color: #ff2767;
+  animation: bounceLink 0.5s ease-in-out;
 }
+
+
+
   .whatsapp-button {
     background-color: #1d9348;
     color: #fff;

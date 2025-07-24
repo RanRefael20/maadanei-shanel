@@ -1,3 +1,9 @@
+/* רקע כולל למניעת גלילה אופקית */
+.footer-wrapper {
+  overflow-x: hidden;
+}
+
+/* ====== בסיס ====== */
 .elevated-footer {
   position: relative;
   width: 100%;
@@ -15,6 +21,7 @@
 .elevated-footer.animate-footer {
   opacity: 1;
   transform: translateY(0);
+  animation: bounceIn 0.8s ease-out;
 }
 
 .footer-container {
@@ -30,6 +37,7 @@
 .footer-left, .footer-center, .footer-right {
   flex: 1;
   min-width: 240px;
+  
 }
 
 .footer-brand {
@@ -37,6 +45,11 @@
   font-weight: 700;
   color: #FFD95A;
   margin-bottom: 4px;
+  transition: color 0.3s ease;
+}
+
+.footer-brand:hover {
+  color: #ff2767;
 }
 
 .footer-tagline {
@@ -49,24 +62,50 @@
   color: #ffffffcc;
   margin-top: 4px;
 }
-
 .footer-links-row {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
-  margin: 14px 0;
+  align-items: center;
+  gap: 6px 12px;
+  margin: 14px auto;
+  max-width: 100%;
+  padding: 0 12px;
+  box-sizing: border-box;
 }
 
+
 .footer-link-item {
+  white-space: nowrap;
   font-size: 0.9rem;
   color: #ffffffb0;
   text-decoration: none;
   transition: 0.3s;
+  position: relative;
+  animation: bounceLink 0.4s ease-in-out;
+  cursor: pointer;
 }
 
 .footer-link-item:hover {
-  color: #FFD95A;
+  color: #ff2767;
+  animation: bounceLink 0.5s ease-in-out;
+}
+
+.footer-link-item::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background-color: #ff2767;
+  transition: width 0.3s ease;
+}
+
+.footer-link-item:hover::after {
+  width: 100%;
+  left: 0;
+  right: auto;
 }
 
 .footer-box-row {
@@ -78,33 +117,34 @@
 
 .footer-box {
   padding: 8px 14px;
-  background-color: #FFD95A;
-  color: #4C3D3D;
+  background-color: #fae7f5;
+  color: #3e4a5c;
   border-radius: 10px;
   font-weight: 500;
   font-size: 0.9rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, background-color 0.3s;
 }
 
 .footer-box:hover {
-  transform: translateY(-3px);
+  background-color: #f4f6fa;
+  transform: translateY(-2px);
 }
 
 .cta-bar {
   margin-top: 1rem;
-  background-color: #ffffff0a;
+  background-color: #f4f6fa;
   padding: 12px;
   border-radius: 12px;
   text-align: center;
   font-size: 0.95rem;
-  color: #fff;
+  color: #1f2e52;
   backdrop-filter: blur(4px);
 }
 
 .cta-bar span {
   font-weight: bold;
-  color: #FFD95A;
+  color: #ff2767;
 }
 
 .cta-button {
@@ -116,11 +156,14 @@
   font-weight: bold;
   border-radius: 20px;
   font-size: 0.9rem;
-  transition: 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .cta-button:hover {
-  background-color: #e7c74b;
+  background-color: #ff2767;
+  color: #fff;
+  transform: translateY(-2px) scale(1.05);
 }
 
 .footer-image {
@@ -153,25 +196,6 @@
   transform: scale(1.05);
 }
 
-.back-to-top {
-  margin: 1.6rem auto 0;
-  background-color: transparent;
-  color: #FFD95A;
-  border: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: underline;
-  display: block;
-}
-
-.back-to-top:hover {
-  color: #ffffff;
-  transform: translateY(-2px);
-}
-
-
 .back-to-top-text {
   position: fixed;
   bottom: 24px;
@@ -190,76 +214,122 @@
 
 .back-to-top-text:hover {
   text-decoration: underline;
-  color: #ffffff;
+  color: #ff2767;
 }
 
-@media (max-width: 500px) {
-  .back-to-top-text {
-    font-size: 0.85rem;
-    bottom: 18px;
-    right: 16px;
-  }
-}
-
-@media (max-width: 768px) {
+/* ====== התאמה מלאה למובייל כמו Wolt ====== */
+@media (max-width: 450px) {
   .footer-container {
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    padding: 0 12px;
+    text-align: center;
   }
 
-  .footer-box-row {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .footer-box {
+  .footer-left, .footer-center, .footer-right {
+    flex: none;
     width: 100%;
-    max-width: 280px;
+    min-width: unset;
+    margin-bottom: 12px;
   }
 
-  .footer-image {
-    max-width: 90%;
-    max-height: 140px;
-  }
-
-  .cta-bar {
-    font-size: 0.9rem;
-  }
-
-  .cta-button {
-    font-size: 0.85rem;
+  .footer-links-row {
+    justify-content: center;
+    gap: 8px;
+    padding: 0 6px;
+    margin: 10px 0;
   }
 
   .footer-link-item {
     font-size: 0.85rem;
+    padding: 3px 6px;
+  }
+
+  .footer-brand {
+    font-size: 1.1rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.85rem;
+  }
+
+  .cta-button {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+
+  .footer-image {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .back-to-top-text {
+    font-size: 0.85rem;
+    bottom: 16px;
+    right: 14px;
+  }
+}
+
+@media (max-width: 390px) {
+  .footer-links-row {
+    gap: 6px;
+    padding: 0 20px;
+    margin-right: 20px;
+  }
+
+  .footer-link-item {
+    font-size: 0.8rem;
+  }
+
+  .footer-brand {
+    font-size: 1rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.8rem;
+  }
+
+  .cta-button {
+    font-size: 0.8rem;
+    padding: 5px 10px;
   }
 
   .whatsapp-fancy {
-    font-size: 0.9rem;
-    padding: 9px 14px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  .footer-box {
+    font-size: 0.85rem;
+    padding: 6px 10px;
   }
 }
 
-@keyframes fadeSlideUp {
-  from {
+
+/* ====== אנימציות מותאמות ====== */
+@keyframes pulseGrow {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@keyframes bounceLink {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+  60% { transform: translateY(2px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes bounceIn {
+  0% {
     opacity: 0;
-    transform: translateY(30px);
+    transform: scale(0.9);
   }
-  to {
+  60% {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1.05);
   }
-}
-
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.7);
-  }
-  to {
-    opacity: 0.9;
+  100% {
     transform: scale(1);
   }
 }

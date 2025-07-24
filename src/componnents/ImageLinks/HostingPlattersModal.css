@@ -1,0 +1,123 @@
+.hosting-overlay {
+  position: fixed;
+  top: 100px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000;
+  z-index: 90;
+  overflow-y: auto;
+  overflow-x: hidden;
+  animation: fadeSlideUp 0.4s ease-out;
+}
+
+.hosting-modal {
+  max-width: 900px;
+  margin: auto;
+  background: #1b1b1b;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  font-family: "Varela Round", sans-serif;
+  color: #ffffff;
+  animation: fadeSlideUp 0.5s ease-out;
+}
+
+.hosting-banner {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-top-right-radius: 16px;
+  border-top-left-radius: 16px;
+}
+
+.hosting-content {
+  padding: 24px;
+  text-align: right;
+  animation: fadeSlideUp 0.7s ease-out;
+}
+
+.hosting-content h2 {
+  font-size: 1.9rem;
+  color:  #ffd700;
+  margin-bottom: 12px;
+}
+
+.hosting-content p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin: 12px 0;
+  color: #e0e0e0;
+}
+
+.example-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+
+.example-list li {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: #cfd8dc;
+}
+
+.hosting-button {
+background: linear-gradient(to right, #fdd36a, #ffd700);
+  color: #1f1f1f;
+  padding: 14px 24px;
+  font-size: 1.15rem;
+  border: none;
+  border-radius: 12px;
+  margin-top: 24px;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.3s ease;
+}
+
+.hosting-button:hover {
+  background: linear-gradient(to right, #ffe082, #ffca28);
+}
+
+@media (max-width: 450px) {
+  .hosting-overlay {
+    top: 70px;
+  }
+
+  .hosting-modal {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .hosting-content {
+    padding: 16px;
+  }
+
+  .hosting-banner {
+    height: 200px;
+  }
+
+  .hosting-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .hosting-content p,
+  .example-list li {
+    font-size: 1rem;
+  }
+
+  .hosting-button {
+    font-size: 1rem;
+    padding: 12px;
+  }
+}
+
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

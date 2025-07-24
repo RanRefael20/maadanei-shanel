@@ -277,6 +277,7 @@ const [mainVolumeExceededOnce, setMainVolumeExceededOnce] = useState(false);
   const [showPeopleInput, setShowPeopleInput] = useState(false);
      const [hideButtonPeople, setHideButtonPeople] = useState(false);
       const [hideButtonBudget, setHideButtonBudget] = useState(false);
+      
    
 
 
@@ -693,7 +694,7 @@ setUser={setUser}
   <div className="navbar-center-wrapper">
     {/* שמאל של הלוגו */}
     <div className="navbar-section navbar-left">
-   <ContactMenu/>
+                <p className="footer-link-item" onClick={() => setShowContact(true)}>צור קשר</p>
       <button className="start-text-button" onClick={() => setShowBudgetChat(true)}>
         start
       </button>
@@ -862,6 +863,7 @@ setRemainingDessertVolume={setRemainingDessertVolume}
 
 
 
+      {showContact && <ContactMenu onClose={() => setShowContact(false)} />}
 
      
     </header>

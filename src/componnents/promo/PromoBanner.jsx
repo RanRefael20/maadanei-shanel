@@ -13,9 +13,11 @@ const PromoBanner = ({ onClick }) => {
         <div className="promo-line">
           <div className="badge-above-word">חדש 🔥</div>
           <h2 className="promo-title">
-            קונים צוברים{" "}
-            {!user && <span className="for-members-only">- לרשומים בלבד</span>}{" "}
-            <span className="icons">🎉💰</span>
+           
+            {!user && <span className="for-members-only"> קונים צוברים{" "} - לרשומים בלבד💰</span>}{" "}
+            {user && <span className="for-members-only"> קונים צוברים{" "}            <span className="icons">🎉💰</span>
+ </span>}{" "}
+
           </h2>
         </div>
 

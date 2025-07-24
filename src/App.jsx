@@ -6,10 +6,14 @@ import NavBar from "./componnents/NavBar";
 import Footer from "./componnents/Footer";
 import Section from "./componnents/Section";
 import SplashAnimation from "./hooks/SplashAnimation"; // ✅ ייבוא ה-Splash
-import ImageLinks from "./componnents/ImageLinks";
+import ImageLinks from "./componnents/ImageLinks/ImageLinks";
 import PromoBanner from "./componnents/promo/PromoBanner";
 import LoyaltyModal from "./componnents/promo/LoyaltyModal"; // ✅ ייבוא המודל
 import useAuthSync from "./hooks/useAuthSync"; // ✅ ייבוא חסר
+import BakeryModal from "./componnents/ImageLinks/BakeryModal"; // ✅ ייבוא חסר
+import HostingPlattersModal from "./componnents/ImageLinks/HostingPlattersModal"; // ✅ ייבוא חסר
+
+ 
 
 
 
@@ -28,6 +32,11 @@ const [showBudgetChat, setShowBudgetChat] = useState(() => {
   const saved = localStorage.getItem("budgetChatOpen");
   return saved === "true"; // אם כן – תפתח אוטומטית
 });
+
+  const [showBakeryModal, setShowBakeryModal] = useState(false);
+  const [showHostingPlattersModal, setHostingPlattersModal] = useState(false);
+
+   
 
 useEffect(() => {
   
@@ -93,7 +102,28 @@ useEffect(() => {
 setActiveModal("register")
                   }
                    }} />
-              <ImageLinks />
+
+                       <ImageLinks 
+                                    onClick={() =>
+                 {
+                  if(user){
+                    setShowLoyaltyModal(true)
+                  }else{
+setActiveModal("register")
+                  }
+                   }}
+
+                       onBakeryClick={() => setShowBakeryModal(true)} 
+                       onHostingPlattersModalClick={() => setHostingPlattersModal(true)}/>
+      {showBakeryModal && (
+        <BakeryModal onClose={() => setShowBakeryModal(false)} />
+      )}
+
+  {showHostingPlattersModal && (
+        <HostingPlattersModal onClose={() => setHostingPlattersModal(false)} />
+      )}
+      
+    
             </>
     
   )}
