@@ -99,7 +99,7 @@ useEffect(() => {
                   if(user){
                     setShowLoyaltyModal(true)
                   }else{
-setActiveModal("register")
+setActiveModal("login")
                   }
                    }} />
 
